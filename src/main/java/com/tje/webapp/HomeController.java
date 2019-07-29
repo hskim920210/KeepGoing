@@ -82,11 +82,28 @@ public class HomeController {
 		model.addAttribute("board_noticeList", board_noticeList);
 		return "notice";
 	}	
-	
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Q&A 폼추가
 	@RequestMapping("/qna")
-	public String Qna() {
+	public String Qna(Model model) {
+		List<SimpleBoardFreeView> simpleBoardFreeViewList = (List<SimpleBoardFreeView>)sbfvsbddService.service();
+		model.addAttribute("simpleBoardFreeViewList", simpleBoardFreeViewList);
 		return "qna";
-	}	
+	}
+	
+	@RequestMapping("/qna/write")
+	public String QnaWrite(Model model) {
+		return "add_qna";
+	}
+	
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 자주묻는질문 추가
+	@RequestMapping("/faq")
+	public String Faq() {
+		return "faq";
+	}
+	
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	@RequestMapping("/free")
 	public String Free(Model model) {
@@ -207,4 +224,7 @@ public class HomeController {
 		session.removeAttribute("login_sns_member");
 		return "regist";
 	}
+	
+	
+
 }
