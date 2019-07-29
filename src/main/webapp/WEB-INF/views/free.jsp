@@ -39,7 +39,7 @@
 				<td><a href="#">전체</a></td>
 				<td><a href="#">이두</a></td> 
 				<td><a href="#">삼두</a></td> 
-				<td><a href="#">하체</a></td>    
+				<td><a href="#">하체체체</a></td>    
 				<td><a href="#">광배</a></td>
 				<td><a href="#">배</a></td>
 			</tr>
