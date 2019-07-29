@@ -84,7 +84,7 @@
             <img src="<%=request.getContextPath() %>/resources/images/img_5.jpg" alt="Image" class="img-fluid">
             <div class="unit-1-text">
               <h3 class="unit-1-heading">Ware Housing</h3>
-              <p class="px-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos tempore ullam minus voluptate libero.</p>
+              <p class="px-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. ghhhhhEos tempore ullam minus voluptate libero.</p>
             </div>
           </a>
         </div>
