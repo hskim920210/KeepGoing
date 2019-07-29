@@ -15,7 +15,7 @@
 	<jsp:include page="menu.jsp" flush="false"></jsp:include>
 
 	<jsp:include page="modalLogin.jsp" flush="false"></jsp:include>
-	
+
 	<div class="site-blocks-cover inner-page-cover overlay"
 		style="background-image: url(<%=request.getContextPath()%>/resources/images/hero_bg_1.jpg);"
 		data-aos="fade" data-stellar-background-ratio="0.5">
@@ -25,7 +25,7 @@
 
 				<div class="col-md-8" data-aos="fade-up" data-aos-delay="400">
 					<h1
-						class="text-white font-weight-light text-uppercase font-weight-bold">자유게시판</h1>
+						class="text-white font-weight-light text-uppercase font-weight-bold">자유게 시판</h1>
 				</div>
 			</div>
 		</div>
