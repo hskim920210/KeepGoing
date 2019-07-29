@@ -32,7 +32,7 @@
 	</div>
 	<jsp:include page="right_sidebar.jsp" flush="false"></jsp:include>
 	
-	<div class="site-section block-13">
+	<div class="site-section block-13"> 
 		<div align="center"  style="margin-left: 15%; margin-right: 15%; margin-top: 130;">
 		<table class="table">
 			<tr>
