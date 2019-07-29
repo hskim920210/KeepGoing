@@ -54,7 +54,7 @@
             <img src="<%=request.getContextPath() %>/resources/images/img_2.jpg" alt="Image" class="img-fluid">
             <div class="unit-1-text">
               <h3 class="unit-1-heading">Air Transports</h3>
-              <p class="px-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos tempore ullam minus voluptate libero.</p>
+              <p class="px-5">운동을 여ㅑㄹ심히 하자 운동을 여ㅑㄹ심히 하자  운동을 여ㅑㄹ심히 하자  운동을 여ㅑㄹ심히 하자  운동을 여ㅑㄹ심히 하자it. Eos tempore ullam minus voluptate libero.</p>
             </div>
           </a>
         </div>
