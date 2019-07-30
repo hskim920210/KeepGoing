@@ -111,15 +111,12 @@ private JdbcTemplate jdbcTemplate;
 
 	
 	// 게시판 삭제
-	public int Delete(DetailBoardFreeView model) {
-		public int delete(DetailBoardFreeView model) {
-			
-		return this.jdbcTemplate.delete("delete board_free set content = ? where board_id = ?)",
+	public int delete(DetailBoardFreeView model) {	
+		return this.jdbcTemplate.update("delete board_free set content = ? where board_id = ?)",
 					model.getContent(),
-					model.getBoard_id()
-					);
+					model.getBoard_id());
 	}
-		}
+
 	
 	
 	
