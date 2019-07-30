@@ -5,7 +5,7 @@ import java.util.Date;
 public class Comment {
 
 	public int comment_id;
-	public String board_id;
+	public int board_id;
 	public int topic;
 	public String member_id;
 	public String nickname;
@@ -14,7 +14,7 @@ public class Comment {
 	
 	public Comment() {}
 
-	public Comment(int comment_id, String board_id, int topic, String member_id, String nickname, String content,
+	public Comment(int comment_id, int board_id, int topic, String member_id, String nickname, String content,
 			Date write_date) {
 		this.comment_id = comment_id;
 		this.board_id = board_id;
@@ -33,11 +33,11 @@ public class Comment {
 		this.comment_id = comment_id;
 	}
 
-	public String getBoard_id() {
+	public int getBoard_id() {
 		return board_id;
 	}
 
-	public void setBoard_id(String board_id) {
+	public void setBoard_id(int board_id) {
 		this.board_id = board_id;
 	}
 

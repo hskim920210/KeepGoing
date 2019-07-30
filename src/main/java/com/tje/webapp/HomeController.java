@@ -2,6 +2,8 @@ package com.tje.webapp;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,14 +23,18 @@ import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.tje.model.Board_Item;
 import com.tje.model.Board_Notice;
+import com.tje.model.Comment;
+import com.tje.model.DetailBoardItemView;
 import com.tje.model.SimpleBoardFreeView;
-import com.tje.model.SimpleBoardItemView;
 import com.tje.model.SimpleBoardReviewView;
 import com.tje.page.Criteria;
 import com.tje.page.PageMaker;
 import com.tje.service.AllItemListService;
 import com.tje.service.Board_NoticeSelectAllByBoardIdDescService;
+import com.tje.service.CommentAddService;
+import com.tje.service.CommentSelectService;
 import com.tje.service.ItemAddService;
+import com.tje.service.ItemViewCntUpdateService;
 import com.tje.service.ItemViewService;
 import com.tje.service.SimpleBoardFreeViewSelectByDateDescService;
 import com.tje.service.SimpleBoardItemListCountCriteriaService;
@@ -53,6 +59,12 @@ public class HomeController {
 	private ItemAddService aiService;
 	@Autowired
 	private ItemViewService ivService;
+	@Autowired
+	private ItemViewCntUpdateService ivcuService;
+	@Autowired
+	private CommentAddService caService;
+	@Autowired
+	private CommentSelectService csSercie;
 	
 	@RequestMapping("/")
 	public String home(HttpServletResponse res, HttpServletRequest req) {
@@ -173,15 +185,39 @@ public class HomeController {
 	public String item_view(Model model, 
 			@PathVariable(value = "board_id") Integer board_id) {
 		
-		SimpleBoardItemView item=new SimpleBoardItemView();
+		DetailBoardItemView item=new DetailBoardItemView();
 		item.setBoard_id(board_id);
 		
+		Comment comment=new Comment();
+		comment.setBoard_id(board_id);
+		comment.setTopic(5);
+		
+		if((int)ivcuService.service(item)!=1)
+			return "redirect:error/item_view";
+		
 		model.addAttribute("searchedItem", ivService.service(item));
+		model.addAttribute("commentList", csSercie.service(comment));
 		
 		return "item_view";
 	}
 	
-
+	@PostMapping(value = "/comment_add")
+	@ResponseBody
+	public Comment comment_add(
+			Comment comment,
+			Model model,
+			HttpServletResponse response) {
+		
+		int r=(int) caService.service(comment);
+		
+		response.setContentType("application/json; charset=utf-8");
+		
+		if(r==1) {
+			return comment;
+		}
+		
+		return null;
+	}
 	
 	@RequestMapping("/review")
 	public String Review(Model model) {
