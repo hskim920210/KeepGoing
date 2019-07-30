@@ -66,7 +66,7 @@ private JdbcTemplate jdbcTemplate;
 	
 public int delete(Board_Free model) {
 		
-		return this.jdbcTemplate.delete("delete board_free set content = ? where board_id = ?)",
+		return this.jdbcTemplate.update("delete board_free set content = ? where board_id = ?)",
 				model.getContent(),
 				model.getBoard_id()
 				);
