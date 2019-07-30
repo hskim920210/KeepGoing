@@ -51,6 +51,7 @@ public class NoticeController {
 
 		return "add_notice";
 	}
+
 	
 	@PostMapping("/notice/write")
 	public String NoticeWrite(Board_Notice board_Notice) {
