@@ -3,19 +3,19 @@ package com.tje.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.tje.model.SimpleBoardItemView;
-import com.tje.repo.SimpleBoardItemViewDAO;
+import com.tje.model.DetailBoardItemView;
+import com.tje.repo.DetailBoardItemViewDAO;
 
 @Service
 public class ItemViewService {
 
 	@Autowired
-	private SimpleBoardItemViewDAO simpleBoardItemViewDAO;
+	private DetailBoardItemViewDAO detailBoardItemViewDAO;
 
 	public Object service(Object args) {
 		Object result = null;
 
-		result = simpleBoardItemViewDAO.selectOne((SimpleBoardItemView) args);
+		result = detailBoardItemViewDAO.selectOne((DetailBoardItemView)args);
 
 		return result;
 	}
