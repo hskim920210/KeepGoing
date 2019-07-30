@@ -118,7 +118,7 @@ public class HomeController {
 		return "add_qna";
 	}
 	
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// 자주묻는질문 추가
 	@RequestMapping("/faq")
 	public String Faq() {
@@ -337,5 +337,34 @@ public class HomeController {
 		session.removeAttribute("login_sns_member");
 		return "regist";
 	}
+	@GetMapping("/regist/provision")
+	public String registProvision() {
+		return "/terms/provision";
+	}
 	
+	@GetMapping("/regist/finance")
+	public String registFinance() {
+		return "/terms/finance";
+	}
+	
+	@GetMapping("/regist/individual")
+	public String registIndividual() {
+		return "/terms/individual";
+	}
+	
+	@GetMapping("/regist/thirdparty")
+	public String registThirdparty() {
+		return "/terms/thirdparty";
+	}
+	
+	@GetMapping("/regist/location")
+	public String registLocation() {
+		return "/terms/location";
+	}
+	
+
+	@GetMapping("/regist/individual_option")
+	public String registIndividual_option() {
+		return "/terms/individual_option";
+	}
 }
