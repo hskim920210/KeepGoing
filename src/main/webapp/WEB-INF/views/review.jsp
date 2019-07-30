@@ -34,6 +34,9 @@
 
 	<div class="site-section block-13" style="padding-bottom: 10; margin-left: 10%; margin-right: 10%; margin-top: 130;">
 	<a href="<%=request.getContextPath()%>/review/write">글쓰기</a>
+	<c:if test="${ login_member.auth == '99' }" var="r">
+		<a href="<%=request.getContextPath()%>/review/write">리뷰 작성하기</a>
+    </c:if>
 		<div align="center"
 			>
 			<table class="table">

@@ -24,7 +24,7 @@
 				class="row align-items-center justify-content-center text-center">
 
 				<div class="col-md-8" data-aos="fade-up" data-aos-delay="400">
-					<h1
+					<h1 
 						class="text-white font-weight-light text-uppercase font-weight-bold">Index</h1>
 				</div>
 			</div>
@@ -54,7 +54,7 @@
             <img src="<%=request.getContextPath() %>/resources/images/img_2.jpg" alt="Image" class="img-fluid">
             <div class="unit-1-text">
               <h3 class="unit-1-heading">Air Transports</h3>
-              <p class="px-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos tempore ullam minus voluptate libero.</p>
+              <p class="px-5">운동을 여ㅑㄹ심히 하자 운동을 여ㅑㄹ심히 하자  운동을 여ㅑㄹ심히 하자  운동을 여ㅑㄹ심히 하자  운동을 여ㅑㄹ심히 하자it. Eos tempore ullam minus voluptate libero.</p>
             </div>
           </a>
         </div>
@@ -74,7 +74,7 @@
             <img src="<%=request.getContextPath() %>/resources/images/img_4.jpg" alt="Image" class="img-fluid">
             <div class="unit-1-text">
               <h3 class="unit-1-heading">Cargo Ship</h3>
-              <p class="px-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos tempore ullam minus voluptate libero.</p>
+              <p class="px-5">Lorem ipsum dolor sit amet 자  운동을 여ㅑㄹ심히 하자  운동을 여ㅑㄹ심e libero.</p>
             </div>
           </a>
         </div>
@@ -84,7 +84,7 @@
             <img src="<%=request.getContextPath() %>/resources/images/img_5.jpg" alt="Image" class="img-fluid">
             <div class="unit-1-text">
               <h3 class="unit-1-heading">Ware Housing</h3>
-              <p class="px-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos tempore ullam minus voluptate libero.</p>
+              <p class="px-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. ghhhhhEos tempore ullam minus voluptate libero.</p>
             </div>
           </a>
         </div>

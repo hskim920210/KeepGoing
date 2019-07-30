@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
 <head>
+<title>자유게시판</title>
 <title>Index</title>
 <meta charset="utf-8">
 <meta name="viewport"
@@ -15,7 +16,7 @@
 	<jsp:include page="menu.jsp" flush="false"></jsp:include>
 
 	<jsp:include page="modalLogin.jsp" flush="false"></jsp:include>
-	
+
 	<div class="site-blocks-cover inner-page-cover overlay"
 		style="background-image: url(<%=request.getContextPath()%>/resources/images/hero_bg_1.jpg);"
 		data-aos="fade" data-stellar-background-ratio="0.5">
@@ -25,21 +26,29 @@
 
 				<div class="col-md-8" data-aos="fade-up" data-aos-delay="400">
 					<h1
-						class="text-white font-weight-light text-uppercase font-weight-bold">자유게시판</h1>
+						class="text-white font-weight-light text-uppercase font-weight-bold">자유게 시판</h1>
 				</div>
 			</div>
 		</div>
 	</div>
 	<jsp:include page="right_sidebar.jsp" flush="false"></jsp:include>
 	
-	<div class="site-section block-13">
+	<div class="site-section block-13"> 
 		<div align="center"  style="margin-left: 15%; margin-right: 15%; margin-top: 130;">
+		<table>
+			<c:if test="${ login_member.auth >= 2 }">
+      		<p align="right"><a href="<%=request.getContextPath()%>/add_free" class="btn btn-info "  type="button">글쓰기</a></p>
+      		<!-- <p><button class="btn btn-info" type="button" id="add_item">상품 추가</button></p> -->
+      		</c:if>
+				
+		</table>
+		<br>
 		<table class="table">
 			<tr>
 				<td><a href="#">전체</a></td>
-				<td><a href="#">이두</a></td>
-				<td><a href="#">삼두</a></td>
-				<td><a href="#">하체</a></td>
+				<td><a href="#">이두</a></td> 
+				<td><a href="#">삼두</a></td> 
+				<td><a href="#">하체체체</a></td>    
 				<td><a href="#">광배</a></td>
 				<td><a href="#">배</a></td>
 			</tr>
@@ -61,6 +70,14 @@
 			<!-- 상단노출 3개 -->
 			
 			<!-- 상단노출 3개 -->
+			<c:forEach items="${ simpleBoardFreeViewList }" var="free">
+				<tr style="text-align: center;">
+					<td>${ free.category }</td>
+					<td><a href="<%= request.getContextPath() %>/free_view/${ free.board_id} ">${ free.title } (${ free.comment_cnt })</a></td>
+					<td>${ free.nickname }</td>
+					<td>${ free.view_cnt }</td>
+					<td>${ free.like_cnt }/${ free.dislike_cnt }</td>
+					<td>${ free.write_date }</td>
 			<c:forEach items="${ simpleBoardFreeViewList }" var="item">
 				<tr style="text-align: center;">
 					<td>${ item.category }</td>
