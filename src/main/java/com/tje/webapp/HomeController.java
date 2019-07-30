@@ -19,6 +19,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -60,6 +61,8 @@ public class HomeController {
 	private DetailBoardFreeViewService dbfvService;
 	@Autowired
 	private DetailBoardFreeView_UpdateService dbfvuService;
+	@Autowired
+	private Board_ReviewInsertService b_riService;
 	
 	@RequestMapping("/")
 	public String home(HttpServletResponse res, HttpServletRequest req) {
@@ -109,23 +112,6 @@ public class HomeController {
 	public String Faq() {
 		return "faq";
 	}
-	
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	
-	@RequestMapping("/qna/write")
-	public String QnaWrite(Model model) {
-		return "add_qna";
-	}
-	
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// 자주묻는질문 추가
-	@RequestMapping("/faq")
-	public String Faq() {
-		return "faq";
-	}
-	
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/////////////////////////////////
 	@RequestMapping("/free")
 	public String Free(Model model) {
@@ -310,7 +296,6 @@ public class HomeController {
 		return "review";
 	}
 	
-	@RequestMapping("/review/write")
 	@GetMapping("/review/write")
 	public String ReviewWrite(Model model) {
 		List<SimpleBoardReviewView> result = (List<SimpleBoardReviewView>)sbrvsbddService.service();
@@ -319,11 +304,10 @@ public class HomeController {
 	}
 	
 	@PostMapping("/review/write")
-	public String ReviewWritePost(SimpleBoardReviewView sbrv) {
-		System.out.println(sbrv.getTitle());
+	public String ReviewWritePost(SimpleBoardReviewView sbrv, Board_Review b_r) {
 		System.out.println(sbrv.getContent());
-		System.out.println(sbrv.getCategory());
-		
+		System.out.println(b_r.getContent());
+		//b_riService.service(b_r);
 		return "reviewWriteResult";
 	}
 	

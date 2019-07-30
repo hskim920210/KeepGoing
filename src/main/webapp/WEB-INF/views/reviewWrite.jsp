@@ -32,80 +32,38 @@
 	</div>
 	<jsp:include page="right_sidebar.jsp" flush="false"></jsp:include>
 
-	<div class="site-section block-13" style="padding-bottom: 10; margin-left: 10%; margin-right: 10%; margin-top: 130;">
-		<div align="left" class="dropdown">
-			<button>
-			카테고리 선택
-			</button>
-			<ul>
-				<li>전체</li>
-				<li>운동기구</li>
-				<li>헬스장</li>
-				<li>장소</li>
-			</ul>
-		</div>
-	</div>
-
-	<div align="center" style="margin-left: 10%; margin-right: 10%;">
-		<div class="site-section block-13" style="padding-top: 5;">
-			<div class="row">
-			<c:forEach items="${ simpleBoardReviewViewList }" var="item">
-				<a href="#" class="col-md-6 col-lg-4 mb-4 mb-lg-4 unit-1 text-center" style="padding: 0;"> <img
-						src="<%=request.getContextPath()%>/resources/images/${item.image}"
-						alt="${item.image}" class="img-fluid" width="700" height="799">
-						<div class="unit-1-text">
-							<h3 class="unit-1-heading">${item.title}</h3>
-							<p class="px-5">${item.content}</p>
-							<p class="px-5" style="text-align: right;">작성자 : ${item.nickname}<br>
-											작성일 : ${item.write_date}<br>
-											조회수 : ${item.view_cnt}<br>
-											좋아요/싫어요 : ${item.like_cnt}/${item.dislike_cnt}</p>
-						</div>
-					</a>
-			</c:forEach>
-			
-			</div>
-		</div>
-	</div>
-
-	<jsp:include page="javascriptIncludeForReview.jsp" flush="false"></jsp:include>
-	
-	<jsp:include page="right_sidebar.jsp" flush="false"></jsp:include>
-
 	<div class="site-section block-13" align="center" style="padding-bottom: 10; margin-left: 10%; margin-right: 10%; margin-top: 130;">
 		<form action="<%= request.getContextPath() %>/review/write" method="post">
-		<table style="width: 650px;">
-		<tr>
-			<th> <label for="title">제목</label> </th>
-			<th> <label for="nickname">작성자</label><input type="text" name="nickname" readonly="readonly" value="${ login_member.nickname }"> </th>
-			<th> <input type="hidden" name="member_id" readonly="readonly" value="${ login_member.member_id }"> </th>
-		</tr>
-		<tr>
-			<th> <input type="text" name="title" style="width: 100%;"></th>
-			<th>
-			<div class="btn-group">
-			  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-			    <span class="caret">카테고리</span>
-			  </button>
-			  <ul class="dropdown-menu" role="menu">
-			    <li value="1" onclick="adjustCategory('1');">전체</li>
-			    <li class="divider"></li>
-			    <li value="2" onclick="adjustCategory('2');">운동기구</li>
-			    <li value="3" onclick="adjustCategory('3');">헬스장</li>
-			    <li value="4" onclick="adjustCategory('4');">장소</li>
-			  </ul>
-			</div>
-			<input type="hidden" id="category" name="category">
-			</th>
-		</tr>
-		<tr>
-			<td colspan="2"><textarea id="content" name="content" cols="60" rows="15"></textarea></td>
-     	</tr>
-     	<tr>
-     		<td><input type="button" id="insertBoard" name="insertBoard" value="등록하기"></td>
-     	</tr> 
-		</table>
-		
+				<table style="width: 650px;">
+				<tr>
+					<th> <label for="nickname">작성자</label><input type="text" name="nickname" readonly="readonly" value="${ login_member.nickname }"> </th>
+					<th> <input type="hidden" name="member_id" readonly="readonly" value="${ login_member.member_id }"> </th>
+				</tr>
+				<tr>
+					<th> <label for="title">제목</label><input type="text" id="title" name="title" style="width: 100%;"></th>
+					<th>
+					<div class="btn-group">
+					  <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+					    <span class="caret">카테고리</span>
+					  </button>
+					  <ul class="dropdown-menu" role="menu">
+					    <li value="1" onclick="adjustCategory('1');">전체</li>
+					    <li class="divider"></li>
+					    <li value="2" onclick="adjustCategory('2');">운동기구</li>
+					    <li value="3" onclick="adjustCategory('3');">헬스장</li>
+					    <li value="4" onclick="adjustCategory('4');">장소</li>
+					  </ul>
+					</div>
+					<input type="hidden" id="category" name="category" value="0">
+					</th>
+				</tr>
+				<tr>
+					<td colspan="2"><textarea id="content" name="content" cols="60" rows="15"></textarea></td>
+		     	</tr>
+		     	<tr>
+		     		<td><input type="button" id="insertBoard" name="insertBoard" value="등록하기"></td>
+		     	</tr> 
+				</table>
 		</form>
 	</div>
 	
@@ -145,16 +103,48 @@
     	}
     	
     	function submitContents(elClickedObj) {
+    		var isTitle = false;
+    		var isContent = false;
+    		var isCategory = false;
+    		var isOk = false;
     		oEditors.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);
     		
     		// 에디터 내용에 대한 검증은 여기서 한다.
     		// document.getElementById("content").value를 이용
+    		if( $("#category").val() == 0 ) {
+    			alert("카테고리를 선택해주세요.");
+    			isCategory = false;
+    		} else {
+    			isCategory = true;
+    		}
     		
-    		try {
-    			// 해당 오브젝트가 위치한 form이 submit 된다.
-    			elClickedObj.form.submit();
-    		} catch(e) {
-    			
+    		var strTitle = $("#title").val();
+    		var trimTitle = $.trim(strTitle);
+    		if( trimTitle.length != 0 ){
+    			isTitle = true;
+    		} else {
+    			alert("제목을 입력해주세요.");
+    			isTitle = false;
+    		}
+    		
+    		if( $("#content").val().trim != '' ) {
+    			isContent = true;
+    		} else {
+    			alert("내용을 입력해주세요.");
+    			isContent = false;
+    		}
+    		
+    		isOk = isCategory && isTitle && isContent;
+    		
+    		if(isOk) {
+	    		try {
+	    			// 해당 오브젝트가 위치한 form이 submit 된다.
+	    			elClickedObj.form.submit();
+	    		} catch(e) {
+	    			
+	    		}
+    		} else {
+    			alert("누락된 내용을 기재해주세요.");
     		}
     	}
     });
