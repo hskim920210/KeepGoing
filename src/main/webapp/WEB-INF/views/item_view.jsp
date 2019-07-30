@@ -134,6 +134,9 @@
 								</div>
 								<p>${ comment.content }</p>
 							</div>
+							<c:if test="${ comment.member_id == login_member.member_id or login_member.auth >= 2 }">
+								<button class="" name="comment_delete_btn" type="button" value="${ comment.comment_id }">댓글 삭제</button>
+							</c:if>
 						</div>
 					</c:forEach>
 
@@ -231,12 +234,42 @@
 						tag+='</div>';
 						tag+='<p>'+data.content+'</p>';
 						tag+='</div>';
+						if( (data.member_id == "${login_member.member_id}" ) || ${login_member.auth >= 2})
+							tag+='<button class="" name="comment_delete_btn" type="button" val="'+data.comment_id+'">댓글 삭제</button>';
 						tag+='</div>';
 						
 						$("#home").append(tag);
 		            },
 		            error: function(){
 		                alert("댓글 작성을 실패했습니다.");
+		            }
+		        });
+			});
+		});
+	</script>
+	
+	<!-- 댓글 삭제 -->
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$("button[name=comment_delete_btn]").on("click", function() {
+				var rw=$(this).parent(".rw");
+				var comment_id=$(this).val();
+				console.log(comment_id);
+				
+				
+				$.ajax({
+		            url: "<%=request.getContextPath()%>/comment_delete",
+		            type: "post",
+		            data: "comment_id="+comment_id,
+		            success: function(data){
+		                console.log(data);
+		                alert("댓글 삭제을 완료했습니다.");
+		                
+		                rw.empty();
+						rw.remove();
+		            },
+		            error: function(){
+		                alert("댓글 삭제를 실패했습니다.");
 		            }
 		        });
 			})
