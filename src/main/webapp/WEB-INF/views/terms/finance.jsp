@@ -103,7 +103,7 @@
 			<ul class="provision-slist">
 				<li>
 					<strong>
-						<span class="order">1.</span>옥션 사이트의 경우<br>
+						<span class="order">1.</span>The Glasses 사이트의 경우<br>
 						주소: 경기도 부천시 원미구 상동 461 투나빌딩 6층<br>
 						이메일 주소:</strong><a href="mailto:mediation@corp.auction.co.kr">mediation@corp.auction.co.kr</a><br>
 						<strong>전화번호: 1588-0184</strong>
@@ -111,7 +111,7 @@
 				<li>
 					<strong>
 						<span class="order">2.</span>
-						G마켓 사이트의 경우<br>
+						The Glasses사이트의 경우<br>
 						주소: 경기도 부천시 원미구 상동 461 투나빌딩 6층<br>
 						이메일 주소: </strong><a href="mailto:gmk_cs@corp.gmarket.co.kr">gmk_cs@corp.gmarket.co.kr</a><br>
 						<strong>전화번호: 1566-5701</strong>					
@@ -119,7 +119,7 @@
 				<li>
 					<strong>
 						<span class="order">3.</span>
-						G9 사이트의 경우<br>
+						The Glasses의 경우<br>
 						주소: 경기도 부천시 원미구 상동 461 투나빌딩 6층<br>
 						이메일 주소: </strong><a href="mailto:gmk_cs@corp.gmarket.co.kr">g9@g9.co.kr</a><br>
 						<strong>전화번호: 1644-5702</strong>					
@@ -280,7 +280,7 @@
 	<h3>제24조 (환급 등)</h3>
   <ul class="provision">
 		<li><span class="order">①</span>이용자는 보유 중인 <strong>선불전자지급수단</strong>의 환급을 회사에 요구할 경우(천재지변 등의 사유로 회사 또는 가맹점이 재화 또는 용역을 제공하기 곤란하여 선불전자지급수단을 사용하지 못하게 된 경우, 선불전자지급수단의 결함으로 회사 또는 가맹점이 재화 또는 용역을 제공하지 못하는 경우 등 포함) <strong>선불전자지급수단</strong> 전액을 환급 받으실 수 있습니다. 다만, 환급의 대상이 되는  <strong>선불전자지급수단</strong>은 이용자가 회사로부터 충전(구매)하여 보유하고 있는 것에 한정되며, 이용자가 이벤트 등을 통하여 회사로부터 무상 제공받은 것은 포함되지 않습니다. </li>
-		<li><span class="order">②</span>전항에도 불구하고, 이용자가 ‘G마켓 선물권’ 구매를 통해 보유하게 된 <strong>선불전자지급수단</strong>은 ‘G마켓 선물권’ 발행일로부터 5년동안 유효하고, 유효기간 경과 전까지 권면 금액의 100분의 60 이상을 물품 구매 등에 사용하고 환급을 요청하는 경우 잔액을 환급받으실 수 있습니다. 다만, ‘G마켓 선물권’ 구매시 사용한 결제 수단에 따라 일정한 기간이 경과된 이후에 잔액이 환급될 수 있습니다. 이에 관한 상세한 내용은 ‘G마켓 선물권 이용약관’ 또는 인터넷사이트에 고지합니다.</li>
+		<li><span class="order">②</span>전항에도 불구하고, 이용자가 ‘The Glasses 선물권’ 구매를 통해 보유하게 된 <strong>선불전자지급수단</strong>은 ‘G마켓 선물권’ 발행일로부터 5년동안 유효하고, 유효기간 경과 전까지 권면 금액의 100분의 60 이상을 물품 구매 등에 사용하고 환급을 요청하는 경우 잔액을 환급받으실 수 있습니다. 다만, ‘G마켓 선물권’ 구매시 사용한 결제 수단에 따라 일정한 기간이 경과된 이후에 잔액이 환급될 수 있습니다. 이에 관한 상세한 내용은 ‘G마켓 선물권 이용약관’ 또는 인터넷사이트에 고지합니다.</li>
     <li><span class="order">③</span>이용자는 회사가 정한 기한 및 이용방법에 따라 선불전자지급수단을 이용할 수 있으며, 회사는 구체적인 사항을 인터넷사이트를 통해 공지합니다.</li>
 	</ul>
 
@@ -336,7 +336,7 @@
 	</p>
   
   <p><strong>부칙 </strong><br>
-		이 약관은 2016년 7월 1일부터 시행됩니다. 다만, 이 약관 시행 이전에 발급된 옥션사이트의 'e-money'와 G마켓사이트의 '현금잔고'는 이 약관의 시행에 따른 선불전자지급수단으로 전환되어 이 약관규정의 적용을 받습니다.
+		이 약관은 2016년 7월 1일부터 시행됩니다. 다만, 이 약관 시행 이전에 발급된 The Glasses사이트의 'e-money'와 The Glasses사이트의 '현금잔고'는 이 약관의 시행에 따른 선불전자지급수단으로 전환되어 이 약관규정의 적용을 받습니다.
 	</p>
 </div><!-- //e-banking -->
 
