@@ -78,6 +78,8 @@
 					<td>${ free.view_cnt }</td>
 					<td>${ free.like_cnt }/${ free.dislike_cnt }</td>
 					<td>${ free.write_date }</td>
+					</tr>
+			</c:forEach>
 			<c:forEach items="${ simpleBoardFreeViewList }" var="item">
 				<tr style="text-align: center;">
 					<td>${ item.category }</td>
