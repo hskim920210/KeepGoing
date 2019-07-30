@@ -235,7 +235,7 @@
 						tag+='<p>'+data.content+'</p>';
 						tag+='</div>';
 						if( (data.member_id == "${login_member.member_id}" ) || ${login_member.auth >= 2})
-							tag+='<button class="" name="comment_delete_btn" type="button" val="'+data.comment_id+'">댓글 삭제</button>';
+							tag+='<button class="" name="comment_delete_btn" type="button" value="'+data.comment_id+'">댓글 삭제</button>';
 						tag+='</div>';
 						
 						$("#home").append(tag);
@@ -262,14 +262,13 @@
 		            type: "post",
 		            data: "comment_id="+comment_id,
 		            success: function(data){
-		                console.log(data);
-		                alert("댓글 삭제을 완료했습니다.");
+		                alert(data);
 		                
 		                rw.empty();
 						rw.remove();
 		            },
 		            error: function(){
-		                alert("댓글 삭제를 실패했습니다.");
+		                alert("err");
 		            }
 		        });
 			})
