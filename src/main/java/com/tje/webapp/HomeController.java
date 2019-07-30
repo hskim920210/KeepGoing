@@ -2,6 +2,8 @@ package com.tje.webapp;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,20 +28,6 @@ import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.tje.model.*;
 import com.tje.page.*;
 import com.tje.service.*;
-import com.tje.service.DetailBoardFreeViewService;
-
-
-import com.tje.page.Criteria;
-import com.tje.page.PageMaker;
-import com.tje.service.AllItemListService;
-import com.tje.service.Board_NoticeSelectAllByBoardIdDescService;
-import com.tje.service.ItemAddService;
-import com.tje.service.ItemViewService;
-import com.tje.service.SimpleBoardFreeViewSelectByDateDescService;
-import com.tje.service.SimpleBoardItemListCountCriteriaService;
-import com.tje.service.SimpleBoardItemListCriteriaService;
-import com.tje.service.SimpleBoardReviewViewSelectByDateDescService;
-import com.tje.model.*;
 
 @Controller
 public class HomeController {
@@ -60,6 +48,11 @@ public class HomeController {
 	@Autowired
 	private ItemViewService ivService;
 	@Autowired
+	private ItemViewCntUpdateService ivcuService;
+	@Autowired
+	private CommentAddService caService;
+	@Autowired
+	private CommentSelectService csSercie;
 	private Board_freeService b_fService;
 	@Autowired
 	private Board_freeViewService b_fvService;
@@ -110,6 +103,21 @@ public class HomeController {
 		return "add_qna";
 	}
 	
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 자주묻는질문 추가
+	@RequestMapping("/faq")
+	public String Faq() {
+		return "faq";
+	}
+	
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	@RequestMapping("/qna/write")
+	public String QnaWrite(Model model) {
+		return "add_qna";
+	}
+	
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// 자주묻는질문 추가
 	@RequestMapping("/faq")
@@ -118,8 +126,6 @@ public class HomeController {
 	}
 	
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	
 	/////////////////////////////////
 	@RequestMapping("/free")
 	public String Free(Model model) {
@@ -263,15 +269,39 @@ public class HomeController {
 	public String item_view(Model model, 
 			@PathVariable(value = "board_id") Integer board_id) {
 		
-		SimpleBoardItemView item=new SimpleBoardItemView();
+		DetailBoardItemView item=new DetailBoardItemView();
 		item.setBoard_id(board_id);
 		
+		Comment comment=new Comment();
+		comment.setBoard_id(board_id);
+		comment.setTopic(5);
+		
+		if((int)ivcuService.service(item)!=1)
+			return "redirect:error/item_view";
+		
 		model.addAttribute("searchedItem", ivService.service(item));
+		model.addAttribute("commentList", csSercie.service(comment));
 		
 		return "item_view";
 	}
 	
-
+	@PostMapping(value = "/comment_add")
+	@ResponseBody
+	public Comment comment_add(
+			Comment comment,
+			Model model,
+			HttpServletResponse response) {
+		
+		int r=(int) caService.service(comment);
+		
+		response.setContentType("application/json; charset=utf-8");
+		
+		if(r==1) {
+			return comment;
+		}
+		
+		return null;
+	}
 	
 	@RequestMapping("/review")
 	public String Review(Model model) {

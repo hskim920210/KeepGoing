@@ -7,7 +7,7 @@ import com.tje.model.DetailBoardItemView;
 import com.tje.repo.DetailBoardItemViewDAO;
 
 @Service
-public class ItemViewService {
+public class ItemViewCntUpdateService {
 
 	@Autowired
 	private DetailBoardItemViewDAO detailBoardItemViewDAO;
@@ -15,7 +15,7 @@ public class ItemViewService {
 	public Object service(Object args) {
 		Object result = null;
 
-		result = detailBoardItemViewDAO.selectOne((DetailBoardItemView)args);
+		result = detailBoardItemViewDAO.update_view_cnt((DetailBoardItemView)args);
 
 		return result;
 	}
