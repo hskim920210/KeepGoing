@@ -1,9 +1,8 @@
-package com.tje.webapp;
+﻿package com.tje.webapp;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
+import java.util.*
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,32 +21,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
-import com.tje.model.Board_Free;
-import com.tje.model.Board_Item;
-import com.tje.model.Board_Notice;
-import com.tje.model.Comment;
-import com.tje.model.DetailBoardFreeView;
-import com.tje.model.DetailBoardItemView;
-import com.tje.model.SimpleBoardFreeView;
-import com.tje.model.SimpleBoardReviewView;
-import com.tje.page.Criteria;
-import com.tje.page.PageMaker;
-import com.tje.service.AllItemListService;
-import com.tje.service.Board_NoticeSelectAllByBoardIdDescService;
-import com.tje.service.Board_freeService;
-import com.tje.service.Board_freeViewService;
-import com.tje.service.CommentAddService;
-import com.tje.service.CommentDeleteService;
-import com.tje.service.CommentSelectService;
-import com.tje.service.DetailBoardFreeViewService;
-import com.tje.service.DetailBoardFreeView_UpdateService;
-import com.tje.service.ItemAddService;
-import com.tje.service.ItemViewCntUpdateService;
-import com.tje.service.ItemViewService;
-import com.tje.service.SimpleBoardFreeViewSelectByDateDescService;
-import com.tje.service.SimpleBoardItemListCountCriteriaService;
-import com.tje.service.SimpleBoardItemListCriteriaService;
-import com.tje.service.SimpleBoardReviewViewSelectByDateDescService;
+import com.tje.model.*
+import com.tje.page.*
+import com.tje.service.*
 
 @Controller
 public class HomeController {
@@ -73,6 +49,7 @@ public class HomeController {
 	private CommentAddService caService;
 	@Autowired
 	private CommentSelectService csSercie;
+	@Autowired
 	private Board_freeService b_fService;
 	@Autowired
 	private Board_freeViewService b_fvService;
@@ -82,6 +59,8 @@ public class HomeController {
 	private DetailBoardFreeView_UpdateService dbfvuService;
 	@Autowired
 	private CommentDeleteService cdService;
+	@Autowired
+	private Board_ReviewInsertService b_riService;
 	
 	@RequestMapping("/")
 	public String home(HttpServletResponse res, HttpServletRequest req) {
@@ -125,7 +104,12 @@ public class HomeController {
 		return "add_qna";
 	}
 	
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 자주묻는질문 추가
+	@RequestMapping("/faq")
+	public String Faq() {
+		return "faq";
+	}
+
 	/////////////////////////////////
 	@RequestMapping("/free")
 	public String Free(Model model) {
@@ -327,7 +311,6 @@ public class HomeController {
 		return "review";
 	}
 	
-	@RequestMapping("/review/write")
 	@GetMapping("/review/write")
 	public String ReviewWrite(Model model) {
 		List<SimpleBoardReviewView> result = (List<SimpleBoardReviewView>)sbrvsbddService.service();
@@ -336,11 +319,10 @@ public class HomeController {
 	}
 	
 	@PostMapping("/review/write")
-	public String ReviewWritePost(SimpleBoardReviewView sbrv) {
-		System.out.println(sbrv.getTitle());
+	public String ReviewWritePost(SimpleBoardReviewView sbrv, Board_Review b_r) {
 		System.out.println(sbrv.getContent());
-		System.out.println(sbrv.getCategory());
-		
+		System.out.println(b_r.getContent());
+		//b_riService.service(b_r);
 		return "reviewWriteResult";
 	}
 	
