@@ -24,36 +24,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
-<<<<<<< HEAD
-import com.tje.model.Board_Item;
-import com.tje.model.Board_Notice;
-import com.tje.model.Comment;
-import com.tje.model.DetailBoardItemView;
-import com.tje.model.SimpleBoardFreeView;
-import com.tje.model.SimpleBoardReviewView;
-=======
 
 import com.tje.model.*;
 import com.tje.page.*;
 import com.tje.service.*;
-import com.tje.service.DetailBoardFreeViewService;
-
-
->>>>>>> 64fe6bacca7d98dd55bd9ba3191d89ef9dfcf9ea
-import com.tje.page.Criteria;
-import com.tje.page.PageMaker;
-import com.tje.service.AllItemListService;
-import com.tje.service.Board_NoticeSelectAllByBoardIdDescService;
-import com.tje.service.CommentAddService;
-import com.tje.service.CommentSelectService;
-import com.tje.service.ItemAddService;
-import com.tje.service.ItemViewCntUpdateService;
-import com.tje.service.ItemViewService;
-import com.tje.service.SimpleBoardFreeViewSelectByDateDescService;
-import com.tje.service.SimpleBoardItemListCountCriteriaService;
-import com.tje.service.SimpleBoardItemListCriteriaService;
-import com.tje.service.SimpleBoardReviewViewSelectByDateDescService;
-import com.tje.model.*;
 
 @Controller
 public class HomeController {
@@ -139,6 +113,19 @@ public class HomeController {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
+	@RequestMapping("/qna/write")
+	public String QnaWrite(Model model) {
+		return "add_qna";
+	}
+	
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 자주묻는질문 추가
+	@RequestMapping("/faq")
+	public String Faq() {
+		return "faq";
+	}
+	
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/////////////////////////////////
 	@RequestMapping("/free")
 	public String Free(Model model) {
