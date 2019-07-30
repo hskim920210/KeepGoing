@@ -439,13 +439,15 @@
 				
 <!--회원 약관 시작-->
 <script type="text/javascript">
-	//약관 체크 다했는지 확인
-			function CheckAllProvisions() {
-				if (document.getElementById("cbProvision1").checked && document.getElementById("cbFinance").checked && document.getElementById("cbIndividualInfo").checked && document.getElementById("cbThirdParty").checked && document.getElementById("cbIndividualInfo_option").checked && document.getElementById("cbLocation").checked && document.getElementById("sms_yn").checked && document.getElementById("email_yn").checked && document.getElementById("cbIndividualInfo_option1").checked && document.getElementById("cbIndividualInfo_option2").checked) {					
-					return true;
-				}
-				return false;
-			}
+
+//약관 체크 다했는지 확인
+function CheckAllProvisions() {
+	if (document.getElementById("cbProvision1").checked && document.getElementById("cbFinance").checked && document.getElementById("cbIndividualInfo").checked && document.getElementById("cbThirdParty").checked && document.getElementById("cbIndividualInfo_option").checked && document.getElementById("cbLocation").checked && document.getElementById("sms_yn").checked && document.getElementById("email_yn").checked && document.getElementById("cbIndividualInfo_option1").checked && document.getElementById("cbIndividualInfo_option2").checked) {					
+		return true;
+	}
+	return false;
+}
+
 
 			//개인정보수집및 이용 (주문,결제배송서비스약관, 신규서비스개발 약관) 동의
 			function CheckIndividualInfoOptions(obj) {
@@ -491,14 +493,14 @@
 			function CheckProvisionAgreement() {
 
 				if(document.getElementById("cbProvision1").checked == false){
-					alert("옥션 이용약관에 동의하지 않으셨습니다.");
+					alert("The Glasses 이용약관에 동의하지 않으셨습니다.");
 					$("#cbProvision1").select();
 					$("#cbProvision1").focus();
 					return false;
 				}
 								
 				if(document.getElementById("cbFinance").checked == false){
-					alert("옥션 전자금융서비스 이용약관에 동의하지 않으셨습니다.");
+					alert("The Glasses 전자금융서비스 이용약관에 동의하지 않으셨습니다.");
 					$("#cbFinance").select();
 					$("#cbFinance").focus();
 					return false;
@@ -554,31 +556,25 @@
             <h3><img src="https://pics.auction.co.kr/join/h3_tit_terms_agree02.gif" alt="약관동의"></h3>
 						<div class="terms-cont">
 							<div class="all-agree">
-								<label for="cb_agreeall_1"><input type="checkbox" id="cb_agreeall_1" name="cb_agreeall_1" onclick="ToggleAllProvisions(this);" /> 옥션 가입 전체약관 및 마케팅정보 수신에 동의합니다.</label>							
+								<label for="cb_agreeall_1"><input type="checkbox" id="cb_agreeall_1" name="cb_agreeall_1" onclick="toggleAllProvisionsCheck;" /> The Glasses 가입 전체약관 및 마케팅정보 수신에 동의합니다.</label>							
 							</div>
 
 							<div class="terms-cont-inner">
 								<div class="check-set">
-										<label for="cbProvision1"><input type="checkbox" id="cbProvision1" name="cbProvision1" onclick="ConfirmProvision(this);"/><span class="type01">(필수)</span>옥션 이용약관</label>
+										<label for="cbProvision1"><input type="checkbox" id="cbProvision1" name="cbProvision1" onclick="provisionCheck();"/><span class="type01">(필수)</span>The Glasses 이용약관</label>
 										<a target="_blank" class="txt-view-all"  href="<%= request.getContextPath() %>/regist/provision">전체보기</a>							
-								</div>							
-
-								<div class="check-set" >
-									<label for="cbFinance"><input name="cbFinance" type="checkbox" id="cbFinance" onclick="ConfirmProvision(this);" /><span class="type01">(필수)</span>전자금융거래 이용약관</label>					
-									<a target="_blank" class="txt-view-all" href="<%= request.getContextPath() %>/regist/finance">전체보기</a>
-								</div>
-<%-- 
-								<div class="check-set">
-									<label for="cbIndividualInfo"><input name="cbIndividualInfo" type="checkbox" id="cbIndividualInfo" onclick="ConfirmProvision(this);" /><span class="type01">(필수)</span>개인정보 수집 및 이용</label>
-									<a target="_blank" class="txt-view-all"  onClick="window.open(href="<%= request.getContextPath() %>/regist/individual">,'CLIENT_WINDOW', 'resizable=yes scrollbars=yes')">전체보기</a>
-								</div>
-								--%>
+								</div>		
 								
 								
 								<div class="check-set">
-									<label for="cbIndividualInfo"><input name="cbIndividualInfo" type="checkbox" id="cbIndividualInfo" onclick="ConfirmProvision(this);" /><span class="type01">(필수)</span>개인정보 수집 및 이용</label>
+									<label for="cbIndividualInfo"><input name="cbIndividualInfo" type="checkbox" id="cbIndividualInfo" onclick="individualCheck();" /><span class="type01">(필수)</span>개인정보 수집 및 이용</label>
 									<a href="#" class="txt-view-all" onClick="window.open(
 									'<%= request.getContextPath() %>/regist/individual', 'CLIENT_WINDOW', 'resizable=yes scrollbars=yes')">내용보기</a>								
+								</div>					
+
+								<div class="check-set" >
+									<label for="cbFinance"><input name="cbFinance" type="checkbox" id="cbFinance" onclick="financeCheck();" /><span class="type01">(필수)</span>전자금융거래 이용약관</label>					
+									<a target="_blank" class="txt-view-all" href="<%= request.getContextPath() %>/regist/finance">전체보기</a>
 								</div>
 
 								
@@ -847,6 +843,14 @@
 		var isNickOk = false;
 		var isNameOk = false
 		var isInterestOk = false;
+		//약관 체크 다했는지 확인
+		var isToggleAllProvisions = false;
+		var isProvision = false;
+		var isFinance = false;
+		var isIndividual = false;
+		var checkResult = false;
+		
+		
 		var member_id = '';
 		var nickname = '';
 		
@@ -944,6 +948,60 @@
 			}
 		};
 		
+		function toggleAllProvisionsCheck() {
+			if(document.getElementById("cb_agreeall_1").checked) {
+				isToggleAllProvisions = true;
+				alert(isToggleAllProvisions);
+			} else {
+				isToggleAllProvisions = false;
+				alert(isToggleAllProvisions);
+			}
+		}
+		
+
+		
+
+		function provisionCheck() {
+			if(document.getElementById("cbProvision1").checked) {
+				isProvision = true;
+				alert(isProvision);
+			} else {
+				isProvision = false;
+				alert("The Glasses 이용약관에 동의하지 않으셨습니다.");
+			}
+		}
+		
+		
+			
+			function provisionCheck() {
+				if(document.getElementById("cbProvision1").checked) {
+					isProvision = true;
+					alert(isProvision);
+				} else {
+					isProvision = false;
+					alert("The Glasses 이용약관에 동의하지 않으셨습니다.");
+				}
+			}
+			
+			function financeCheck() {
+				if(document.getElementById("cbFinance").checked) {
+					isFinance = true;
+					alert(isFinance);
+				} else {
+					isFinance = false;
+					alert("The Glasses 전자금융서비스 이용약관에 동의하지 않으셨습니다.");
+				}
+			}
+			
+			function individualCheck() {
+				if(document.getElementById("cbIndividualInfo").checked) {
+					isIndividual = true;
+					alert(isIndividual);
+				} else {
+					isIndividual = false;
+					alert("개인정보 수집 및 이용약관에 동의하지 않으셨습니다.");
+				}
+			}
 		
 		// 회원가입버튼
 		$("#member_regist").on("click", function() {
@@ -956,10 +1014,11 @@
 				console.log($("input:checkbox[name='interest']").is(":checked"));
 			}
 			
+			checkResult = isProvision && isIndividual && isFinance && isToggleAllProvisions;
 			alert( "회원가입 검증 결과 : " + 
-					"isIdOk : " + isIdOk + ", isPwOk : " + isPwOk + ", isNickOk : " + isNickOk + ", isNameOk : " + isNameOk + ", isInterestOk : " + isInterestOk);
+					"isIdOk : " + isIdOk + ", isPwOk : " + isPwOk + ", isNickOk : " + isNickOk + ", isNameOk : " + isNameOk + ", isInterestOk : " + isInterestOk + ", checkResult : " + checkResult);
 			
-			var result = isIdOk && isPwOk && isNickOk && isNameOk && isInterestOk; 
+			var result = isIdOk && isPwOk && isNickOk && isNameOk && isInterestOk && checkResult; 
 			console.log('result : ' + result);
 			if( result == true ) {
 				var params=$("#regist_form").serialize();
