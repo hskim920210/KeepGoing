@@ -45,7 +45,17 @@
 			
 			<!-- 상단노출 3개 -->
 			
+			<c:forEach items="${ board_noticeheadList }" var="head">
+				<tr class="table-active" style="text-align: center;">
+					<th>중요공지</th>
+					<td><b><a href="">${ head.title }</a></b></td>
+					<td>관리자</td>
+					<td>${ head.write_date }</td>
+				</tr>
+			</c:forEach>
+			
 			<!-- 상단노출 3개 -->
+			
 			<c:forEach items="${ simpleBoardFreeViewList }" var="item">
 				<tr style="text-align: center;">
 					<td>${ item.category }</td>
