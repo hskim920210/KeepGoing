@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
 <head>
-<title>Index</title>
+<title>자유게시판</title>
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -34,6 +34,14 @@
 	
 	<div class="site-section block-13"> 
 		<div align="center"  style="margin-left: 15%; margin-right: 15%; margin-top: 130;">
+		<table>
+			<c:if test="${ login_member.auth >= 2 }">
+      		<p align="right"><a href="<%=request.getContextPath()%>/add_free" class="btn btn-info "  type="button">글쓰기</a></p>
+      		<!-- <p><button class="btn btn-info" type="button" id="add_item">상품 추가</button></p> -->
+      		</c:if>
+				
+		</table>
+		<br>
 		<table class="table">
 			<tr>
 				<td><a href="#">전체</a></td>
@@ -61,14 +69,14 @@
 			<!-- 상단노출 3개 -->
 			
 			<!-- 상단노출 3개 -->
-			<c:forEach items="${ simpleBoardFreeViewList }" var="item">
+			<c:forEach items="${ simpleBoardFreeViewList }" var="free">
 				<tr style="text-align: center;">
-					<td>${ item.category }</td>
-					<td><a href="<%= request.getContextPath() %>/free/${ item.board_id} ">${ item.title } (${ item.comment_cnt })</a></td>
-					<td>${ item.nickname }</td>
-					<td>${ item.view_cnt }</td>
-					<td>${ item.like_cnt }/${ item.dislike_cnt }</td>
-					<td>${ item.write_date }</td>
+					<td>${ free.category }</td>
+					<td><a href="<%= request.getContextPath() %>/free_view/${ free.board_id} ">${ free.title } (${ free.comment_cnt })</a></td>
+					<td>${ free.nickname }</td>
+					<td>${ free.view_cnt }</td>
+					<td>${ free.like_cnt }/${ free.dislike_cnt }</td>
+					<td>${ free.write_date }</td>
 				</tr>
 			</c:forEach>
 		</table>

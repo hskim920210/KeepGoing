@@ -21,19 +21,15 @@ import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.tje.model.Board_Item;
 import com.tje.model.Board_Notice;
+import com.tje.model.Board_Free;
 import com.tje.model.SimpleBoardFreeView;
 import com.tje.model.SimpleBoardItemView;
 import com.tje.model.SimpleBoardReviewView;
+import com.tje.model.DetailBoardFreeView;
 import com.tje.page.Criteria;
 import com.tje.page.PageMaker;
-import com.tje.service.AllItemListService;
-import com.tje.service.Board_NoticeSelectAllByBoardIdDescService;
-import com.tje.service.ItemAddService;
-import com.tje.service.ItemViewService;
-import com.tje.service.SimpleBoardFreeViewSelectByDateDescService;
-import com.tje.service.SimpleBoardItemListCountCriteriaService;
-import com.tje.service.SimpleBoardItemListCriteriaService;
-import com.tje.service.SimpleBoardReviewViewSelectByDateDescService;
+import com.tje.service.*;
+import com.tje.service.DetailBoardFreeViewService;
 
 @Controller
 public class HomeController {
@@ -53,6 +49,15 @@ public class HomeController {
 	private ItemAddService aiService;
 	@Autowired
 	private ItemViewService ivService;
+	@Autowired
+	private Board_freeService b_fService;
+	@Autowired
+	private Board_freeViewService b_fvService;
+	@Autowired
+	private DetailBoardFreeViewService dbfvService;
+	@Autowired
+	private DetailBoardFreeView_UpdateService dbfvuService;
+	
 	
 	@RequestMapping("/")
 	public String home(HttpServletResponse res, HttpServletRequest req) {
@@ -88,6 +93,8 @@ public class HomeController {
 		return "qna";
 	}	
 	
+	
+	//////////////////////////////////
 	@RequestMapping("/free")
 	public String Free(Model model) {
 		List<SimpleBoardFreeView> simpleBoardFreeViewList = (List<SimpleBoardFreeView>)sbfvsbddService.service();
@@ -95,9 +102,72 @@ public class HomeController {
 		return "free";
 	}
 	
+	@GetMapping("/free_view/{board_id}")
+	public String free_view(Model model, 
+			@PathVariable(value = "board_id") Integer board_id) {
+		
+		DetailBoardFreeView free=new DetailBoardFreeView();
+		free.setBoard_id(board_id);
+		System.out.println(free.getBoard_id());
+		
+		model.addAttribute("searchedFree", (DetailBoardFreeView)dbfvService.service(free));
+		
+		return "free_view";
+	}
+	
+	
+	@GetMapping("/add_free")
+	public String Add_free() {
+		return "add_free";
+	}
+	
+	@PostMapping("/add_free")
+	public String Add_free(Board_Free board_Free) {
+		
+		
+		int r=(int) b_fService.service(board_Free);
+		if(r==1) {
+			return "free_view";
+		}
+		
+		return "글 등록에 실패하였습니다";
+		
+		
+	}
+	
+	@GetMapping("/update_free/{board_id}")
+	public String Update_free(Model model, @PathVariable(value = "board_id") Integer board_id) {
+		DetailBoardFreeView free=new DetailBoardFreeView();
+		free.setBoard_id(board_id);
+		System.out.println(free.getBoard_id());
+		
+		model.addAttribute("searchedFree", (DetailBoardFreeView)dbfvService.service(free));
+		
+		return "update_free";
+	}
+	
+	@PostMapping("/update_free/{board_id}")
+	public String Update_free(DetailBoardFreeView detailBoardFreeView) {
+		
+		int r=(int) dbfvuService.service(detailBoardFreeView);
+		if(r==1) {
+			return "free";
+		}
+		
+		return "글 등록에 실패하였습니다";
+
+	}
+
+	
+	
+	///////////////////////////////
+	
+
+	
 	@RequestMapping(value = {"/item","/item/{curPageNo}"})
 	public String Item(Model model,Criteria criteria,
 			@PathVariable(value="curPageNo", required = false) Integer curPageNo) {
+		
 		
 		System.out.println(criteria.toString());
 		
@@ -125,6 +195,8 @@ public class HomeController {
 	public String add_item() {
 		return "add_item";
 	}
+	
+	
 	
 	@PostMapping(value = "/add_item", produces = "application/text; charset=utf8")
 	@ResponseBody
