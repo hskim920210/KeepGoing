@@ -22,6 +22,7 @@
 <script
 	src="<%=request.getContextPath()%>/resources/js/jquery.slidereveal.min.js"></script>
 
+<script type="text/javascript" src="<%=request.getContextPath()%>/resources/editor/js/HuskyEZCreator.js" charset="utf-8"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 		$("#right_sidebar").slideReveal({
