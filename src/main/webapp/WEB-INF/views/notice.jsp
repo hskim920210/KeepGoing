@@ -34,7 +34,7 @@
 	
 	<div class="site-section block-13">
 		<div align="center"  style="margin-left: 15%; margin-right: 15%;">
-		<p align="right"><a href="<%=request.getContextPath()%>/notice/write" class="btn btn-info btn-xs" type="button">작성</a></p>
+		
 		<table class="table">
 			<tr style="text-align: center;">
 				<th>글 번호</th>
@@ -44,15 +44,29 @@
 			
 			<!-- 상단노출 3개 -->
 			
+			<c:forEach items="${ board_noticeheadList }" var="head">
+				<tr class="table-active" style="text-align: center;">
+					<th>중요공지</th>
+					<td><b><a href="">${ head.title }</a></b></td>
+					<td>${ head.write_date }</td>
+				</tr>
+			</c:forEach>
+			
 			<!-- 상단노출 3개 -->
-			<c:forEach items="${ board_noticeList }" var="item">
+			
+			
+			<c:forEach items="${ board_noticeList }" var="notice">
 				<tr style="text-align: center;">
-					<td>${ item.board_id }</td>
-					<td><a href="">${ item.title }</a></td>
-					<td>${ item.write_date }</td>
+					<td>${ notice.board_id }</td>
+					<td><a href="">${ notice.title }</a></td>
+					<td>${ notice.write_date }</td>
 				</tr>
 			</c:forEach>
 		</table>
+		
+		<c:if test="${ login_member.auth == 4 }">
+      		<p align="right"><a href="<%=request.getContextPath()%>/notice/write" class="btn btn-info btn-xs" type="button">작성</a></p>
+      	</c:if>
 		</div>
 	</div>
 	

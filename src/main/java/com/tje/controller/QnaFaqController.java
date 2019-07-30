@@ -19,11 +19,15 @@ public class QnaFaqController {
 	private SimpleBoardFreeViewSelectByDateDescService sbfvsbddService;
 	@Autowired
 	private Board_freeService b_fService;
+	@Autowired
+	private Board_NoticeSelectHeadService b_nshService;
 	
 	@RequestMapping("/qna")
 	public String Qna(Model model) {
 		List<SimpleBoardFreeView> simpleBoardFreeViewList = (List<SimpleBoardFreeView>)sbfvsbddService.service();
 		model.addAttribute("simpleBoardFreeViewList", simpleBoardFreeViewList);
+		List<Board_Notice> board_noticeheadList = (List<Board_Notice>)b_nshService.service();
+		model.addAttribute("board_noticeheadList", board_noticeheadList);
 		return "qna";
 	}
 	

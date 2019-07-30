@@ -14,9 +14,7 @@ public class Board_NoticeWriteService {
 	
 	public Object service(Object args) {
 		Object result=null;
-		
 		result=board_noticeDAO.insert((Board_Notice)args);
-		
 		return result;
 	}
 

@@ -37,8 +37,7 @@
 
     	<form id="add_notice"  method="post" action="<%=request.getContextPath() %>/add_notice">
 			<div class="form-group">
-				<label for="category">카테고리</label>
-				<select name="category">
+				<select name="head">
 					<option value="1">일반 공지</option>
 					<option value="2">중요 공지</option>
 				</select>

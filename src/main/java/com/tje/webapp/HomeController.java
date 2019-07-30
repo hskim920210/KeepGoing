@@ -38,8 +38,6 @@ public class HomeController {
 	@Autowired
 	private SimpleBoardReviewViewSelectByDateDescService sbrvsbddService;
 	@Autowired
-	private Board_NoticeSelectAllByBoardIdDescService b_nsabdService;
-	@Autowired
 	private SimpleBoardItemListCriteriaService sbilcService;
 	@Autowired
 	private SimpleBoardItemListCountCriteriaService sbilccService;
@@ -81,14 +79,7 @@ public class HomeController {
 	public String Cs() {
 		return "cs";
 	}	
-	
-	@RequestMapping("/notice")
-	public String Notice(Model model) {
-		List<Board_Notice> board_noticeList = (List<Board_Notice>)b_nsabdService.service();
-		System.out.println(board_noticeList);
-		model.addAttribute("board_noticeList", board_noticeList);
-		return "notice";
-	}	
+
 	
 	/////////////////////////////////
 	@RequestMapping("/free")
