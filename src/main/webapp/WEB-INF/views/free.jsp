@@ -4,6 +4,7 @@
 <html>
 <head>
 <title>자유게시판</title>
+<title>Index</title>
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -77,6 +78,14 @@
 					<td>${ free.view_cnt }</td>
 					<td>${ free.like_cnt }/${ free.dislike_cnt }</td>
 					<td>${ free.write_date }</td>
+			<c:forEach items="${ simpleBoardFreeViewList }" var="item">
+				<tr style="text-align: center;">
+					<td>${ item.category }</td>
+					<td><a href="<%= request.getContextPath() %>/free/${ item.board_id} ">${ item.title } (${ item.comment_cnt })</a></td>
+					<td>${ item.nickname }</td>
+					<td>${ item.view_cnt }</td>
+					<td>${ item.like_cnt }/${ item.dislike_cnt }</td>
+					<td>${ item.write_date }</td>
 				</tr>
 			</c:forEach>
 		</table>

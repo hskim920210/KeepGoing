@@ -11,6 +11,9 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+
+import org.springframework.validation.BindingResult;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,17 +22,24 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
-import com.tje.model.Board_Item;
-import com.tje.model.Board_Notice;
-import com.tje.model.Board_Free;
-import com.tje.model.SimpleBoardFreeView;
-import com.tje.model.SimpleBoardItemView;
-import com.tje.model.SimpleBoardReviewView;
-import com.tje.model.DetailBoardFreeView;
-import com.tje.page.Criteria;
-import com.tje.page.PageMaker;
+
+import com.tje.model.*;
+import com.tje.page.*;
 import com.tje.service.*;
 import com.tje.service.DetailBoardFreeViewService;
+
+
+import com.tje.page.Criteria;
+import com.tje.page.PageMaker;
+import com.tje.service.AllItemListService;
+import com.tje.service.Board_NoticeSelectAllByBoardIdDescService;
+import com.tje.service.ItemAddService;
+import com.tje.service.ItemViewService;
+import com.tje.service.SimpleBoardFreeViewSelectByDateDescService;
+import com.tje.service.SimpleBoardItemListCountCriteriaService;
+import com.tje.service.SimpleBoardItemListCriteriaService;
+import com.tje.service.SimpleBoardReviewViewSelectByDateDescService;
+import com.tje.model.*;
 
 @Controller
 public class HomeController {
@@ -57,7 +67,6 @@ public class HomeController {
 	private DetailBoardFreeViewService dbfvService;
 	@Autowired
 	private DetailBoardFreeView_UpdateService dbfvuService;
-	
 	
 	@RequestMapping("/")
 	public String home(HttpServletResponse res, HttpServletRequest req) {
@@ -94,7 +103,7 @@ public class HomeController {
 	}	
 	
 	
-	//////////////////////////////////
+	/////////////////////////////////
 	@RequestMapping("/free")
 	public String Free(Model model) {
 		List<SimpleBoardFreeView> simpleBoardFreeViewList = (List<SimpleBoardFreeView>)sbfvsbddService.service();
@@ -168,7 +177,6 @@ public class HomeController {
 	public String Item(Model model,Criteria criteria,
 			@PathVariable(value="curPageNo", required = false) Integer curPageNo) {
 		
-		
 		System.out.println(criteria.toString());
 		
 		if(curPageNo==null)
@@ -195,8 +203,6 @@ public class HomeController {
 	public String add_item() {
 		return "add_item";
 	}
-	
-	
 	
 	@PostMapping(value = "/add_item", produces = "application/text; charset=utf8")
 	@ResponseBody
@@ -235,7 +241,6 @@ public class HomeController {
 				return "상품 추가가 완료되었습니다.";
 			
 		} catch (Exception e) {
-			// TODO: handle exception
 		}
 		
 		return "상품 추가 과정에서 문제가 발생하였습니다.";
@@ -263,10 +268,20 @@ public class HomeController {
 	}
 	
 	@RequestMapping("/review/write")
+	@GetMapping("/review/write")
 	public String ReviewWrite(Model model) {
 		List<SimpleBoardReviewView> result = (List<SimpleBoardReviewView>)sbrvsbddService.service();
 		model.addAttribute("simpleBoardReviewViewList", result);
 		return "reviewWrite";
+	}
+	
+	@PostMapping("/review/write")
+	public String ReviewWritePost(SimpleBoardReviewView sbrv) {
+		System.out.println(sbrv.getTitle());
+		System.out.println(sbrv.getContent());
+		System.out.println(sbrv.getCategory());
+		
+		return "reviewWriteResult";
 	}
 	
 	@RequestMapping("/cart")

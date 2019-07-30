@@ -76,6 +76,7 @@
 		$(document).ready(
 				
 				function() {
+		$(document).ready(function() {
 			$("#add_item").on("click", function() {
 				if(numberCheck()==false)
 		    		return;

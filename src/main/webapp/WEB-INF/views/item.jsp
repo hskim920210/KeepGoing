@@ -32,7 +32,6 @@
 	</div>
 	<jsp:include page="right_sidebar.jsp" flush="false"></jsp:include>
 	
-	
 	<div class="site-section">
       <div class="container">
       
@@ -56,7 +55,6 @@
         </div>
       </div>
     </div>
-    
     
     <div class="container text-center pb-5">
       <div class="row">
