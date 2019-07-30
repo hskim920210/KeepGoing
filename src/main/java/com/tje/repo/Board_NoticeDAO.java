@@ -63,4 +63,12 @@ private JdbcTemplate jdbcTemplate;
 				new Board_noticeRowMapper());
 		return results.isEmpty() ? null : results;
 	}
+	
+	public int insert(Board_Notice model) {
+		return this.jdbcTemplate.update("insert into board_free values(0,3,?,?,?,now())",
+				model.getHead(),
+				model.getTitle(),
+				model.getContent()
+				);
+	}
 }

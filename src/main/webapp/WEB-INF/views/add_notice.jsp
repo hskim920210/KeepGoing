@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
 <head>
-<title>공지사항</title>
+<title>공지 등록</title>
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -32,30 +32,33 @@
 	</div>
 	<jsp:include page="right_sidebar.jsp" flush="false"></jsp:include>
 	
+	<div class="container">
 	<div class="site-section block-13">
-		<div align="center"  style="margin-left: 15%; margin-right: 15%;">
-		<p align="right"><a href="<%=request.getContextPath()%>/notice/write" class="btn btn-info btn-xs" type="button">작성</a></p>
-		<table class="table">
-			<tr style="text-align: center;">
-				<th>글 번호</th>
-				<th>제목</th>
-				<th>작성일</th>
-			</tr>
-			
-			<!-- 상단노출 3개 -->
-			
-			<!-- 상단노출 3개 -->
-			<c:forEach items="${ board_noticeList }" var="item">
-				<tr style="text-align: center;">
-					<td>${ item.board_id }</td>
-					<td><a href="">${ item.title }</a></td>
-					<td>${ item.write_date }</td>
-				</tr>
-			</c:forEach>
-		</table>
-		</div>
-	</div>
+
+    	<form id="add_notice"  method="post" action="<%=request.getContextPath() %>/add_notice">
+			<div class="form-group">
+				<label for="category">카테고리</label>
+				<select name="category">
+					<option value="1">일반 공지</option>
+					<option value="2">중요 공지</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label for="title">제목</label>
+				<input type="text" class="form-control" name="title" placeholder="Title" required>
+			</div>
+			<div class="form-group">
+				<label for="content">내용</label>
+				<textarea rows="20" cols="" class="form-control" name="content" placeholder="Content" required></textarea>
+			</div>
+
+			<button type="submit" class="btn btn-info" id="add_notice_insert">등록</button>
+		</form>
+
+    </div>
+    </div>
 	
 	<jsp:include page="javascriptInclude.jsp" flush="false"></jsp:include>
+
 </body>
 </html>
