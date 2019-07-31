@@ -2,7 +2,13 @@
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+<<<<<<< HEAD
+import java.util.*
+=======
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+>>>>>>> origin/ParkJD
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,9 +28,41 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.fasterxml.jackson.core.JsonParser;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
-import com.tje.model.*;
-import com.tje.page.*;
-import com.tje.service.*;
+<<<<<<< HEAD
+import com.tje.model.*
+import com.tje.page.*
+import com.tje.service.*
+=======
+import com.tje.model.Board_Free;
+import com.tje.model.Board_Item;
+import com.tje.model.Board_Notice;
+import com.tje.model.Comment;
+import com.tje.model.DetailBoardFreeView;
+import com.tje.model.DetailBoardItemView;
+import com.tje.model.LikeAndDislike;
+import com.tje.model.Member;
+import com.tje.model.SimpleBoardFreeView;
+import com.tje.model.SimpleBoardReviewView;
+import com.tje.page.Criteria;
+import com.tje.page.PageMaker;
+import com.tje.service.AllItemListService;
+import com.tje.service.Board_NoticeSelectAllByBoardIdDescService;
+import com.tje.service.Board_freeService;
+import com.tje.service.Board_freeViewService;
+import com.tje.service.CommentAddService;
+import com.tje.service.CommentDeleteService;
+import com.tje.service.CommentSelectService;
+import com.tje.service.DetailBoardFreeViewService;
+import com.tje.service.DetailBoardFreeView_UpdateService;
+import com.tje.service.ItemAddService;
+import com.tje.service.ItemViewCntUpdateService;
+import com.tje.service.ItemViewService;
+import com.tje.service.LikeAndDislikeService;
+import com.tje.service.SimpleBoardFreeViewSelectByDateDescService;
+import com.tje.service.SimpleBoardItemListCountCriteriaService;
+import com.tje.service.SimpleBoardItemListCriteriaService;
+import com.tje.service.SimpleBoardReviewViewSelectByDateDescService;
+>>>>>>> origin/ParkJD
 
 @Controller
 public class HomeController {
@@ -32,6 +70,8 @@ public class HomeController {
 	private AllItemListService ilService;
 	@Autowired
 	private SimpleBoardFreeViewSelectByDateDescService sbfvsbddService;
+	@Autowired
+	private SimpleBoardReviewViewSelectByDateDescService sbrvsbddService;
 	@Autowired
 	private SimpleBoardItemListCriteriaService sbilcService;
 	@Autowired
@@ -57,7 +97,11 @@ public class HomeController {
 	@Autowired
 	private CommentDeleteService cdService;
 	@Autowired
+<<<<<<< HEAD
+	private Board_ReviewInsertService b_riService;
+=======
 	private LikeAndDislikeService ladService;
+>>>>>>> origin/ParkJD
 	
 	@RequestMapping("/")
 	public String home(HttpServletResponse res, HttpServletRequest req) {
@@ -101,8 +145,13 @@ public class HomeController {
 		return "add_qna";
 	}
 	
+	// 자주묻는질문 추가
+	@RequestMapping("/faq")
+	public String Faq() {
+		return "faq";
+	}
 
-/
+	/////////////////////////////////
 	@RequestMapping("/free")
 	public String Free(Model model) {
 		List<SimpleBoardFreeView> simpleBoardFreeViewList = (List<SimpleBoardFreeView>)sbfvsbddService.service();
@@ -364,14 +413,28 @@ public class HomeController {
 		
 		return "fail";
 	}
-	}
+	
+	@RequestMapping("/review")
+	public String Review(Model model) {
+		List<SimpleBoardReviewView> result = (List<SimpleBoardReviewView>)sbrvsbddService.service();
+		model.addAttribute("simpleBoardReviewViewList", result);
+		return "review";
 	}
 	
-	@RequestMapping("/cart")
-	p	}
+	@GetMapping("/review/write")
+	public String ReviewWrite(Model model) {
+		List<SimpleBoardReviewView> result = (List<SimpleBoardReviewView>)sbrvsbddService.service();
+		model.addAttribute("simpleBoardReviewViewList", result);
+		return "reviewWrite";
+	}
 	
-	@RequestM	@RequestMapping("/review/write")
+	@PostMapping("/review/write")
 	public String ReviewWritePost(SimpleBoardReviewView sbrv, Board_Review b_r) {
+		System.out.println(sbrv.getContent());
+		System.out.println(b_r.getContent());
+		//b_riService.service(b_r);
+		return "reviewWriteResult";
+	}
 	
 	@RequestMapping("/cart")
 	public String Cart() {

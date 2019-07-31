@@ -1,8 +1,9 @@
-﻿package com.tje.webapp;
+package com.tje.webapp;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,12 +20,34 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.fasterxml.jackson.core.JsonParser;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
-import com.tje.model.*;
-import com.tje.page.*;
-import com.tje.service.*;
+import com.tje.model.Board_Free;
+import com.tje.model.Board_Item;
+import com.tje.model.Board_Notice;
+import com.tje.model.Comment;
+import com.tje.model.DetailBoardFreeView;
+import com.tje.model.DetailBoardItemView;
+import com.tje.model.SimpleBoardFreeView;
+import com.tje.model.SimpleBoardReviewView;
+import com.tje.page.Criteria;
+import com.tje.page.PageMaker;
+import com.tje.service.AllItemListService;
+import com.tje.service.Board_NoticeSelectAllByBoardIdDescService;
+import com.tje.service.Board_freeService;
+import com.tje.service.Board_freeViewService;
+import com.tje.service.CommentAddService;
+import com.tje.service.CommentDeleteService;
+import com.tje.service.CommentSelectService;
+import com.tje.service.DetailBoardFreeViewService;
+import com.tje.service.DetailBoardFreeView_UpdateService;
+import com.tje.service.ItemAddService;
+import com.tje.service.ItemViewCntUpdateService;
+import com.tje.service.ItemViewService;
+import com.tje.service.SimpleBoardFreeViewSelectByDateDescService;
+import com.tje.service.SimpleBoardItemListCountCriteriaService;
+import com.tje.service.SimpleBoardItemListCriteriaService;
+import com.tje.service.SimpleBoardReviewViewSelectByDateDescService;
 
 @Controller
 public class HomeController {
@@ -32,6 +55,10 @@ public class HomeController {
 	private AllItemListService ilService;
 	@Autowired
 	private SimpleBoardFreeViewSelectByDateDescService sbfvsbddService;
+	@Autowired
+	private SimpleBoardReviewViewSelectByDateDescService sbrvsbddService;
+	@Autowired
+	private Board_NoticeSelectAllByBoardIdDescService b_nsabdService;
 	@Autowired
 	private SimpleBoardItemListCriteriaService sbilcService;
 	@Autowired
@@ -46,7 +73,6 @@ public class HomeController {
 	private CommentAddService caService;
 	@Autowired
 	private CommentSelectService csSercie;
-	@Autowired
 	private Board_freeService b_fService;
 	@Autowired
 	private Board_freeViewService b_fvService;
@@ -56,8 +82,6 @@ public class HomeController {
 	private DetailBoardFreeView_UpdateService dbfvuService;
 	@Autowired
 	private CommentDeleteService cdService;
-	@Autowired
-	private LikeAndDislikeService ladService;
 	
 	@RequestMapping("/")
 	public String home(HttpServletResponse res, HttpServletRequest req) {
@@ -79,7 +103,7 @@ public class HomeController {
 	public String Cs() {
 		return "cs";
 	}	
-
+	
 	@RequestMapping("/notice")
 	public String Notice(Model model) {
 		List<Board_Notice> board_noticeList = (List<Board_Notice>)b_nsabdService.service();
@@ -101,8 +125,8 @@ public class HomeController {
 		return "add_qna";
 	}
 	
-
-/
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////
 	@RequestMapping("/free")
 	public String Free(Model model) {
 		List<SimpleBoardFreeView> simpleBoardFreeViewList = (List<SimpleBoardFreeView>)sbfvsbddService.service();
@@ -243,8 +267,7 @@ public class HomeController {
 	
 	@GetMapping("/item_view/{board_id}")
 	public String item_view(Model model, 
-			@PathVariable(value = "board_id") Integer board_id,
-			HttpSession session) {
+			@PathVariable(value = "board_id") Integer board_id) {
 		
 		DetailBoardItemView item=new DetailBoardItemView();
 		item.setBoard_id(board_id);
@@ -252,26 +275,6 @@ public class HomeController {
 		Comment comment=new Comment();
 		comment.setBoard_id(board_id);
 		comment.setTopic(5);
-		
-		
-		Member login_member=(Member) session.getAttribute("login_member");
-		if(login_member==null)
-			model.addAttribute("btn_status", 0);
-		else {
-			String member_id=login_member.getMember_id();
-			
-			LikeAndDislike lad=new LikeAndDislike();
-			lad.setMember_id(member_id);
-			lad.setBoard_id(board_id);
-			lad.setTopic(5);
-			
-			LikeAndDislike result=(LikeAndDislike) ladService.selectOne(lad);
-			if(result==null)
-				model.addAttribute("btn_status", 0);
-			else
-				model.addAttribute("btn_status", result.getIs_like());
-		}
-		
 		
 		if((int)ivcuService.service(item)!=1)
 			return "redirect:error/item_view";
@@ -317,61 +320,29 @@ public class HomeController {
 		return "댓글 삭제를 실패했습니다.";
 	}
 	
-	@PostMapping(value = "/like_and_dislike", produces = "application/text; charset=utf8")
-	@ResponseBody
-	public String like_and_dislike(HttpSession session,
-			@RequestBody Map<String, Object> map) {
-		
-		Member member=(Member) session.getAttribute("login_member");
-		LikeAndDislike model=new LikeAndDislike();
-		model.setMember_id( member.getMember_id() );
-		model.setBoard_id( (int) map.get("board_id") );
-		model.setTopic( (int) map.get("topic") );
-		int status=(int) map.get("status");
-		
-		int r=0;
-		
-		switch (status) {
-		case 1:
-			model.setIs_like(1);
-			r=(int) ladService.update(model);
-			break;
-		case 2:
-			model.setIs_like(1);
-			r=(int) ladService.insert(model);
-			break;
-		case 3:
-			r=(int) ladService.delete(model);
-			break;
-		case 4:
-			model.setIs_like(2);
-			r=(int) ladService.update(model);
-			break;
-		case 5:
-			model.setIs_like(2);
-			r=(int) ladService.insert(model);
-			break;
-		case 6:
-			r=(int) ladService.delete(model);
-			break;
-		default:
-			break;
-		}
-		
-		if(r!=0) {
-			return "success";
-		}
-		
-		return "fail";
-	}
-	}
+	@RequestMapping("/review")
+	public String Review(Model model) {
+		List<SimpleBoardReviewView> result = (List<SimpleBoardReviewView>)sbrvsbddService.service();
+		model.addAttribute("simpleBoardReviewViewList", result);
+		return "review";
 	}
 	
-	@RequestMapping("/cart")
-	p	}
+	@RequestMapping("/review/write")
+	@GetMapping("/review/write")
+	public String ReviewWrite(Model model) {
+		List<SimpleBoardReviewView> result = (List<SimpleBoardReviewView>)sbrvsbddService.service();
+		model.addAttribute("simpleBoardReviewViewList", result);
+		return "reviewWrite";
+	}
 	
-	@RequestM	@RequestMapping("/review/write")
-	public String ReviewWritePost(SimpleBoardReviewView sbrv, Board_Review b_r) {
+	@PostMapping("/review/write")
+	public String ReviewWritePost(SimpleBoardReviewView sbrv) {
+		System.out.println(sbrv.getTitle());
+		System.out.println(sbrv.getContent());
+		System.out.println(sbrv.getCategory());
+		
+		return "reviewWriteResult";
+	}
 	
 	@RequestMapping("/cart")
 	public String Cart() {
