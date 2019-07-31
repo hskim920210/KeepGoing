@@ -52,12 +52,12 @@
 			
 			  <div class="panel panel-default">
 			    <div class="panel-heading" role="tab" id="headingOne">
-			      <h4 class="panel-title">
-			        <a class="collapsed btn btn-block" data-toggle="collapse" data-parent="#accordion"
+			      <h5 class="panel-title">
+			        <a class="collapsed" data-toggle="collapse" data-parent="#accordion"
 			        href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
 			       Q. 자주 묻는 질문 1
 			        </a>
-			      </h4>
+			      </h5>
 			    </div>
 			    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
 			      <div class="panel-body">
@@ -69,7 +69,7 @@
 			  <div class="panel panel-default">
 			    <div class="panel-heading" role="tab" id="headingTwo">
 			      <h4 class="panel-title">
-			        <a class="collapsed btn btn-block" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+			        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
 						Q. 자주 묻는 질문 2
 			        </a>
 			      </h4>
@@ -84,7 +84,7 @@
 			  <div class="panel panel-default">
 			    <div class="panel-heading" role="tab" id="headingThree">
 			      <h4 class="panel-title">
-			        <a class="collapsed btn btn-block" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+			        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
 						Q. 자주 묻는 질문 3
 			        </a>
 			      </h4>
@@ -103,8 +103,42 @@
 
 		</div>
 	</div>
+	<!-- 
+	<script type="text/javascript">
+	
+	var acodian = {
+
+			  click: function(target) {
+			    var _self = this,
+			      $target = $(target);
+			    $target.on('click', function() {
+			      var $this = $(this);
+			      if ($this.next('dd').css('display') == 'none') {
+			        $('dd').slideUp();
+			        _self.onremove($target);
+
+			        $this.addClass('on');
+			        $this.next().slideDown();
+			      } else {
+			        $('dd').slideUp();
+			        _self.onremove($target);
+
+			      }
+			    });
+			  },
+			  onremove: function($target) {
+			    $target.removeClass('on');
+			  }
+
+			};
+			acodian.click('dt');
+	
+	</script>
+	 -->
+	
 	
 	<jsp:include page="javascriptInclude.jsp" flush="false"></jsp:include>
+	
 	
 </body>
 </html>
