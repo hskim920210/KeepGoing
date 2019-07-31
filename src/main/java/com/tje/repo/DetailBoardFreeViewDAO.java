@@ -1,4 +1,4 @@
-package com.tje.repo;
+﻿package com.tje.repo;
 
 
 import java.sql.ResultSet;
@@ -48,48 +48,7 @@ private JdbcTemplate jdbcTemplate;
 				model.getBoard_id());
 	}
 	
-	public List<DetailBoardFreeView> selectAllOrdByDateDesc() {
-		String sql = "select * from DetailBoardFreeView order by write_date desc";
-		List<DetailBoardFreeView> results=this.jdbcTemplate.query(sql,
-				new DetailBoardFreeViewRowMapper());
-		return results.isEmpty() ? null : results;
-	}
 	
-	public List<DetailBoardFreeView> selectAllOrdByCmtCntDesc() {
-		String sql = "select * from DetailBoardFreeView order by comment_cnt desc";
-		List<DetailBoardFreeView> results=this.jdbcTemplate.query(sql,
-				new DetailBoardFreeViewRowMapper());
-		return results.isEmpty() ? null : results;
-	}
-	
-	public List<DetailBoardFreeView> selectAllOrdByLikeCntDesc() {
-		String sql = "select * from DetailBoardFreeView order by like_cnt desc";
-		List<DetailBoardFreeView> results=this.jdbcTemplate.query(sql,
-				new DetailBoardFreeViewRowMapper());
-		return results.isEmpty() ? null : results;
-	}
-	
-	public List<DetailBoardFreeView> selectAllOrdByDisLikeCntDesc() {
-		String sql = "select * from DetailBoardFreeView order by dislike_cnt desc";
-		List<DetailBoardFreeView> results=this.jdbcTemplate.query(sql,
-				new DetailBoardFreeViewRowMapper());
-		return results.isEmpty() ? null : results;
-	}
-	
-	
-	public List<DetailBoardFreeView> selectAllOrdByDateAsc() {
-		String sql = "select * from DetailBoardFreeView order by write_date asc";
-		List<DetailBoardFreeView> results=this.jdbcTemplate.query(sql,
-				new DetailBoardFreeViewRowMapper());
-		return results.isEmpty() ? null : results;
-	}
-	
-	public List<DetailBoardFreeView> selectAllOrdByCmtCntAsc() {
-		String sql = "select * from DetailBoardFreeView order by comment_cnt asc";
-		List<DetailBoardFreeView> results=this.jdbcTemplate.query(sql,
-				new DetailBoardFreeViewRowMapper());
-		return results.isEmpty() ? null : results;
-	}
 	
 	
 	//좋아요 카운트
@@ -111,20 +70,19 @@ private JdbcTemplate jdbcTemplate;
 
 	
 	// 게시판 삭제
-	public int delete(DetailBoardFreeView model) {	
-		return this.jdbcTemplate.update("delete board_free set content = ? where board_id = ?)",
-					model.getContent(),
-					model.getBoard_id());
-	}
-
+	public int delete(DetailBoardFreeView model) {
+				return this.jdbcTemplate.update("delete from board_free where board_id = ?",
 	
+				model.getBoard_id()
+	}
 	
 	
 	// 게시판 수정
 	public int update(DetailBoardFreeView model) {
 		
-		return this.jdbcTemplate.update("update board_free set content = ? where board_id = ?)",
+				return this.jdbcTemplate.update("update board_free set Content = ? , Title = ? where board_id = ?",
 				model.getContent(),
+				model.getTitle(),
 				model.getBoard_id()
 				);
 				

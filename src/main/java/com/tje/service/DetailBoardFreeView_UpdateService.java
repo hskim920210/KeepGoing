@@ -17,7 +17,7 @@ public class DetailBoardFreeView_UpdateService {
 	
 	public Object service(DetailBoardFreeView detailBoardFreeView) {
 		int result=0;
-		result=((DetailBoardFreeViewDAO) detailBoardFreeViewDAO).update(detailBoardFreeView);
+		result=detailBoardFreeViewDAO.update(detailBoardFreeView);
 		return result;
 	}
 }

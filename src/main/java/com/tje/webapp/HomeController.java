@@ -54,9 +54,12 @@ public class HomeController {
 	private DetailBoardFreeViewService dbfvService;
 	@Autowired
 	private DetailBoardFreeView_UpdateService dbfvuService;
+	private DetailBoardFreeView_UpdateService dbfv_uService;
+	private DetailBoardFreeView_UpdateService dbfvuService;
 	@Autowired
 	private CommentDeleteService cdService;
 	@Autowired
+	private DetailBoardFreeView_DeleteService dbfv_dService;
 	private LikeAndDislikeService ladService;
 	
 	@RequestMapping("/")
@@ -115,13 +118,17 @@ public class HomeController {
 	}
 	
 	@PostMapping("/add_free")
-	public String Add_free(Board_Free board_Free) {
+	public String Add_free(Board_Free board_Free ,Model model ) {
 		
 		
-		int r=(int) b_fService.service(board_Free);
-		if(r==1) {
+		Integer board_id = (Integer)b_fService.service(board_Free);
+		DetailBoardFreeView dbfv = new DetailBoardFreeView();
+		dbfv.setBoard_id(board_id);
+		if(board_id != null) {
+			model.addAttribute("searchedFree", (DetailBoardFreeView)dbfvService.service(dbfv));
 			return "free_view";
 		}
+		
 		
 		return "글 등록에 실패하였습니다";
 		
@@ -139,19 +146,26 @@ public class HomeController {
 		return "update_free";
 	}
 	
-	@PostMapping("/update_free/{board_id}")
-	public String Update_free(DetailBoardFreeView detailBoardFreeView) {
-		
-		int r=(int) dbfvuService.service(detailBoardFreeView);
+	
+	
+	
+	@GetMapping("/delete_free/{board_id}")
+	public String Delete_free(DetailBoardFreeView detailBoardFreeView, @PathVariable(value = "board_id") Integer board_id, Model model) {
+		System.out.println(detailBoardFreeView.getBoard_id());
+		int r=(int) dbfv_dService.service(detailBoardFreeView);
 		if(r==1) {
-			return "free";
+			model.addAttribute("resultMsg", "삭제 성공");
+			return "delete_free";
 		}
 		
-		return "글 등록에 실패하였습니다";
+		model.addAttribute("resultMsg", "삭제 실패");
+		return "delete_free";
 
 	}
 
-	///////////////////////////////
+	////////////////////////////////자유게시판
+	
+	
 	
 	@RequestMapping(value = {"/item","/item/{curPageNo}"})
 	public String Item(Model model,Criteria criteria,

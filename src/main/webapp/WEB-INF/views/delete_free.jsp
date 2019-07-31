@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
 <head>
-<title>게시글 등록</title>
+<title>게시글 수정</title>
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -24,7 +24,8 @@
 				class="row align-items-center justify-content-center text-center">
 
 				<div class="col-md-8" data-aos="fade-up" data-aos-delay="400">
-					<h1 class="text-white font-weight-light text-uppercase font-weight-bold">게시글 쓰기</h1>
+					<h1
+						class="text-white font-weight-light text-uppercase font-weight-bold">게시글 삭제</h1>
 				</div>
 			</div>
 		</div>
@@ -32,31 +33,14 @@
 	<jsp:include page="right_sidebar.jsp" flush="false"></jsp:include>
 	
 	<div class="container">
-
-    	<form id="add_free"  method="post" action="<%=request.getContextPath() %>/add_free">
-    		<input type="hidden" name="member_id" value="${ login_member.member_id }">
-			<div class="form-group">
-				<label for="title">제목 </label>
-				<input type="text" class="form-control" name="title" placeholder="Title" maxlength="30" required>
-			</div>
-			<div class="form-group">
-				<label for="content">내용</label>
-				<textarea rows="20" cols="" class="form-control" name="content" placeholder="Content" maxlength="500" required></textarea>
-			</div>
-			<div class="form-group">
-				<label for="category">카테고리</label>
-				<select name="category">
-					<option value="1">운동기구</option>
-					<option value="2">보충제</option>
-					<option value="3">기타</option>
-				</select>
-			</div>
-			
-			
-			
-			
-			<button type="submit" class="btn btn-info" id="add_free_insert">글 등록</button>
-		</form>
+		<br>
+    	<h2 align="center"> ${ resultMsg } </h2>
+    	
+    	<br>
+    	<h4 align="center"><a href="<%= request.getContextPath()%>/free">자유게시판으로 이동 </a></h4>
+	   <br>
+	   
+	   <h4 align="center"><a href="<%= request.getContextPath()%>/home">홈페이지로 이동</a></h4>
 
     </div>
 	
