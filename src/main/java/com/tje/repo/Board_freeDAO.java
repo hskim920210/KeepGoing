@@ -56,7 +56,7 @@ private JdbcTemplate jdbcTemplate;
 		
 				PreparedStatement pstmt = 
 					con.prepareStatement(
-							"insert into board_free values(0,6,?,?,?,?,0,now())", 
+							"insert into board_free values(0,2,?,?,?,?,0,now())", 
 						 new String[]{"board_id"});
 				pstmt.setInt(1, model.getCategory());
 				pstmt.setString(2, model.getTitle());

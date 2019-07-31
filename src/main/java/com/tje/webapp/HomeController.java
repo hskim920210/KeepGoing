@@ -55,16 +55,12 @@ public class HomeController {
 	@Autowired
 	private DetailBoardFreeViewService dbfvService;
 	@Autowired
-	private DetailBoardFreeView_UpdateService dbfvuService;
-  @Autowired
 	private DetailBoardFreeView_UpdateService dbfv_uService;
-  @Autowired
-	private DetailBoardFreeView_UpdateService dbfvuService;
 	@Autowired
 	private CommentDeleteService cdService;
 	@Autowired
 	private DetailBoardFreeView_DeleteService dbfv_dService;
-  @Autowired
+	@Autowired
 	private LikeAndDislikeService ladService;
 
 	@RequestMapping("/")
@@ -133,13 +129,24 @@ public class HomeController {
 		
 	}
 	
-	@PostMapping("/update_free/{board_id}")
-	public String Update_freePost(Model model, @PathVariable(value = "board_id") Integer board_id) {
+	@GetMapping("/update_free/{board_id}")
+	public String Update_free(Model model, @PathVariable(value = "board_id") Integer board_id) {
 		DetailBoardFreeView free=new DetailBoardFreeView();
 		free.setBoard_id(board_id);
 		System.out.println(free.getBoard_id());
 		
 		model.addAttribute("searchedFree", (DetailBoardFreeView)dbfvService.service(free));
+		return "update_free";
+	}
+	
+	@PostMapping("/update_free/{board_id}")
+	public String Update_freePost(DetailBoardFreeView detailBoardFreeView, Model model, @PathVariable(value = "board_id") Integer board_id) {
+		Integer result = (Integer)dbfv_uService.service(detailBoardFreeView);
+		if (result != null) {
+			model.addAttribute("resultMsg", "수정 완료");
+			return "update_free_view";
+		}
+		model.addAttribute("resultMsg", "수정 실패");
 		return "update_free_view";
 	}
 	
@@ -314,17 +321,6 @@ public class HomeController {
 	
 	
 	
-	@RequestMapping("/cart")
-	p	}
-	
-	@RequestM	@RequestMapping("/review/write")
-	public String ReviewWritePost(SimpleBoardReviewView sbrv, Board_Review b_r) {
-	
-	@RequestMapping("/cart")
-	p	}
-	
-	@RequestM	@RequestMapping("/review/write")
-	public String ReviewWritePost(SimpleBoardReviewView sbrv, Board_Review b_r) {
 	@RequestMapping("/cart")
 	public String Cart() {
 		return "cart";

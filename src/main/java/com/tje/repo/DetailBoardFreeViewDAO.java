@@ -73,12 +73,12 @@ private JdbcTemplate jdbcTemplate;
 	public int delete(DetailBoardFreeView model) {
 				return this.jdbcTemplate.update("delete from board_free where board_id = ?",
 	
-				model.getBoard_id()
+				model.getBoard_id());
 	}
 	
 	
 	// 게시판 수정
-	public int update(DetailBoardFreeView model) {
+	public int update(DetailBoardFreeView model) throws Exception{
 		
 				return this.jdbcTemplate.update("update board_free set Content = ? , Title = ? where board_id = ?",
 				model.getContent(),

@@ -38,7 +38,7 @@
 		<br>
 		<br>
 		<br>
-  	<h2 align="center"> 해당 글이 수정 되었습니다. </h2>
+  	<h2 align="center"> ${ resultMsg } </h2>
 	  	<br>
 	  	<br> 
 	  
