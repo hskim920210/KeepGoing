@@ -91,8 +91,10 @@
 								</div>
 								
 								<!-- 좋아요, 싫어요 -->
-								<button type="button" name="like_and_dislike" id="like" class="btn btn-light">좋아요[${searchedItem.like_cnt}]</button>
-								<button type="button" name="like_and_dislike" id="dislike" class="btn btn-light">싫어요[${searchedItem.dislike_cnt}]</button>
+								<!--<c:if test="${ btn_status==1 ? 'btn btn-info' : 'btn btn-light'}"></c:if>-->
+								<!--<c:if test="${ btn_status==0 ? 'btn btn-danger' : 'btn btn-light'}"></c:if>-->
+								<button type="button" name="like_and_dislike" id="like" class="${ btn_status==1 ? 'btn btn-info' : 'btn btn-light'}">좋아요[<span>${searchedItem.like_cnt}</span>]</button>
+								<button type="button" name="like_and_dislike" id="dislike" class="${ btn_status==2 ? 'btn btn-danger' : 'btn btn-light'}">싫어요[<span>${searchedItem.dislike_cnt}</span>]</button>
 								
 							</div>
 						</div>
@@ -290,12 +292,17 @@
 				var class_val=$(this).attr("class");
 				var status=0;
 				
+				if( "${login_member.member_id}" == "" ){
+					alert("로그인이 필요한 기능입니다.");
+					return;
+				}
+				
 				if(id_val=="like"){
 					if(class_val=="btn btn-light"){
 						if( $("#dislike").attr("class")=="btn btn-danger" ){
 							$(this).attr("class", "btn btn-info");
 							$("#dislike").attr("class", "btn btn-light");
-							// dislike 활성 == update is_like=0
+							// dislike 비활성, like 활성 == update is_like=1
 							status=1;
 						}else{
 							$(this).attr("class", "btn btn-info");
@@ -312,7 +319,7 @@
 						if( $("#like").attr("class")=="btn btn-info" ){
 							$(this).attr("class", "btn btn-danger");
 							$("#like").attr("class", "btn btn-light");
-							// like 활성 == update is_like=1
+							// like 비활성, dislike 활성 == update is_like=0
 							status=4;
 						}else{
 							$("#dislike").attr("class", "btn btn-danger");
@@ -322,11 +329,49 @@
 					}else{
 						$(this).attr("class", "btn btn-light");
 						// dislike 활성 -> 비활성 == delete
-						status=3;
+						status=6;
 					}
 				}
 				
+				console.log(status);
 				
+				$.ajax({
+		            url: "<%=request.getContextPath()%>/like_and_dislike",
+		            type: "post",
+		            data: JSON.stringify({"board_id": ${searchedItem.board_id}, "topic": ${searchedItem.topic}, "status": status}),
+		            dataType: 'text',
+		            contentType: 'application/json; charset=utf-8',
+		            success: function(data){
+		                console.log(data);
+		                
+		                var like_cnt=Number( $("#like").children("span").text() );
+		                var dislike_cnt=Number( $("#dislike").children("span").text() );
+		                
+		                
+		                if(status==1){
+		                	$("#like").children("span").text(like_cnt+1);
+		                	$("#dislike").children("span").text(dislike_cnt-1);
+		                }else if(status==2){
+		                	$("#like").children("span").text(like_cnt+1);
+		                }else if(status==3){
+		                	$("#like").children("span").text(like_cnt-1);
+		                }else if(status==4){
+		                	$("#like").children("span").text(like_cnt-1);
+		                	$("#dislike").children("span").text(dislike_cnt+1);
+		                }else if(status==5){
+		                	$("#dislike").children("span").text(dislike_cnt+1);
+		                }else{
+		                	$("#dislike").children("span").text(dislike_cnt-1);
+		                }
+		                
+		                console.log(like_cnt);
+		                console.log(dislike_cnt);
+		            },
+		            error: function(request,status,error){
+		                alert("err");
+		                alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		            }
+		        });
 			})
 		});
 	</script>

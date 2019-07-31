@@ -2,6 +2,7 @@ package com.tje.webapp;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.core.JsonParser;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.tje.model.Board_Free;
@@ -28,6 +30,8 @@ import com.tje.model.Board_Notice;
 import com.tje.model.Comment;
 import com.tje.model.DetailBoardFreeView;
 import com.tje.model.DetailBoardItemView;
+import com.tje.model.LikeAndDislike;
+import com.tje.model.Member;
 import com.tje.model.SimpleBoardFreeView;
 import com.tje.model.SimpleBoardReviewView;
 import com.tje.page.Criteria;
@@ -44,6 +48,7 @@ import com.tje.service.DetailBoardFreeView_UpdateService;
 import com.tje.service.ItemAddService;
 import com.tje.service.ItemViewCntUpdateService;
 import com.tje.service.ItemViewService;
+import com.tje.service.LikeAndDislikeService;
 import com.tje.service.SimpleBoardFreeViewSelectByDateDescService;
 import com.tje.service.SimpleBoardItemListCountCriteriaService;
 import com.tje.service.SimpleBoardItemListCriteriaService;
@@ -82,6 +87,8 @@ public class HomeController {
 	private DetailBoardFreeView_UpdateService dbfvuService;
 	@Autowired
 	private CommentDeleteService cdService;
+	@Autowired
+	private LikeAndDislikeService ladService;
 	
 	@RequestMapping("/")
 	public String home(HttpServletResponse res, HttpServletRequest req) {
@@ -267,7 +274,8 @@ public class HomeController {
 	
 	@GetMapping("/item_view/{board_id}")
 	public String item_view(Model model, 
-			@PathVariable(value = "board_id") Integer board_id) {
+			@PathVariable(value = "board_id") Integer board_id,
+			HttpSession session) {
 		
 		DetailBoardItemView item=new DetailBoardItemView();
 		item.setBoard_id(board_id);
@@ -275,6 +283,26 @@ public class HomeController {
 		Comment comment=new Comment();
 		comment.setBoard_id(board_id);
 		comment.setTopic(5);
+		
+		
+		Member login_member=(Member) session.getAttribute("login_member");
+		if(login_member==null)
+			model.addAttribute("btn_status", 0);
+		else {
+			String member_id=login_member.getMember_id();
+			
+			LikeAndDislike lad=new LikeAndDislike();
+			lad.setMember_id(member_id);
+			lad.setBoard_id(board_id);
+			lad.setTopic(5);
+			
+			LikeAndDislike result=(LikeAndDislike) ladService.selectOne(lad);
+			if(result==null)
+				model.addAttribute("btn_status", 0);
+			else
+				model.addAttribute("btn_status", result.getIs_like());
+		}
+		
 		
 		if((int)ivcuService.service(item)!=1)
 			return "redirect:error/item_view";
@@ -318,6 +346,54 @@ public class HomeController {
 		}
 		
 		return "댓글 삭제를 실패했습니다.";
+	}
+	
+	@PostMapping(value = "/like_and_dislike", produces = "application/text; charset=utf8")
+	@ResponseBody
+	public String like_and_dislike(HttpSession session,
+			@RequestBody Map<String, Object> map) {
+		
+		Member member=(Member) session.getAttribute("login_member");
+		LikeAndDislike model=new LikeAndDislike();
+		model.setMember_id( member.getMember_id() );
+		model.setBoard_id( (int) map.get("board_id") );
+		model.setTopic( (int) map.get("topic") );
+		int status=(int) map.get("status");
+		
+		int r=0;
+		
+		switch (status) {
+		case 1:
+			model.setIs_like(1);
+			r=(int) ladService.update(model);
+			break;
+		case 2:
+			model.setIs_like(1);
+			r=(int) ladService.insert(model);
+			break;
+		case 3:
+			r=(int) ladService.delete(model);
+			break;
+		case 4:
+			model.setIs_like(2);
+			r=(int) ladService.update(model);
+			break;
+		case 5:
+			model.setIs_like(2);
+			r=(int) ladService.insert(model);
+			break;
+		case 6:
+			r=(int) ladService.delete(model);
+			break;
+		default:
+			break;
+		}
+		
+		if(r!=0) {
+			return "success";
+		}
+		
+		return "fail";
 	}
 	
 	@RequestMapping("/review")
