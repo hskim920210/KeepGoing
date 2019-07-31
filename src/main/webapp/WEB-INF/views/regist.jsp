@@ -966,7 +966,16 @@ function CheckAllProvisions() {
 		function toggleAllProvisionsCheck() {
             if ($("#cb_agreeall_1").is(':checked')) {
             	isToggleAllProvisions = true;
-                $("input[type=checkbox]").prop("checked", true);
+                $("input[name=cbProvision1]").prop("checked", true);
+                $("input[name=cbFinance]").prop("checked", true);
+                $("input[name=cbIndividualInfo]").prop("checked", true);
+                $("input[name=cbThirdParty]").prop("checked", true);
+                $("input[name=cbIndividualInfo_option]").prop("checked", true);
+                $("input[name=cbLocation]").prop("checked", true);
+                $("input[name=sms_yn]").prop("checked", true);
+                $("input[name=email_yn]").prop("checked", true);
+                $("input[name=cbIndividualInfo_option1]").prop("checked", true);
+                $("input[name=cbIndividualInfo_option2]").prop("checked", true);
             } else {
             	isToggleAllProvisions = false;
                 $("input[type=checkbox]").prop("checked", false);
