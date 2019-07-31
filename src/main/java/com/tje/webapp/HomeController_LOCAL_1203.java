@@ -2,7 +2,7 @@
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.*
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,14 +19,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.fasterxml.jackson.core.JsonParser;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
-import com.tje.model.*;
-import com.tje.page.*;
-import com.tje.service.*;
-import com.tje.webapp.setting.PageingInfo;
-
+import com.tje.model.*
+import com.tje.page.*
+import com.tje.service.*
 
 @Controller
 public class HomeController {
@@ -34,6 +31,8 @@ public class HomeController {
 	private AllItemListService ilService;
 	@Autowired
 	private SimpleBoardFreeViewSelectByDateDescService sbfvsbddService;
+	@Autowired
+	private SimpleBoardReviewViewSelectByDateDescService sbrvsbddService;
 	@Autowired
 	private SimpleBoardItemListCriteriaService sbilcService;
 	@Autowired
@@ -56,17 +55,11 @@ public class HomeController {
 	private DetailBoardFreeViewService dbfvService;
 	@Autowired
 	private DetailBoardFreeView_UpdateService dbfvuService;
-  @Autowired
-	private DetailBoardFreeView_UpdateService dbfv_uService;
-  @Autowired
-	private DetailBoardFreeView_UpdateService dbfvuService;
 	@Autowired
 	private CommentDeleteService cdService;
 	@Autowired
-	private DetailBoardFreeView_DeleteService dbfv_dService;
-  @Autowired
-	private LikeAndDislikeService ladService;
-
+	private Board_ReviewInsertService b_riService;
+	
 	@RequestMapping("/")
 	public String home(HttpServletResponse res, HttpServletRequest req) {
 		
@@ -88,7 +81,34 @@ public class HomeController {
 		return "cs";
 	}	
 
+	@RequestMapping("/notice")
+	public String Notice(Model model) {
+		List<Board_Notice> board_noticeList = (List<Board_Notice>)b_nsabdService.service();
+		System.out.println(board_noticeList);
+		model.addAttribute("board_noticeList", board_noticeList);
+		return "notice";
+	}	
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Q&A 폼추가
+	@RequestMapping("/qna")
+	public String Qna(Model model) {
+		List<SimpleBoardFreeView> simpleBoardFreeViewList = (List<SimpleBoardFreeView>)sbfvsbddService.service();
+		model.addAttribute("simpleBoardFreeViewList", simpleBoardFreeViewList);
+		return "qna";
+	}
+	
+	@RequestMapping("/qna/write")
+	public String QnaWrite(Model model) {
+		return "add_qna";
+	}
+	
+	// 자주묻는질문 추가
+	@RequestMapping("/faq")
+	public String Faq() {
+		return "faq";
+	}
 
+	/////////////////////////////////
 	@RequestMapping("/free")
 	public String Free(Model model) {
 		List<SimpleBoardFreeView> simpleBoardFreeViewList = (List<SimpleBoardFreeView>)sbfvsbddService.service();
@@ -116,52 +136,43 @@ public class HomeController {
 	}
 	
 	@PostMapping("/add_free")
-	public String Add_free(Board_Free board_Free ,Model model ) {
+	public String Add_free(Board_Free board_Free) {
 		
 		
-		Integer board_id = (Integer)b_fService.service(board_Free);
-		DetailBoardFreeView dbfv = new DetailBoardFreeView();
-		dbfv.setBoard_id(board_id);
-		if(board_id != null) {
-			model.addAttribute("searchedFree", (DetailBoardFreeView)dbfvService.service(dbfv));
+		int r=(int) b_fService.service(board_Free);
+		if(r==1) {
 			return "free_view";
 		}
-		
 		
 		return "글 등록에 실패하였습니다";
 		
 		
 	}
 	
-	@PostMapping("/update_free/{board_id}")
-	public String Update_freePost(Model model, @PathVariable(value = "board_id") Integer board_id) {
+	@GetMapping("/update_free/{board_id}")
+	public String Update_free(Model model, @PathVariable(value = "board_id") Integer board_id) {
 		DetailBoardFreeView free=new DetailBoardFreeView();
 		free.setBoard_id(board_id);
 		System.out.println(free.getBoard_id());
 		
 		model.addAttribute("searchedFree", (DetailBoardFreeView)dbfvService.service(free));
-		return "update_free_view";
+		
+		return "update_free";
 	}
 	
-	
-	
-	@GetMapping("/delete_free/{board_id}")
-	public String Delete_free(DetailBoardFreeView detailBoardFreeView, @PathVariable(value = "board_id") Integer board_id, Model model) {
-		System.out.println(detailBoardFreeView.getBoard_id());
-		int r=(int) dbfv_dService.service(detailBoardFreeView);
+	@PostMapping("/update_free/{board_id}")
+	public String Update_free(DetailBoardFreeView detailBoardFreeView) {
+		
+		int r=(int) dbfvuService.service(detailBoardFreeView);
 		if(r==1) {
-			model.addAttribute("resultMsg", "삭제 성공");
-			return "delete_free";
+			return "free";
 		}
 		
-		model.addAttribute("resultMsg", "삭제 실패");
-		return "delete_free";
+		return "글 등록에 실패하였습니다";
 
 	}
 
-	////////////////////////////////자유게시판
-	
-	
+	///////////////////////////////
 	
 	@RequestMapping(value = {"/item","/item/{curPageNo}"})
 	public String Item(Model model,Criteria criteria,
@@ -238,8 +249,7 @@ public class HomeController {
 	
 	@GetMapping("/item_view/{board_id}")
 	public String item_view(Model model, 
-			@PathVariable(value = "board_id") Integer board_id,
-			HttpSession session) {
+			@PathVariable(value = "board_id") Integer board_id) {
 		
 		DetailBoardItemView item=new DetailBoardItemView();
 		item.setBoard_id(board_id);
@@ -247,26 +257,6 @@ public class HomeController {
 		Comment comment=new Comment();
 		comment.setBoard_id(board_id);
 		comment.setTopic(5);
-		
-		
-		Member login_member=(Member) session.getAttribute("login_member");
-		if(login_member==null)
-			model.addAttribute("btn_status", 0);
-		else {
-			String member_id=login_member.getMember_id();
-			
-			LikeAndDislike lad=new LikeAndDislike();
-			lad.setMember_id(member_id);
-			lad.setBoard_id(board_id);
-			lad.setTopic(5);
-			
-			LikeAndDislike result=(LikeAndDislike) ladService.selectOne(lad);
-			if(result==null)
-				model.addAttribute("btn_status", 0);
-			else
-				model.addAttribute("btn_status", result.getIs_like());
-		}
-		
 		
 		if((int)ivcuService.service(item)!=1)
 			return "redirect:error/item_view";
@@ -312,19 +302,28 @@ public class HomeController {
 		return "댓글 삭제를 실패했습니다.";
 	}
 	
+	@RequestMapping("/review")
+	public String Review(Model model) {
+		List<SimpleBoardReviewView> result = (List<SimpleBoardReviewView>)sbrvsbddService.service();
+		model.addAttribute("simpleBoardReviewViewList", result);
+		return "review";
+	}
 	
+	@GetMapping("/review/write")
+	public String ReviewWrite(Model model) {
+		List<SimpleBoardReviewView> result = (List<SimpleBoardReviewView>)sbrvsbddService.service();
+		model.addAttribute("simpleBoardReviewViewList", result);
+		return "reviewWrite";
+	}
 	
-	@RequestMapping("/cart")
-	p	}
-	
-	@RequestM	@RequestMapping("/review/write")
+	@PostMapping("/review/write")
 	public String ReviewWritePost(SimpleBoardReviewView sbrv, Board_Review b_r) {
+		System.out.println(sbrv.getContent());
+		System.out.println(b_r.getContent());
+		//b_riService.service(b_r);
+		return "reviewWriteResult";
+	}
 	
-	@RequestMapping("/cart")
-	p	}
-	
-	@RequestM	@RequestMapping("/review/write")
-	public String ReviewWritePost(SimpleBoardReviewView sbrv, Board_Review b_r) {
 	@RequestMapping("/cart")
 	public String Cart() {
 		return "cart";

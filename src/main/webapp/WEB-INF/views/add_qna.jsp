@@ -35,7 +35,7 @@
 	<div class="container">
 	<div class="site-section block-13">
 
-    	<form action="" id="add_qna_form" method="post">
+    	<form action="<%=request.getContextPath() %>/qna/write" id="add_qna_form" method="post">
     		<input type="hidden" name="category" value="0">
 			<div class="form-group">
 				<label for="title">제목</label>
@@ -43,78 +43,20 @@
 			</div>
 			<div class="form-group">
 				<label for="title">글쓴이</label>
-				<input type="text" class="form-control" name="title" placeholder="Nickname" required>
+				<input type="text" class="form-control" name="member_id" placeholder="Nickname" required>
 			</div>
 			<div class="form-group">
 				<label for="content">내용</label>
 				<textarea rows="20" cols="" class="form-control" name="content" placeholder="Content" required></textarea>
 			</div>
 		
-			<button type="button" class="btn btn-info" id="add_qna">글 등록</button>
+			<button type="submit" class="btn btn-info" id="add_qna_insert">글 등록</button>
 		</form>
 
     </div>
     </div>
 	
 	<jsp:include page="javascriptInclude.jsp" flush="false"></jsp:include>
-	
-	<script type="text/javascript">
-		$(document).ready(function() {
-			$("#add_item").on("click", function() {
-				if(numberCheck()==false)
-		    		return;
-		    	if(priceCheck()==false)
-		    		return;
-		    	
-		    	var form = $('#add_item_form')[0];
 
-		        var formData = new FormData(form);
-		    	
-			   	 $.ajax({
-			   	        type:"POST",
-			   	        url:"<%=request.getContextPath()%>/add_item",
-			   	     	enctype: 'multipart/form-data',
-			   	        contentType: false,
-			   	    	processData: false,
-			   	        data: formData,
-			   	        //datatype:"json",
-			   	        success: function(result) {
-							alert(result);
-			   	        },
-			   	        error: function(e) {
-			   	          alert("에러 발생");
-			   	        }			
-			   	});
-			})
-		})
-		
-		function numberCheck() {
-	        var number = $("#number").val();
-	        var languageCheck = /[0-9]/;
-	        
-	        if (languageCheck.test(number)) {
-	
-	            return true;
-	        } else {
-	        	$("#number").focus();
-	        	alert("number은 숫자로 입력해주세요.");
-	            return false;
-	        }
-    	}
-    
-	    function priceCheck() {
-	        var price = $("#price").val();
-	        var languageCheck = /[0-9]/;
-	        
-	        if (languageCheck.test(price)) {
-	
-	            return true;
-	        } else {
-	        	$("#price").focus();
-	        	alert("price은 숫자로 입력해주세요.");
-	            return false;
-	        }
-	    }
-	</script>
 </body>
 </html>

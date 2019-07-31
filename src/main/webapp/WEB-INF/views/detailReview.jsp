@@ -32,12 +32,12 @@
 	</div>
 	<jsp:include page="right_sidebar.jsp" flush="false"></jsp:include>
 
-	<div class="site-section block-13" style="padding-bottom: 10; margin-left: 10%; margin-right: 10%; margin-top: 130;">
-	<c:if test="${ login_member.auth == '99' }" var="r">
-		<a href="<%=request.getContextPath()%>/review/write">리뷰 작성하기</a>
-    </c:if>
-		<div align="center"
-			>
+	<div class="site-section block-13"
+		style="padding-bottom: 10; margin-left: 10%; margin-right: 10%; margin-top: 130;">
+		<c:if test="${ login_member.auth == '99' }" var="r">
+			<a href="<%=request.getContextPath()%>/review/write">리뷰 작성하기</a>
+		</c:if>
+		<div align="center">
 			<table class="table">
 				<tr>
 					<td><a href="#">전체</a></td>
@@ -53,21 +53,40 @@
 	<div align="center" style="margin-left: 10%; margin-right: 10%;">
 		<div class="site-section block-13" style="padding-top: 5;">
 			<div class="row">
-			<c:forEach items="${ simpleBoardReviewViewList }" var="item">
-				<a href="<%= request.getContextPath() %>/review/detail/${item.board_id}" class="col-md-6 col-lg-4 mb-4 mb-lg-4 unit-1 text-center" style="padding: 0;"> <img
-						src="<%=request.getContextPath()%>/resources/images/${item.image}"
-						alt="${item.image}" class="img-fluid" width="700" height="799">
-						<div class="unit-1-text">
-							<h3 class="unit-1-heading">${item.title}</h3>
-							<p class="px-5">${item.content}</p>
-							<p class="px-5" style="text-align: right;">작성자 : ${item.nickname}<br>
-											작성일 : ${item.write_date}<br>
-											조회수 : ${item.view_cnt}<br>
-											좋아요/싫어요 : ${item.like_cnt}/${item.dislike_cnt}</p>
-						</div>
-					</a>
-			</c:forEach>
-			
+
+
+				<table class="table">
+					<tr align="center">
+						<td colspan="3"><b style="color: black; font-size: 30px;">리뷰
+								제목 : ${ detailReview.title }</b></td>
+					</tr>
+
+					<tr align="center">
+						<td colspan="3"><div class="jumbotron">
+								<a style="color: black; font-size: 15px;">${ detailReview.content }</a>
+							</div></td>
+					</tr>
+
+					<tr>
+						<td><b style="color: black; font-size: 15px;">작성 시간 : ${ detailReview.write_date }</b></td>
+						<td><b style="color: black; font-size: 15px;">관심사 : ${ detailReview.category }</b></td>
+						<td><b style="color: black; font-size: 15px;">작성자 : ${ detailReview.nickname }</b></td>
+
+					</tr>
+				</table>
+
+				<div>
+					<form method="post" id="form6">
+						<input type="hidden" name="board_id"
+							value="${ detailReview.board_id }"> <input type="hidden"
+							name="title" value="${ detailReview.title }"> <input
+							type="hidden" name="content" value="${ detailReview.content }">
+						<input type="hidden" name="category"
+							value="${ detailReview.category }">
+					</form>
+
+				</div>
+
 			</div>
 		</div>
 	</div>

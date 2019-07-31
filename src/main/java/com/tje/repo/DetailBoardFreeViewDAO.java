@@ -1,4 +1,4 @@
-package com.tje.repo;
+﻿package com.tje.repo;
 
 
 import java.sql.ResultSet;
@@ -74,7 +74,6 @@ private JdbcTemplate jdbcTemplate;
 				return this.jdbcTemplate.update("delete from board_free where board_id = ?",
 	
 				model.getBoard_id()
-					);
 	}
 	
 	

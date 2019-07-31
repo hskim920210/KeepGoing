@@ -43,7 +43,7 @@ private JdbcTemplate jdbcTemplate;
 		}
 	}
 	
-	public SimpleBoardReviewView selectOne(SimpleBoardReviewView model) {
+	public SimpleBoardReviewView selectOne(SimpleBoardReviewView model) throws Exception{
 		String sql = "select * from SimpleBoardReviewView where board_id=?";
 		return this.jdbcTemplate.queryForObject(sql, 
 				new SimpleBoardReviewViewRowMapper(), 
@@ -107,5 +107,10 @@ private JdbcTemplate jdbcTemplate;
 		return results.isEmpty() ? null : results;
 	}
 	
-	
+	public SimpleBoardReviewView insert(SimpleBoardReviewView model) {
+		String sql = "select * from SimpleBoardReviewView where board_id=?";
+		return this.jdbcTemplate.queryForObject(sql, 
+				new SimpleBoardReviewViewRowMapper(), 
+				model.getBoard_id());
+	}
 }

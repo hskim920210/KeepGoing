@@ -89,9 +89,13 @@
 											추가</button>
 									</div>
 								</div>
-
-								<button class="btn btn-default" id="like" type="button">좋아요[${searchedItem.like_cnt}]</button>
-								<button class="btn btn-default" id="dislike" type="button">싫어요[${searchedItem.dislike_cnt}]</button>
+								
+								<!-- 좋아요, 싫어요 -->
+								<!--<c:if test="${ btn_status==1 ? 'btn btn-info' : 'btn btn-light'}"></c:if>-->
+								<!--<c:if test="${ btn_status==0 ? 'btn btn-danger' : 'btn btn-light'}"></c:if>-->
+								<button type="button" name="like_and_dislike" id="like" class="${ btn_status==1 ? 'btn btn-info' : 'btn btn-light'}">좋아요[<span>${searchedItem.like_cnt}</span>]</button>
+								<button type="button" name="like_and_dislike" id="dislike" class="${ btn_status==2 ? 'btn btn-danger' : 'btn btn-light'}">싫어요[<span>${searchedItem.dislike_cnt}</span>]</button>
+								
 							</div>
 						</div>
 					</div>
@@ -101,8 +105,8 @@
 
 		<div class="site-section">
 			<ul id="myTab" class="nav nav-tabs" role="tablist">
-				<li role="presentation" class=""><a href="#home"
-					id="home-tab" role="tab" data-toggle="tab" aria-controls="home"
+				<li role="presentation" class=""><a href="#home" id="home-tab"
+					role="tab" data-toggle="tab" aria-controls="home"
 					aria-expanded="true">댓글[${ searchedItem.comment_cnt }]</a></li>
 				<li role="presentation" class=""><a href="#profile" role="tab"
 					id="profile-tab" data-toggle="tab" aria-controls="profile"
@@ -114,17 +118,20 @@
 
 					<c:if test="${ login_member != null }">
 						<form action="" method="post" id="comment_form">
-							<input type="hidden" name="member_id" value="${ login_member.member_id }">
-							<input type="hidden" name="nickname" value="${ login_member.nickname }">
-							<input type="hidden" name="board_id" value="${ searchedItem.board_id }">
-							<input type="hidden" name="topic" value="${ searchedItem.topic }">
+							<input type="hidden" name="member_id"
+								value="${ login_member.member_id }"> <input
+								type="hidden" name="nickname" value="${ login_member.nickname }">
+							<input type="hidden" name="board_id"
+								value="${ searchedItem.board_id }"> <input type="hidden"
+								name="topic" value="${ searchedItem.topic }">
 							<textarea rows="5" cols="" class="form-control" name="content"
 								placeholder="Comment"></textarea>
 							<button class="btn btn-default" id="add_comment" type="button">댓글
 								작성</button>
 						</form>
 					</c:if>
-
+					
+					<!-- 댓글 -->
 					<c:forEach items="${ commentList }" var="comment">
 						<div class="rw">
 							<div class="bpd">
@@ -134,10 +141,16 @@
 								</div>
 								<p>${ comment.content }</p>
 							</div>
+							<c:if
+								test="${ comment.member_id == login_member.member_id or login_member.auth >= 2 }">
+								<button class="" name="comment_delete_btn" type="button"
+									value="${ comment.comment_id }">댓글 삭제</button>
+							</c:if>
 						</div>
 					</c:forEach>
 
 				</div>
+				<!-- 리뷰 -->
 				<div role="tabpanel" class="tab-pane fade" id="profile"
 					aria-labelledby="profile-tab">
 					<p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla
@@ -158,7 +171,7 @@
 
 
 	<jsp:include page="javascriptInclude.jsp" flush="false"></jsp:include>
-	
+
 	<!-- 댓글, 리뷰 숨기기 보이기 -->
 	<script type="text/javascript">
 		$(document).ready(function() {
@@ -176,7 +189,7 @@
 		$("#home").hide();
 		$("#profile").hide();
 	</script>
-	
+
 	<!-- 댓글 작성 -->
 	<script type="text/javascript">
 		$(document).ready(function() {
@@ -231,6 +244,8 @@
 						tag+='</div>';
 						tag+='<p>'+data.content+'</p>';
 						tag+='</div>';
+						if( (data.member_id == "${login_member.member_id}" ) || ${login_member.auth >= 2})
+							tag+='<button class="" name="comment_delete_btn" type="button" value="'+data.comment_id+'">댓글 삭제</button>';
 						tag+='</div>';
 						
 						$("#home").append(tag);
@@ -239,8 +254,126 @@
 		                alert("댓글 작성을 실패했습니다.");
 		            }
 		        });
+			});
+		});
+	</script>
+
+	<!-- 댓글 삭제 -->
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$("button[name=comment_delete_btn]").on("click", function() {
+				var rw=$(this).parent(".rw");
+				var comment_id=$(this).val();
+				console.log(comment_id);
+				
+				$.ajax({
+		            url: "<%=request.getContextPath()%>/comment_delete",
+		            type: "post",
+		            data: "comment_id="+comment_id,
+		            success: function(data){
+		                alert(data);
+		                
+		                rw.empty();
+						rw.remove();
+		            },
+		            error: function(){
+		                alert("err");
+		            }
+		        });
 			})
 		})
+	</script>
+	<!-- 좋아요, 싫어요 -->
+	<script type="text/javascript">
+		$(document).ready(function() {
+			
+			$("button[name=like_and_dislike]").on("click", function() {
+				var id_val=$(this).attr("id");
+				var class_val=$(this).attr("class");
+				var status=0;
+				
+				if( "${login_member.member_id}" == "" ){
+					alert("로그인이 필요한 기능입니다.");
+					return;
+				}
+				
+				if(id_val=="like"){
+					if(class_val=="btn btn-light"){
+						if( $("#dislike").attr("class")=="btn btn-danger" ){
+							$(this).attr("class", "btn btn-info");
+							$("#dislike").attr("class", "btn btn-light");
+							// dislike 비활성, like 활성 == update is_like=1
+							status=1;
+						}else{
+							$(this).attr("class", "btn btn-info");
+							// 둘다 비활성 == insert is_like=1
+							status=2;
+						}
+					}else{
+						$(this).attr("class", "btn btn-light");
+						// like 활성 -> 비활성 == delete
+						status=3;
+					}
+				}else{
+					if(class_val=="btn btn-light"){
+						if( $("#like").attr("class")=="btn btn-info" ){
+							$(this).attr("class", "btn btn-danger");
+							$("#like").attr("class", "btn btn-light");
+							// like 비활성, dislike 활성 == update is_like=0
+							status=4;
+						}else{
+							$("#dislike").attr("class", "btn btn-danger");
+							// 둘다 비활성 == insert is_like=0
+							status=5;
+						}
+					}else{
+						$(this).attr("class", "btn btn-light");
+						// dislike 활성 -> 비활성 == delete
+						status=6;
+					}
+				}
+				
+				console.log(status);
+				
+				$.ajax({
+		            url: "<%=request.getContextPath()%>/like_and_dislike",
+		            type: "post",
+		            data: JSON.stringify({"board_id": ${searchedItem.board_id}, "topic": ${searchedItem.topic}, "status": status}),
+		            dataType: 'text',
+		            contentType: 'application/json; charset=utf-8',
+		            success: function(data){
+		                console.log(data);
+		                
+		                var like_cnt=Number( $("#like").children("span").text() );
+		                var dislike_cnt=Number( $("#dislike").children("span").text() );
+		                
+		                
+		                if(status==1){
+		                	$("#like").children("span").text(like_cnt+1);
+		                	$("#dislike").children("span").text(dislike_cnt-1);
+		                }else if(status==2){
+		                	$("#like").children("span").text(like_cnt+1);
+		                }else if(status==3){
+		                	$("#like").children("span").text(like_cnt-1);
+		                }else if(status==4){
+		                	$("#like").children("span").text(like_cnt-1);
+		                	$("#dislike").children("span").text(dislike_cnt+1);
+		                }else if(status==5){
+		                	$("#dislike").children("span").text(dislike_cnt+1);
+		                }else{
+		                	$("#dislike").children("span").text(dislike_cnt-1);
+		                }
+		                
+		                console.log(like_cnt);
+		                console.log(dislike_cnt);
+		            },
+		            error: function(request,status,error){
+		                alert("err");
+		                alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		            }
+		        });
+			})
+		});
 	</script>
 </body>
 </html>

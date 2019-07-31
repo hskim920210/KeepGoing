@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
 <head>
-<title>공지사항</title>
+<title>공지 등록</title>
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -32,44 +32,32 @@
 	</div>
 	<jsp:include page="right_sidebar.jsp" flush="false"></jsp:include>
 	
+	<div class="container">
 	<div class="site-section block-13">
-		<div align="center"  style="margin-left: 15%; margin-right: 15%;">
-		
-		<table class="table">
-			<tr style="text-align: center;">
-				<th>글 번호</th>
-				<th>제목</th>
-				<th>작성일</th>
-			</tr>
-			
-			<!-- 상단노출 3개 -->
-			
-			<c:forEach items="${ board_noticeheadList }" var="head">
-				<tr class="table-active" style="text-align: center;">
-					<th>중요공지</th>
-					<td><b><a href="">${ head.title }</a></b></td>
-					<td>${ head.write_date }</td>
-				</tr>
-			</c:forEach>
-			
-			<!-- 상단노출 3개 -->
-			
-			
-			<c:forEach items="${ board_noticeList }" var="notice">
-				<tr style="text-align: center;">
-					<td>${ notice.board_id }</td>
-					<td><a href="">${ notice.title }</a></td>
-					<td>${ notice.write_date }</td>
-				</tr>
-			</c:forEach>
-		</table>
-		
-		<c:if test="${ login_member.auth == 4 }">
-      		<p align="right"><a href="<%=request.getContextPath()%>/notice/write" class="btn btn-info btn-xs" type="button">작성</a></p>
-      	</c:if>
-		</div>
-	</div>
+
+    	<form id="add_notice"  method="post" action="<%=request.getContextPath() %>/add_notice">
+			<div class="form-group">
+				<select name="head">
+					<option value="1">일반 공지</option>
+					<option value="2">중요 공지</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label for="title">제목</label>
+				<input type="text" class="form-control" name="title" placeholder="Title" required>
+			</div>
+			<div class="form-group">
+				<label for="content">내용</label>
+				<textarea rows="20" cols="" class="form-control" name="content" placeholder="Content" required></textarea>
+			</div>
+
+			<button type="submit" class="btn btn-info" id="add_notice_insert">등록</button>
+		</form>
+
+    </div>
+    </div>
 	
 	<jsp:include page="javascriptInclude.jsp" flush="false"></jsp:include>
+
 </body>
 </html>

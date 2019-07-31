@@ -63,4 +63,24 @@ private JdbcTemplate jdbcTemplate;
 				new Board_noticeRowMapper());
 		return results.isEmpty() ? null : results;
 	}
+	
+	public int insert(Board_Notice model) {
+		return this.jdbcTemplate.update("insert into board_notice values(0,4,?,?,?,now())",
+				model.getHead(),
+				model.getTitle(),
+				model.getContent()
+				);
+	}
+	
+	public List<Board_Notice> selectAll_Head() {
+		String sql = "select * from board_notice where head = 2 order by board_id desc limit 3";
+		List<Board_Notice> results=this.jdbcTemplate.query(sql,
+				new Board_noticeRowMapper());
+		return results.isEmpty() ? null : results;
+	}
+	
+	
+	
+	
+	
 }
