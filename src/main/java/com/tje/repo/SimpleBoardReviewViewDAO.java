@@ -43,7 +43,7 @@ private JdbcTemplate jdbcTemplate;
 		}
 	}
 	
-	public SimpleBoardReviewView selectOne(SimpleBoardReviewView model) {
+	public SimpleBoardReviewView selectOne(SimpleBoardReviewView model) throws Exception{
 		String sql = "select * from SimpleBoardReviewView where board_id=?";
 		return this.jdbcTemplate.queryForObject(sql, 
 				new SimpleBoardReviewViewRowMapper(), 

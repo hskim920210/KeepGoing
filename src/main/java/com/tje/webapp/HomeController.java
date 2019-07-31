@@ -87,22 +87,7 @@ public class HomeController {
 		model.addAttribute("board_noticeList", board_noticeList);
 		return "notice";
 	}	
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// Q&A 폼추가
-	@RequestMapping("/qna")
-	public String Qna(Model model) {
-		List<SimpleBoardFreeView> simpleBoardFreeViewList = (List<SimpleBoardFreeView>)sbfvsbddService.service();
-		model.addAttribute("simpleBoardFreeViewList", simpleBoardFreeViewList);
-		return "qna";
-	}
-	
-	@RequestMapping("/qna/write")
-	public String QnaWrite(Model model) {
-		return "add_qna";
-	}
-	
 
-/
 	@RequestMapping("/free")
 	public String Free(Model model) {
 		List<SimpleBoardFreeView> simpleBoardFreeViewList = (List<SimpleBoardFreeView>)sbfvsbddService.service();
@@ -317,55 +302,7 @@ public class HomeController {
 		return "댓글 삭제를 실패했습니다.";
 	}
 	
-	@PostMapping(value = "/like_and_dislike", produces = "application/text; charset=utf8")
-	@ResponseBody
-	public String like_and_dislike(HttpSession session,
-			@RequestBody Map<String, Object> map) {
-		
-		Member member=(Member) session.getAttribute("login_member");
-		LikeAndDislike model=new LikeAndDislike();
-		model.setMember_id( member.getMember_id() );
-		model.setBoard_id( (int) map.get("board_id") );
-		model.setTopic( (int) map.get("topic") );
-		int status=(int) map.get("status");
-		
-		int r=0;
-		
-		switch (status) {
-		case 1:
-			model.setIs_like(1);
-			r=(int) ladService.update(model);
-			break;
-		case 2:
-			model.setIs_like(1);
-			r=(int) ladService.insert(model);
-			break;
-		case 3:
-			r=(int) ladService.delete(model);
-			break;
-		case 4:
-			model.setIs_like(2);
-			r=(int) ladService.update(model);
-			break;
-		case 5:
-			model.setIs_like(2);
-			r=(int) ladService.insert(model);
-			break;
-		case 6:
-			r=(int) ladService.delete(model);
-			break;
-		default:
-			break;
-		}
-		
-		if(r!=0) {
-			return "success";
-		}
-		
-		return "fail";
-	}
-	}
-	}
+	
 	
 	@RequestMapping("/cart")
 	p	}
@@ -373,6 +310,11 @@ public class HomeController {
 	@RequestM	@RequestMapping("/review/write")
 	public String ReviewWritePost(SimpleBoardReviewView sbrv, Board_Review b_r) {
 	
+	@RequestMapping("/cart")
+	p	}
+	
+	@RequestM	@RequestMapping("/review/write")
+	public String ReviewWritePost(SimpleBoardReviewView sbrv, Board_Review b_r) {
 	@RequestMapping("/cart")
 	public String Cart() {
 		return "cart";

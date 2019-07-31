@@ -40,17 +40,13 @@ public class Board_ReviewDAO {
 		
 	}
 	
-	public int insert(Board_Review model) {
+	public int insert(Board_Review model) throws Exception{
 		
-		return this.jdbcTemplate.update("insert into Board_Review values(0,?,?,?,?,?,?,?,now())",
-				model.getBoard_id(),
-				model.getTopic(),
+		return this.jdbcTemplate.update("insert into Board_Review values(0,1,?,?,?,?,?,0,now())",
 				model.getCategory(),
 				model.getTitle(),
 				model.getContent(),
 				model.getMember_id(),
-				model.getImage(),
-				model.getView_cnt(),
-				model.getWrite_date());
+				model.getImage());
 	}
 }
