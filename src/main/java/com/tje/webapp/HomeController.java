@@ -25,6 +25,8 @@ import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.tje.model.*;
 import com.tje.page.*;
 import com.tje.service.*;
+import com.tje.webapp.setting.PageingInfo;
+
 
 @Controller
 public class HomeController {
@@ -54,14 +56,17 @@ public class HomeController {
 	private DetailBoardFreeViewService dbfvService;
 	@Autowired
 	private DetailBoardFreeView_UpdateService dbfvuService;
+  @Autowired
 	private DetailBoardFreeView_UpdateService dbfv_uService;
+  @Autowired
 	private DetailBoardFreeView_UpdateService dbfvuService;
 	@Autowired
 	private CommentDeleteService cdService;
 	@Autowired
 	private DetailBoardFreeView_DeleteService dbfv_dService;
+  @Autowired
 	private LikeAndDislikeService ladService;
-	
+
 	@RequestMapping("/")
 	public String home(HttpServletResponse res, HttpServletRequest req) {
 		
@@ -83,13 +88,6 @@ public class HomeController {
 		return "cs";
 	}	
 
-	@RequestMapping("/notice")
-	public String Notice(Model model) {
-		List<Board_Notice> board_noticeList = (List<Board_Notice>)b_nsabdService.service();
-		System.out.println(board_noticeList);
-		model.addAttribute("board_noticeList", board_noticeList);
-		return "notice";
-	}	
 
 	@RequestMapping("/free")
 	public String Free(Model model) {
@@ -135,17 +133,15 @@ public class HomeController {
 		
 	}
 	
-	@GetMapping("/update_free/{board_id}")
-	public String Update_free(Model model, @PathVariable(value = "board_id") Integer board_id) {
+	@PostMapping("/update_free/{board_id}")
+	public String Update_freePost(Model model, @PathVariable(value = "board_id") Integer board_id) {
 		DetailBoardFreeView free=new DetailBoardFreeView();
 		free.setBoard_id(board_id);
 		System.out.println(free.getBoard_id());
 		
 		model.addAttribute("searchedFree", (DetailBoardFreeView)dbfvService.service(free));
-		
-		return "update_free";
+		return "update_free_view";
 	}
-	
 	
 	
 	

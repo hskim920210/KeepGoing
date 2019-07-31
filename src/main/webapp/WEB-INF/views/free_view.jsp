@@ -45,7 +45,7 @@
 		
           <table class="table">
           	<tr align="center">
-          	<td colspan="3"><b style="color: black; font-size: 30px; ">게시글 제목  : ${ searchedFree.title }</b></td>
+          	<td colspan="3"><b style="color: black; font-size: 30px; ">게시글 제목1  : ${ searchedFree.title }</b></td>
           	</tr>
           	
 	          	<tr align="center">
@@ -71,6 +71,8 @@
 	          	<a class="btn btn-default" type="submit" href="<%=request.getContextPath()%>/delete_free/${ searchedFree.board_id}"	id = "delete_free" >삭제</a>
 	          	
 	          </c:if>
+	         <p align="right"><a class="btn btn-default" style="color : black;" type="submit" href="<%=request.getContextPath()%>/free">자유게시판으로 이동</a></p>
+	         <p align="right"><a class="btn btn-default" style="color : black;" type="submit" href="<%=request.getContextPath()%>/home">홈페이지로 이동</a></p>
 	          <!-- 해당 값을 가져와 출력 -->
 	          <form method="post" id="form6">
 	          	<input type="hidden" name="board_id" value="${ searchedFree.board_id }">
