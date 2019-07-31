@@ -1016,7 +1016,7 @@ function CheckAllProvisions() {
 			alert( "회원가입 검증 결과 : " + 
 					"isIdOk : " + isIdOk + ", isPwOk : " + isPwOk + ", isNickOk : " + isNickOk + ", isNameOk : " + isNameOk + ", isInterestOk : " + isInterestOk + ", checkResult : " + checkResult);
 			
-			var result = isIdOk && isPwOk && isNickOk && isNameOk && isInterestOk && checkResult; 
+			var result = isIdOk && isPwOk && isNickOk && isNameOk && isInterestOk && checkResult || isToggleAllProvisions; 
 			console.log('result : ' + result);
 			if( result == true ) {
 				var params=$("#regist_form").serialize();
