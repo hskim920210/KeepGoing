@@ -80,16 +80,7 @@
 					<td>${ free.write_date }</td>
 					</tr>
 			</c:forEach>
-			<c:forEach items="${ simpleBoardFreeViewList }" var="item">
-				<tr style="text-align: center;">
-					<td>${ item.category }</td>
-					<td><a href="<%= request.getContextPath() %>/free/${ item.board_id} ">${ item.title } (${ item.comment_cnt })</a></td>
-					<td>${ item.nickname }</td>
-					<td>${ item.view_cnt }</td>
-					<td>${ item.like_cnt }/${ item.dislike_cnt }</td>
-					<td>${ item.write_date }</td>
-				</tr>
-			</c:forEach>
+			
 		</table>
 		</div>
 	</div>

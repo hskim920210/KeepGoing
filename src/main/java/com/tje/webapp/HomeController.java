@@ -53,13 +53,16 @@ public class HomeController {
 	private CommentAddService caService;
 	@Autowired
 	private CommentSelectService csSercie;
+	@Autowired
 	private Board_freeService b_fService;
 	@Autowired
 	private Board_freeViewService b_fvService;
 	@Autowired
 	private DetailBoardFreeViewService dbfvService;
 	@Autowired
-	private DetailBoardFreeView_UpdateService dbfvuService;
+	private DetailBoardFreeView_UpdateService dbfv_uService;
+	@Autowired
+	private DetailBoardFreeView_DeleteService dbfv_dService;
 	
 	@RequestMapping("/")
 	public String home(HttpServletResponse res, HttpServletRequest req) {
@@ -112,21 +115,7 @@ public class HomeController {
 	
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	
-	@RequestMapping("/qna/write")
-	public String QnaWrite(Model model) {
-		return "add_qna";
-	}
-	
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// 자주묻는질문 추가
-	@RequestMapping("/faq")
-	public String Faq() {
-		return "faq";
-	}
-	
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	/////////////////////////////////
+	/////////////////////////////////자유게시판
 	@RequestMapping("/free")
 	public String Free(Model model) {
 		List<SimpleBoardFreeView> simpleBoardFreeViewList = (List<SimpleBoardFreeView>)sbfvsbddService.service();
@@ -154,13 +143,17 @@ public class HomeController {
 	}
 	
 	@PostMapping("/add_free")
-	public String Add_free(Board_Free board_Free) {
+	public String Add_free(Board_Free board_Free ,Model model ) {
 		
 		
-		int r=(int) b_fService.service(board_Free);
-		if(r==1) {
+		Integer board_id = (Integer)b_fService.service(board_Free);
+		DetailBoardFreeView dbfv = new DetailBoardFreeView();
+		dbfv.setBoard_id(board_id);
+		if(board_id != null) {
+			model.addAttribute("searchedFree", (DetailBoardFreeView)dbfvService.service(dbfv));
 			return "free_view";
 		}
+		
 		
 		return "글 등록에 실패하였습니다";
 		
@@ -178,19 +171,26 @@ public class HomeController {
 		return "update_free";
 	}
 	
-	@PostMapping("/update_free/{board_id}")
-	public String Update_free(DetailBoardFreeView detailBoardFreeView) {
-		
-		int r=(int) dbfvuService.service(detailBoardFreeView);
+	
+	
+	
+	@GetMapping("/delete_free/{board_id}")
+	public String Delete_free(DetailBoardFreeView detailBoardFreeView, @PathVariable(value = "board_id") Integer board_id, Model model) {
+		System.out.println(detailBoardFreeView.getBoard_id());
+		int r=(int) dbfv_dService.service(detailBoardFreeView);
 		if(r==1) {
-			return "free";
+			model.addAttribute("resultMsg", "삭제 성공");
+			return "delete_free";
 		}
 		
-		return "글 등록에 실패하였습니다";
+		model.addAttribute("resultMsg", "삭제 실패");
+		return "delete_free";
 
 	}
 
-	///////////////////////////////
+	////////////////////////////////자유게시판
+	
+	
 	
 	@RequestMapping(value = {"/item","/item/{curPageNo}"})
 	public String Item(Model model,Criteria criteria,

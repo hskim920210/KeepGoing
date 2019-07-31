@@ -45,7 +45,7 @@
 		
           <table class="table">
           	<tr align="center">
-          	<td colspan="3"><b style="color: black; font-size: 30px; ">게시글 제목 : ${ searchedFree.title }</b></td>
+          	<td colspan="3"><b style="color: black; font-size: 30px; ">게시글 제목  : ${ searchedFree.title }</b></td>
           	</tr>
           	
 	          	<tr align="center">
@@ -65,10 +65,13 @@
    
           
           <div>
+          <!-- 해당 아이디 가 접근시 수정및 삭제 가능 -->
 	          <c:if	test="${ login_member.member_id eq 'admin' or login_member.member_id eq searchedFree.member_id }">
-	          	<button class="btn btn-default" id="update_free"><a href="<%=request.getContextPath()%>/update_free/${ searchedFree.board_id}">수정</a></button>
-	          	<button class="btn btn-default" id="delete_free">삭제</button>
+	          	<a class="btn btn-default" type="submit" href="<%=request.getContextPath()%>/update_free/${ searchedFree.board_id}"	id = "update_free" >수정</a>
+	          	<a class="btn btn-default" type="submit" href="<%=request.getContextPath()%>/delete_free/${ searchedFree.board_id}"	id = "delete_free" >삭제</a>
+	          	
 	          </c:if>
+	          <!-- 해당 값을 가져와 출력 -->
 	          <form method="post" id="form6">
 	          	<input type="hidden" name="board_id" value="${ searchedFree.board_id }">
 	          	<input type="hidden" name="title" value="${ searchedFree.title }">
