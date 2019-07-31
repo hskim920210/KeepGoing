@@ -2,7 +2,7 @@
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,9 +21,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
-import com.tje.model.*
-import com.tje.page.*
-import com.tje.service.*
+import com.tje.model.*;
+import com.tje.page.*;
+import com.tje.service.*;
 
 @Controller
 public class HomeController {
@@ -31,8 +31,6 @@ public class HomeController {
 	private AllItemListService ilService;
 	@Autowired
 	private SimpleBoardFreeViewSelectByDateDescService sbfvsbddService;
-	@Autowired
-	private SimpleBoardReviewViewSelectByDateDescService sbrvsbddService;
 	@Autowired
 	private SimpleBoardItemListCriteriaService sbilcService;
 	@Autowired
@@ -58,7 +56,7 @@ public class HomeController {
 	@Autowired
 	private CommentDeleteService cdService;
 	@Autowired
-	private Board_ReviewInsertService b_riService;
+	private Board_NoticeSelectAllByBoardIdDescService b_nsabdService;
 	
 	@RequestMapping("/")
 	public String home(HttpServletResponse res, HttpServletRequest req) {
@@ -89,24 +87,7 @@ public class HomeController {
 		return "notice";
 	}	
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// Q&A 폼추가
-	@RequestMapping("/qna")
-	public String Qna(Model model) {
-		List<SimpleBoardFreeView> simpleBoardFreeViewList = (List<SimpleBoardFreeView>)sbfvsbddService.service();
-		model.addAttribute("simpleBoardFreeViewList", simpleBoardFreeViewList);
-		return "qna";
-	}
 	
-	@RequestMapping("/qna/write")
-	public String QnaWrite(Model model) {
-		return "add_qna";
-	}
-	
-	// 자주묻는질문 추가
-	@RequestMapping("/faq")
-	public String Faq() {
-		return "faq";
-	}
 
 	/////////////////////////////////
 	@RequestMapping("/free")
@@ -300,28 +281,6 @@ public class HomeController {
 		}
 		
 		return "댓글 삭제를 실패했습니다.";
-	}
-	
-	@RequestMapping("/review")
-	public String Review(Model model) {
-		List<SimpleBoardReviewView> result = (List<SimpleBoardReviewView>)sbrvsbddService.service();
-		model.addAttribute("simpleBoardReviewViewList", result);
-		return "review";
-	}
-	
-	@GetMapping("/review/write")
-	public String ReviewWrite(Model model) {
-		List<SimpleBoardReviewView> result = (List<SimpleBoardReviewView>)sbrvsbddService.service();
-		model.addAttribute("simpleBoardReviewViewList", result);
-		return "reviewWrite";
-	}
-	
-	@PostMapping("/review/write")
-	public String ReviewWritePost(SimpleBoardReviewView sbrv, Board_Review b_r) {
-		System.out.println(sbrv.getContent());
-		System.out.println(b_r.getContent());
-		//b_riService.service(b_r);
-		return "reviewWriteResult";
 	}
 	
 	@RequestMapping("/cart")

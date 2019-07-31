@@ -61,6 +61,32 @@
 					<td colspan="2"><textarea id="content" name="content" cols="60" rows="15"></textarea></td>
 		     	</tr>
 		     	<tr>
+		     		<td>
+		     		지도를 첨부하려면 아래 양식을 작성하세요
+		     		</td>
+		     	</tr>
+		     	<tr>
+		     	<td>
+			     	<div class="mb-3" align="left">
+							<label for="address">주소 </label><br> <input type="button"
+								onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
+							<input type="text" class="form-control" id="sample6_postcode"
+								name="address_post" placeholder="우편번호"> <input
+								type="text" class="form-control" id="sample6_address"
+								name="address_basic" placeholder="주소"> <input type="text"
+								class="form-control" id="sample6_detailAddress"
+								name="address_detail" placeholder="상세주소">
+							<input
+							type="text" class="form-control" id="sample6_extraAddress"
+							placeholder="참고항목">
+							<input type="button" id="addMapBtn" name="addMapBtn" value="지도 갱신" onclick="refreshMap();"></input>
+					</div>
+					<div id="map" style="width: 500px; height: 400px;" align="left">
+						<!-- 지도 첨부 영역입니다. -->
+					</div>
+		     	</td>
+		     	</tr>
+		     	<tr>
 		     		<td><input type="button" id="insertBoard" name="insertBoard" value="등록하기"></td>
 		     	</tr> 
 				</table>
@@ -170,7 +196,152 @@
 			$("#category").val(4);
 		}
 	}
+	</script>
+	<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+    <script type="text/javascript">
+    function sample6_execDaumPostcode() {
+        new daum.Postcode({
+            oncomplete: function(data) {
+                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                var addr = ''; // 주소 변수
+                var extraAddr = ''; // 참고항목 변수
+
+                //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                    addr = data.roadAddress;
+                } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                    addr = data.jibunAddress;
+                }
+
+                // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+                if(data.userSelectedType === 'R'){
+                    // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                    // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                    if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                        extraAddr += data.bname;
+                    }
+                    // 건물명이 있고, 공동주택일 경우 추가한다.
+                    if(data.buildingName !== '' && data.apartment === 'Y'){
+                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                    }
+                    // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                    if(extraAddr !== ''){
+                        extraAddr = ' (' + extraAddr + ')';
+                    }
+                    // 조합된 참고항목을 해당 필드에 넣는다.
+                    document.getElementById("sample6_extraAddress").value = extraAddr;
+                
+                } else {
+                    document.getElementById("sample6_extraAddress").value = '';
+                }
+
+                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                document.getElementById('sample6_postcode').value = data.zonecode;
+                document.getElementById("sample6_address").value = addr;
+                // 커서를 상세주소 필드로 이동한다.
+                document.getElementById("sample6_detailAddress").focus();
+            }
+        }).open();
+        
+        <%--
+        <input type="text" class="form-control" id="sample6_postcode"
+								name="address_post" placeholder="우편번호"> <input
+								type="text" class="form-control" id="sample6_address"
+								name="address_basic" placeholder="주소"> 
+		의 값으로 위도 경도 가져오자
+        --%>
+        
+        
+    }
+    </script>
+    
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=f7e87dcf28984113f6360f591c4d3f24&libraries=sevices,clusterer""></script>
+	<script type="text/javascript">
+		var address = '';
+		var newLat = null;
+		var newLng = null;
+		// var geocoder = new daum.maps.services.Geocoder();
 	
+	
+	
+		var container = document.getElementById('map');
+		// 아래 options에서 center는 지도를 생성하는데 필수이다.
+		var options = {
+				center: new kakao.maps.LatLng(33.450701, 126.570667),
+				level: 3 // 지도의 레벨(확대, 축소의 정도)
+		};
+		var map = new kakao.maps.Map(container, options); // 지도의 생성 및 객체 리턴
+		
+		
+		// 지도를 클릭한 위치에 마커를 생성
+		var marker = new kakao.maps.Marker({
+			// 중심 좌표에 마커를 생성
+			position: map.getCenter()
+		});
+		marker.setMap(map);
+		// 마커에 인포 윈도우를 표시하기.
+		// 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+		var iwContent = '<div style="padding:5px;">Hello World! <br><a href="https://map.kakao.com/link/map/Hello World!,33.450701,126.570667" style="color:blue" target="_blank">큰지도보기</a> <a href="https://map.kakao.com/link/to/Hello World!,33.450701,126.570667" style="color:blue" target="_blank">길찾기</a></div>',
+						iwPosition = new kakao.maps.LatLng(33.450701, 126.570667); //인포윈도우 표시 위치입니다
+		// 1. 인포 윈도우 생성
+		var infowindow = new kakao.maps.InfoWindow({
+			position: iwPosition,
+			content: iwContent
+		});
+		// 2. 마커 위에 인포윈도우를 표시. 두번째 파라메터인 marker를 넣어주지 않으면 그냥 지도위에 표시됨.
+		infowindow.open(map, marker);
+		
+		
+		// 지도에 클릭 이벤트 부여하여 클릭한 곳의 위도, 경도를 출력
+		kakao.maps.event.addListener(map, 'click', function (mouseEvent) {
+			// 바로 기존에 있던 인포윈도우를 지운다.
+			infowindow.close(map, marker);
+			
+			// 클릭한 위도, 경도의 정보를 저장
+			var latlng = mouseEvent.latLng;
+			alert('위도 : ' + latlng.getLat() + '\n경도 : ' + latlng.getLng());
+			// 클릭한 위치로 마커를 옮긴다.
+			marker.setPosition(latlng);
+			
+			
+			iwContent = '<div style="padding:5px;">이곳에 대한 정보 <br><a href="https://map.kakao.com/link/map/Hello World!,' 
+				+ latlng.getLat() + ',' + latlng.getLng() + '" style="color:blue" target="_blank">큰지도보기</a> <a href="https://map.kakao.com/link/to/Hello World!,'
+				+ latlng.getLat() + ',' + latlng.getLng() + 'style="color:blue" target="_blank">길찾기</a></div>',
+						iwPosition = new kakao.maps.LatLng(latlng.getLat(), latlng.getLng()); //인포윈도우 표시 위치입니다
+			
+			infowindow = new kakao.maps.InfoWindow({
+				position: iwPosition,
+				content: iwContent
+			});
+			// 2. 마커 위에 인포윈도우를 표시.
+			infowindow.open(map, marker);
+		});
+		
+		
+		// 지도 갱신 버튼을 눌렀을 때 주소 폼에 적힌 값을 기준으로 위도 경도 가져오는 함수
+		function refreshMap() {
+			address = document.getElementById("sample6_address");
+			var target = address.value;
+			
+			
+			options = {
+					center: new kakao.maps.LatLng(newLat, newLng),
+					level: 3 // 지도의 레벨(확대, 축소의 정도)
+			};
+			map = new kakao.maps.Map(container, options);
+			iwContent = '<div style="padding:5px;">Hello World! <br><a href="https://map.kakao.com/link/map/Hello World!,'+newLat+','+newLng+'" style="color:blue" target="_blank">큰지도보기</a> <a href="https://map.kakao.com/link/to/Hello World!,,'+newLat+','+newLng+'" style="color:blue" target="_blank">길찾기</a></div>',
+			iwPosition = new kakao.maps.LatLng(newLat, newLng); //인포윈도우 표시 위치입니다
+			infowindow = new kakao.maps.InfoWindow({
+				position: iwPosition,
+				content: iwContent
+			});
+			// 2. 마커 위에 인포윈도우를 표시. 두번째 파라메터인 marker를 넣어주지 않으면 그냥 지도위에 표시됨.
+			infowindow.open(map, marker);
+		}
+		
 	
 	</script>
 </body>
