@@ -1,8 +1,7 @@
-﻿package com.tje.webapp;
+package com.tje.controller;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.*;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,21 +18,30 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.fasterxml.jackson.core.JsonParser;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
-import com.tje.model.*;
-import com.tje.page.*;
-import com.tje.service.*;
-import com.tje.webapp.setting.PageingInfo;
-
+import com.tje.model.Board_Item;
+import com.tje.model.Comment;
+import com.tje.model.DetailBoardItemView;
+import com.tje.model.LikeAndDislike;
+import com.tje.model.Member;
+import com.tje.page.Criteria;
+import com.tje.page.PageMaker;
+import com.tje.service.CommentAddService;
+import com.tje.service.CommentDeleteService;
+import com.tje.service.CommentSelectService;
+import com.tje.service.ItemAddService;
+import com.tje.service.ItemViewCntUpdateService;
+import com.tje.service.ItemViewService;
+import com.tje.service.LikeAndDislikeService;
+import com.tje.service.SimpleBoardItemListCountCriteriaService;
+import com.tje.service.SimpleBoardItemListCriteriaService;
 
 @Controller
-public class HomeController {
-	@Autowired
-	private AllItemListService ilService;
-	@Autowired
-	private SimpleBoardFreeViewSelectByDateDescService sbfvsbddService;
+public class Board_itemController {
+	
+//	@Autowired
+//	private AllItemListService ilService;
 	@Autowired
 	private SimpleBoardItemListCriteriaService sbilcService;
 	@Autowired
@@ -49,129 +57,13 @@ public class HomeController {
 	@Autowired
 	private CommentSelectService csSercie;
 	@Autowired
-	private Board_freeService b_fService;
-	@Autowired
-	private Board_freeViewService b_fvService;
-	@Autowired
-	private DetailBoardFreeViewService dbfvService;
-	@Autowired
-	private DetailBoardFreeView_UpdateService dbfv_uService;
-	@Autowired
 	private CommentDeleteService cdService;
 	@Autowired
-	private DetailBoardFreeView_DeleteService dbfv_dService;
-	@Autowired
 	private LikeAndDislikeService ladService;
-
-	@RequestMapping("/")
-	public String home(HttpServletResponse res, HttpServletRequest req) {
-		
-		try {
-			res.sendRedirect(req.getContextPath() + "/home");
-		} catch (IOException e) {
-		}
-		return null;
-	}
-	
-	
-	@RequestMapping("/home")
-	public String index() {
-		return "home";
-	}
-	
-	@RequestMapping("/cs")
-	public String Cs() {
-		return "cs";
-	}	
-
-
-	@RequestMapping("/free")
-	public String Free(Model model) {
-		List<SimpleBoardFreeView> simpleBoardFreeViewList = (List<SimpleBoardFreeView>)sbfvsbddService.service();
-		model.addAttribute("simpleBoardFreeViewList", simpleBoardFreeViewList);
-		return "free";
-	}
-	
-	@GetMapping("/free_view/{board_id}")
-	public String free_view(Model model, 
-			@PathVariable(value = "board_id") Integer board_id) {
-		
-		DetailBoardFreeView free=new DetailBoardFreeView();
-		free.setBoard_id(board_id);
-		System.out.println(free.getBoard_id());
-		
-		model.addAttribute("searchedFree", (DetailBoardFreeView)dbfvService.service(free));
-		
-		return "free_view";
-	}
-	
-	
-	@GetMapping("/add_free")
-	public String Add_free() {
-		return "add_free";
-	}
-	
-	@PostMapping("/add_free")
-	public String Add_free(Board_Free board_Free ,Model model ) {
-		
-		
-		Integer board_id = (Integer)b_fService.service(board_Free);
-		DetailBoardFreeView dbfv = new DetailBoardFreeView();
-		dbfv.setBoard_id(board_id);
-		if(board_id != null) {
-			model.addAttribute("searchedFree", (DetailBoardFreeView)dbfvService.service(dbfv));
-			return "free_view";
-		}
-		
-		
-		return "글 등록에 실패하였습니다";
-		
-		
-	}
-	
-	@GetMapping("/update_free/{board_id}")
-	public String Update_free(Model model, @PathVariable(value = "board_id") Integer board_id) {
-		DetailBoardFreeView free=new DetailBoardFreeView();
-		free.setBoard_id(board_id);
-		System.out.println(free.getBoard_id());
-		
-		model.addAttribute("searchedFree", (DetailBoardFreeView)dbfvService.service(free));
-		return "update_free";
-	}
-	
-	@PostMapping("/update_free/{board_id}")
-	public String Update_freePost(DetailBoardFreeView detailBoardFreeView, Model model, @PathVariable(value = "board_id") Integer board_id) {
-		Integer result = (Integer)dbfv_uService.service(detailBoardFreeView);
-		if (result != null) {
-			model.addAttribute("resultMsg", "수정 완료");
-			return "update_free_view";
-		}
-		model.addAttribute("resultMsg", "수정 실패");
-		return "update_free_view";
-	}
-	
-	
-	
-	@GetMapping("/delete_free/{board_id}")
-	public String Delete_free(DetailBoardFreeView detailBoardFreeView, @PathVariable(value = "board_id") Integer board_id, Model model) {
-		System.out.println(detailBoardFreeView.getBoard_id());
-		int r=(int) dbfv_dService.service(detailBoardFreeView);
-		if(r==1) {
-			model.addAttribute("resultMsg", "삭제 성공");
-			return "delete_free";
-		}
-		
-		model.addAttribute("resultMsg", "삭제 실패");
-		return "delete_free";
-
-	}
-
-	////////////////////////////////자유게시판
-	
-	
 	
 	@RequestMapping(value = {"/item","/item/{curPageNo}"})
-	public String Item(Model model,Criteria criteria,
+	public String Item(Model model,
+			Criteria criteria,
 			@PathVariable(value="curPageNo", required = false) Integer curPageNo) {
 		
 		System.out.println(criteria.toString());
@@ -179,12 +71,16 @@ public class HomeController {
 		if(curPageNo==null)
 			curPageNo=1;
 		
+		// 현재 페이지
 		criteria.setPage(curPageNo);
+		// 페이지 당 게시물 갯수
 		criteria.setPerPageNum(6);
 		model.addAttribute("item_list", sbilcService.service(criteria));
 		PageMaker pageMaker=new PageMaker();
 		
+		
 		pageMaker.setCri(criteria);
+		// 게시물 전체 갯수
 		pageMaker.setTotalCount((int)sbilccService.service());
 		System.out.println(pageMaker.toString());
 		
@@ -255,11 +151,12 @@ public class HomeController {
 		comment.setBoard_id(board_id);
 		comment.setTopic(3);
 		
-		
+		// 로그인 여부에 따른 버튼 상태
 		Member login_member=(Member) session.getAttribute("login_member");
 		if(login_member==null)
 			model.addAttribute("btn_status", 0);
 		else {
+			// 로그인 한 상태에서 게시물에 좋아요 or 싫어요를 눌렀었는지 체크
 			String member_id=login_member.getMember_id();
 			
 			LikeAndDislike lad=new LikeAndDislike();
@@ -369,46 +266,5 @@ public class HomeController {
 		}
 		
 		return "fail";
-	}
-	
-	@RequestMapping("/cart")
-	public String Cart() {
-		return "cart";
-	}
-	
-	@GetMapping("/regist")
-	public String registGet(HttpSession session) {
-		session.removeAttribute("login_sns_member");
-		return "regist";
-	}
-	@GetMapping("/regist/provision")
-	public String registProvision() {
-		return "/terms/provision";
-	}
-	
-	@GetMapping("/regist/finance")
-	public String registFinance() {
-		return "/terms/finance";
-	}
-	
-	@GetMapping("/regist/individual")
-	public String registIndividual() {
-		return "/terms/individual";
-	}
-	
-	@GetMapping("/regist/thirdparty")
-	public String registThirdparty() {
-		return "/terms/thirdparty";
-	}
-	
-	@GetMapping("/regist/location")
-	public String registLocation() {
-		return "/terms/location";
-	}
-	
-
-	@GetMapping("/regist/individual_option")
-	public String registIndividual_option() {
-		return "/terms/individual_option";
 	}
 }

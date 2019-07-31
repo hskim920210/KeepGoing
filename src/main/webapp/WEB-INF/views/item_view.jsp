@@ -91,8 +91,6 @@
 								</div>
 								
 								<!-- 좋아요, 싫어요 -->
-								<!--<c:if test="${ btn_status==1 ? 'btn btn-info' : 'btn btn-light'}"></c:if>-->
-								<!--<c:if test="${ btn_status==0 ? 'btn btn-danger' : 'btn btn-light'}"></c:if>-->
 								<button type="button" name="like_and_dislike" id="like" class="${ btn_status==1 ? 'btn btn-info' : 'btn btn-light'}">좋아요[<span>${searchedItem.like_cnt}</span>]</button>
 								<button type="button" name="like_and_dislike" id="dislike" class="${ btn_status==2 ? 'btn btn-danger' : 'btn btn-light'}">싫어요[<span>${searchedItem.dislike_cnt}</span>]</button>
 								
@@ -261,7 +259,7 @@
 	<!-- 댓글 삭제 -->
 	<script type="text/javascript">
 		$(document).ready(function() {
-			$("button[name=comment_delete_btn]").on("click", function() {
+			$(document).on("click", "button[name=comment_delete_btn]", function() {
 				var rw=$(this).parent(".rw");
 				var comment_id=$(this).val();
 				console.log(comment_id);
@@ -319,11 +317,11 @@
 						if( $("#like").attr("class")=="btn btn-info" ){
 							$(this).attr("class", "btn btn-danger");
 							$("#like").attr("class", "btn btn-light");
-							// like 비활성, dislike 활성 == update is_like=0
+							// like 비활성, dislike 활성 == update is_like=2
 							status=4;
 						}else{
 							$("#dislike").attr("class", "btn btn-danger");
-							// 둘다 비활성 == insert is_like=0
+							// 둘다 비활성 == insert is_like=2
 							status=5;
 						}
 					}else{
