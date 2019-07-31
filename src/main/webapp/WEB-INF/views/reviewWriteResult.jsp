@@ -35,8 +35,8 @@
 
 	<div align="center" style="margin-left: 10%; margin-right: 10%;">
 		<div class="site-section block-13" style="padding-top: 5;">
-			<h3>글 등록이 완료되었습니다.</h3>
-			<a href="<%=request.getContextPath()%>/review">리뷰로 돌아가기</a>
+			<h3>${ resultMsg }</h3>
+			<a href="<%=request.getContextPath()%>/review">리뷰 페이지로 돌아가기</a>
 		</div>
 	</div>
 	
