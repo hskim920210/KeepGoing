@@ -556,11 +556,11 @@ function CheckAllProvisions() {
             <!-- [D] 이미지 변경 726.2014-11-13 -->
             <h3><img src="https://pics.auction.co.kr/join/h3_tit_terms_agree02.gif" alt="약관동의"></h3>
 						 <div class="terms-cont">
-							<%--
+							
 							<div class="all-agree">
-								<label for="cb_agreeall_1"><input type="checkbox" id="cb_agreeall_1" name="cb_agreeall_1" onclick="ToggleAllProvisions(this);" /> The Glasses 가입 전체약관 및 마케팅정보 수신에 동의합니다.</label>							
+								<label for="cb_agreeall_1"><input type="checkbox" id="cb_agreeall_1" name="cb_agreeall_1" onclick="toggleAllProvisionsCheck();" /> The Glasses 가입 전체약관 및 마케팅정보 수신에 동의합니다.</label>							
 							</div>
---%>
+
 							<div class="terms-cont-inner">
 								<div class="check-set">
 										<label for="cbProvision1"><input type="checkbox" id="cbProvision1" name="cbProvision1" onclick="provisionCheck();"/><span class="type01">(필수)</span>The Glasses 이용약관</label>
@@ -846,7 +846,7 @@ function CheckAllProvisions() {
 		var isNameOk = false
 		var isInterestOk = false;
 		//약관 체크 다했는지 확인
-		//var isToggleAllProvisions = false;
+		var isToggleAllProvisions = false;
 		var isProvision = false;
 		var isFinance = false;
 		var isIndividual = false;
@@ -963,16 +963,15 @@ function CheckAllProvisions() {
 
 		
 
-		function provisionCheck() {
-			if(document.getElementById("cbProvision1").checked) {
-				isProvision = true;
-				alert(isProvision);
-			} else {
-				isProvision = false;
-				alert("The Glasses 이용약관에 동의하지 않으셨습니다.");
-			}
-		}
-		
+		function toggleAllProvisionsCheck() {
+            if ($("#cb_agreeall_1").is(':checked')) {
+            	isToggleAllProvisions = true;
+                $("input[type=checkbox]").prop("checked", true);
+            } else {
+            	isToggleAllProvisions = false;
+                $("input[type=checkbox]").prop("checked", false);
+            }
+        }
 		
 			
 			function provisionCheck() {
