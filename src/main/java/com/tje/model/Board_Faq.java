@@ -1,16 +1,16 @@
 package com.tje.model;
 
-public class Board_Qna {
+public class Board_Faq {
 	private int board_id;
 	private int topic;
 	private int category;
 	private String title;
 	private String content;
 	
-	public Board_Qna() {
+	public Board_Faq() {
 	}
 
-	public Board_Qna(int board_id, int topic, int category, String title, String content) {
+	public Board_Faq(int board_id, int topic, int category, String title, String content) {
 		this.board_id = board_id;
 		this.topic = topic;
 		this.category = category;
