@@ -32,8 +32,7 @@ import com.tje.webapp.setting.PageingInfo;
 public class HomeController {
 	@Autowired
 	private AllItemListService ilService;
-	@Autowired
-	private SimpleBoardFreeViewSelectByDateDescService sbfvsbddService;
+	
 	@Autowired
 	private SimpleBoardItemListCriteriaService sbilcService;
 	@Autowired
@@ -48,18 +47,11 @@ public class HomeController {
 	private CommentAddService caService;
 	@Autowired
 	private CommentSelectService csSercie;
-	@Autowired
-	private Board_freeService b_fService;
-	@Autowired
-	private Board_freeViewService b_fvService;
-	@Autowired
-	private DetailBoardFreeViewService dbfvService;
-	@Autowired
-	private DetailBoardFreeView_UpdateService dbfv_uService;
+
+
 	@Autowired
 	private CommentDeleteService cdService;
-	@Autowired
-	private DetailBoardFreeView_DeleteService dbfv_dService;
+
 	@Autowired
 	private LikeAndDislikeService ladService;
 
@@ -85,90 +77,8 @@ public class HomeController {
 	}	
 
 
-	@RequestMapping("/free")
-	public String Free(Model model) {
-		List<SimpleBoardFreeView> simpleBoardFreeViewList = (List<SimpleBoardFreeView>)sbfvsbddService.service();
-		model.addAttribute("simpleBoardFreeViewList", simpleBoardFreeViewList);
-		return "free";
-	}
 	
-	@GetMapping("/free_view/{board_id}")
-	public String free_view(Model model, 
-			@PathVariable(value = "board_id") Integer board_id) {
-		
-		DetailBoardFreeView free=new DetailBoardFreeView();
-		free.setBoard_id(board_id);
-		System.out.println(free.getBoard_id());
-		
-		model.addAttribute("searchedFree", (DetailBoardFreeView)dbfvService.service(free));
-		
-		return "free_view";
-	}
-	
-	
-	@GetMapping("/add_free")
-	public String Add_free() {
-		return "add_free";
-	}
-	
-	@PostMapping("/add_free")
-	public String Add_free(Board_Free board_Free ,Model model ) {
-		
-		
-		Integer board_id = (Integer)b_fService.service(board_Free);
-		DetailBoardFreeView dbfv = new DetailBoardFreeView();
-		dbfv.setBoard_id(board_id);
-		if(board_id != null) {
-			model.addAttribute("searchedFree", (DetailBoardFreeView)dbfvService.service(dbfv));
-			return "free_view";
-		}
-		
-		
-		return "글 등록에 실패하였습니다";
-		
-		
-	}
-	
-	@GetMapping("/update_free/{board_id}")
-	public String Update_free(Model model, @PathVariable(value = "board_id") Integer board_id) {
-		DetailBoardFreeView free=new DetailBoardFreeView();
-		free.setBoard_id(board_id);
-		System.out.println(free.getBoard_id());
-		
-		model.addAttribute("searchedFree", (DetailBoardFreeView)dbfvService.service(free));
-		return "update_free";
-	}
-	
-	@PostMapping("/update_free/{board_id}")
-	public String Update_freePost(DetailBoardFreeView detailBoardFreeView, Model model, @PathVariable(value = "board_id") Integer board_id) {
-		Integer result = (Integer)dbfv_uService.service(detailBoardFreeView);
-		if (result != null) {
-			model.addAttribute("resultMsg", "수정 완료");
-			return "update_free_view";
-		}
-		model.addAttribute("resultMsg", "수정 실패");
-		return "update_free_view";
-	}
-	
-	
-	
-	@GetMapping("/delete_free/{board_id}")
-	public String Delete_free(DetailBoardFreeView detailBoardFreeView, @PathVariable(value = "board_id") Integer board_id, Model model) {
-		System.out.println(detailBoardFreeView.getBoard_id());
-		int r=(int) dbfv_dService.service(detailBoardFreeView);
-		if(r==1) {
-			model.addAttribute("resultMsg", "삭제 성공");
-			return "delete_free";
-		}
-		
-		model.addAttribute("resultMsg", "삭제 실패");
-		return "delete_free";
 
-	}
-
-	////////////////////////////////자유게시판
-	
-	
 	
 	@RequestMapping(value = {"/item","/item/{curPageNo}"})
 	public String Item(Model model,Criteria criteria,
@@ -182,6 +92,7 @@ public class HomeController {
 		criteria.setPage(curPageNo);
 		criteria.setPerPageNum(6);
 		model.addAttribute("item_list", sbilcService.service(criteria));
+		
 		PageMaker pageMaker=new PageMaker();
 		
 		pageMaker.setCri(criteria);
@@ -242,7 +153,7 @@ public class HomeController {
 		
 		return "상품 추가 과정에서 문제가 발생하였습니다.";
 	}
-	
+	///////////////////////////////////////댓글
 	@GetMapping("/item_view/{board_id}")
 	public String item_view(Model model, 
 			@PathVariable(value = "board_id") Integer board_id,
@@ -250,12 +161,12 @@ public class HomeController {
 		
 		DetailBoardItemView item=new DetailBoardItemView();
 		item.setBoard_id(board_id);
-		
+		////////////
 		Comment comment=new Comment();
 		comment.setBoard_id(board_id);
 		comment.setTopic(5);
 		
-		
+		/////////// 좋아요 싫어요
 		Member login_member=(Member) session.getAttribute("login_member");
 		if(login_member==null)
 			model.addAttribute("btn_status", 0);
@@ -274,52 +185,54 @@ public class HomeController {
 				model.addAttribute("btn_status", result.getIs_like());
 		}
 		
-		
+		/////////// 에러페이지
 		if((int)ivcuService.service(item)!=1)
 			return "redirect:error/item_view";
-		
+		///////////////
 		model.addAttribute("searchedItem", ivService.service(item));
 		model.addAttribute("commentList", csSercie.service(comment));
 		
 		return "item_view";
 	}
 	
-	@PostMapping(value = "/comment_add")
-	@ResponseBody
-	public Comment comment_add(
-			Comment comment,
-			Model model,
-			HttpServletResponse response) {
-		
-		int r=(int) caService.service(comment);
-		comment.setComment_id(r);
-		
-		response.setContentType("application/json; charset=utf-8");
-		
-		if(r!=0) {
-			return comment;
-		}
-		
-		return null;
-	}
 	
-	@PostMapping(value = "/comment_delete", produces = "application/text; charset=utf8")
-	@ResponseBody
-	public String comment_delete(@RequestParam("comment_id") int comment_id) {
-		
-		Comment comment=new Comment();
-		comment.setComment_id(comment_id);
-		
-		int r=(int) cdService.service(comment);
-		
-		if(r==1) {
-			return "댓글 삭제을 완료했습니다.";
-		}
-		
-		return "댓글 삭제를 실패했습니다.";
-	}
-	
-	
+///////////////////////////////////
+//	@PostMapping(value = "/comment_add")
+//	@ResponseBody
+//	public Comment comment_add(
+//			Comment comment,
+//			Model model,
+//			HttpServletResponse response) {
+//		
+//		int r=(int) caService.service(comment);
+//		comment.setComment_id(r);
+//		
+//		response.setContentType("application/json; charset=utf-8");
+//		
+//		if(r!=0) {
+//			return comment;
+//		}
+//		
+//		return null;
+//	}
+//	
+//	@PostMapping(value = "/comment_delete", produces = "application/text; charset=utf8")
+//	@ResponseBody
+//	public String comment_delete(@RequestParam("comment_id") int comment_id) {
+//		
+//		Comment comment=new Comment();
+//		comment.setComment_id(comment_id);
+//		
+//		int r=(int) cdService.service(comment);
+//		
+//		if(r==1) {
+//			return "댓글 삭제을 완료했습니다.";
+//		}
+//		
+//		return "댓글 삭제를 실패했습니다.";
+//	}
+//	
+//	///////////////////////////////////////댓글
 	
 	@RequestMapping("/cart")
 	public String Cart() {

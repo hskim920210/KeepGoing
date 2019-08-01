@@ -82,10 +82,279 @@
 	        
           </div>
         </div>
+        <div class="site-section">
+			<ul id="myTab" class="nav nav-tabs" role="tablist">
+				<li role="presentation" class=""><a href="#home" id="home-tab"
+					role="tab" data-toggle="tab" aria-controls="home"
+					aria-expanded="true">댓글[${ searchedFree.comment_cnt }]</a></li>
+				<li role="presentation" class=""><a href="#profile" role="tab"
+					id="profile-tab" data-toggle="tab" aria-controls="profile"
+					aria-expanded="false">리뷰</a></li>
+			</ul>
+			<div id="myTabContent" class="tab-content">
+				<div role="tabpanel" class="tab-pane fade active in" id="home"
+					aria-labelledby="home-tab">
+
+					<c:if test="${ login_member != null }">
+						<form action="" method="post" id="comment_form">
+							<input type="hidden" name="member_id"
+								value="${ login_member.member_id }"> <input
+								type="hidden" name="nickname" value="${ login_member.nickname }">
+							<input type="hidden" name="board_id"
+								value="${ searchedFree.board_id }"> <input type="hidden"
+								name="topic" value="${ searchedFree.topic }">
+							<textarea rows="5" cols="" class="form-control" name="content"
+								placeholder="Comment"></textarea>
+							<button class="btn btn-default" id="add_comment" type="button">댓글작성</button>
+						</form>
+					</c:if>
+					
+					<!-- 댓글 -->
+					<c:forEach items="${ commentList }" var="comment">
+						<div class="rw">
+							<div class="bpd">
+								<div class="bpb">
+									<h6>${ comment.nickname }</h6>
+									<small class="acx axc">${ comment.write_date }</small>
+								</div>
+								<p>${ comment.content }</p>
+							</div>
+							<c:if
+								test="${ comment.member_id == login_member.member_id or login_member.auth >= 2 }">
+								<button class="" name="comment_delete_btn" type="button"
+									value="${ comment.comment_id }">댓글 삭제</button>
+							</c:if>
+						</div>
+					</c:forEach>
+
+				</div>
+				<!-- 리뷰 -->
+				<div role="tabpanel" class="tab-pane fade" id="profile"
+					aria-labelledby="profile-tab">
+					<p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla
+						single-origin coffee squid. Exercitation +1 labore velit, blog
+						sartorial PBR leggings next level wes anderson artisan four loko
+						farm-to-table craft beer twee. Qui photo booth letterpress,
+						commodo enim craft beer mlkshk aliquip jean shorts ullamco ad
+						vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic
+						magna delectus mollit. Keytar helvetica VHS salvia yr, vero magna
+						velit sapiente labore stumptown. Vegan fanny pack odio cillum wes
+						anderson 8-bit, sustainable jean shorts beard ut DIY ethical culpa
+						terry richardson biodiesel. Art party scenester stumptown, tumblr
+						butcher vero sint qui sapiente accusamus tattooed echo park.</p>
+				</div>
+			</div>
+		</div>
         
 	</div>
 	
 
 	<jsp:include page="javascriptInclude.jsp" flush="false"></jsp:include>
+	
+	<!-- 댓글, 리뷰 숨기기 보이기 -->
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$("#home-tab").on("click", function() {
+				$("#home").show();
+				$("#profile").hide();
+			})
+			
+			$("#profile-tab").on("click", function() {
+				$("#profile").show();
+				$("#home").hide();
+			})
+		})
+		
+		$("#home").hide();
+		$("#profile").hide();
+	</script>
+
+	<!-- 댓글 작성 -->
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$("#add_comment").on("click", function() {
+				var params=$("#comment_form").serialize();
+				console.log(params);
+
+				$.ajax({
+		            url: "<%=request.getContextPath()%>/comment_add",
+		            type: "post",
+		            data: params,
+		            success: function(data){
+		                console.log(data);
+		                alert("댓글 작성을 완료했습니다.");
+		                
+		                var Now = new Date();
+		                var NowTime = Now.getFullYear();
+		                
+		                if((Now.getMonth() + 1)>10)
+		                	NowTime += '-' + (Now.getMonth() + 1);
+		                else
+		                	NowTime += '-' + '0' + (Now.getMonth() + 1);
+		                
+		                if(Now.getDate()>10)
+		                	NowTime += '-' + Now.getDate();
+		                else
+		                	NowTime += '-' + '0' + Now.getDate();
+		                
+		                if(Now.getHours()>10)
+		                	NowTime += ' ' + Now.getHours();
+		                else
+		                	NowTime += ' ' + '0' + Now.getHours();
+		                
+		                if(Now.getMinutes()>10)
+		                	NowTime += ':' + Now.getMinutes();
+		                else
+		                	NowTime += ':' + '0' + Now.getMinutes();
+		                
+		                if(Now.getSeconds()>10)
+		                	NowTime += ':' + Now.getSeconds();
+		                else
+		                	NowTime += ':' + '0' + Now.getSeconds();
+		                
+		                NowTime += '.0';
+		                
+						var tag="";
+						tag+='<div class="rw">';
+						tag+='<div class="bpd">';
+						tag+='<div class="bpb">';
+						tag+='<h6>'+data.nickname+'</h6>';
+						tag+='<small class="acx axc">'+NowTime+'</small>';
+						tag+='</div>';
+						tag+='<p>'+data.content+'</p>';
+						tag+='</div>';
+						if( (data.member_id == "${login_member.member_id}" ) || ${login_member.auth >= 2})
+							tag+='<button class="" name="comment_delete_btn" type="button" value="'+data.comment_id+'">댓글 삭제</button>';
+						tag+='</div>';
+						
+						$("#home").append(tag);
+		            },
+		            error: function(){
+		                alert("댓글 작성을 실패했습니다.");
+		            }
+		        });
+			});
+		});
+	</script>
+
+	<!-- 댓글 삭제 -->
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$("button[name=comment_delete_btn]").on("click", function() {
+				var rw=$(this).parent(".rw");
+				var comment_id=$(this).val();
+				console.log(comment_id);
+				
+				$.ajax({
+		            url: "<%=request.getContextPath()%>/comment_delete",
+		            type: "post",
+		            data: "comment_id="+comment_id,
+		            success: function(data){
+		                alert(data);
+		                
+		                rw.empty();
+						rw.remove();
+		            },
+		            error: function(){
+		                alert("err");
+		            }
+		        });
+			})
+		})
+	</script>
+	<!-- 좋아요, 싫어요 -->
+	<script type="text/javascript">
+		$(document).ready(function() {
+			
+			$("button[name=like_and_dislike]").on("click", function() {
+				var id_val=$(this).attr("id");
+				var class_val=$(this).attr("class");
+				var status=0;
+				
+				if( "${login_member.member_id}" == "" ){
+					alert("로그인이 필요한 기능입니다.");
+					return;
+				}
+				
+				if(id_val=="like"){
+					if(class_val=="btn btn-light"){
+						if( $("#dislike").attr("class")=="btn btn-danger" ){
+							$(this).attr("class", "btn btn-info");
+							$("#dislike").attr("class", "btn btn-light");
+							// dislike 비활성, like 활성 == update is_like=1
+							status=1;
+						}else{
+							$(this).attr("class", "btn btn-info");
+							// 둘다 비활성 == insert is_like=1
+							status=2;
+						}
+					}else{
+						$(this).attr("class", "btn btn-light");
+						// like 활성 -> 비활성 == delete
+						status=3;
+					}
+				}else{
+					if(class_val=="btn btn-light"){
+						if( $("#like").attr("class")=="btn btn-info" ){
+							$(this).attr("class", "btn btn-danger");
+							$("#like").attr("class", "btn btn-light");
+							// like 비활성, dislike 활성 == update is_like=0
+							status=4;
+						}else{
+							$("#dislike").attr("class", "btn btn-danger");
+							// 둘다 비활성 == insert is_like=0
+							status=5;
+						}
+					}else{
+						$(this).attr("class", "btn btn-light");
+						// dislike 활성 -> 비활성 == delete
+						status=6;
+					}
+				}
+				
+				console.log(status);
+				
+				$.ajax({
+		            url: "<%=request.getContextPath()%>/like_and_dislike",
+		            type: "post",
+		            data: JSON.stringify({"board_id": ${searchedFree.board_id}, "topic": ${searchedFree.topic}, "status": status}),
+		            dataType: 'text',
+		            contentType: 'application/json; charset=utf-8',
+		            success: function(data){
+		                console.log(data);
+		                
+		                var like_cnt=Number( $("#like").children("span").text() );
+		                var dislike_cnt=Number( $("#dislike").children("span").text() );
+		                
+		                
+		                if(status==1){
+		                	$("#like").children("span").text(like_cnt+1);
+		                	$("#dislike").children("span").text(dislike_cnt-1);
+		                }else if(status==2){
+		                	$("#like").children("span").text(like_cnt+1);
+		                }else if(status==3){
+		                	$("#like").children("span").text(like_cnt-1);
+		                }else if(status==4){
+		                	$("#like").children("span").text(like_cnt-1);
+		                	$("#dislike").children("span").text(dislike_cnt+1);
+		                }else if(status==5){
+		                	$("#dislike").children("span").text(dislike_cnt+1);
+		                }else{
+		                	$("#dislike").children("span").text(dislike_cnt-1);
+		                }
+		                
+		                console.log(like_cnt);
+		                console.log(dislike_cnt);
+		            },
+		            error: function(request,status,error){
+		                alert("err");
+		                alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		            }
+		        });
+			})
+		});
+	</script>
+	
+	
 </body>
 </html>
