@@ -59,6 +59,19 @@ private JdbcTemplate jdbcTemplate;
 		return results.isEmpty() ? null : results;
 	}
 	
+	public int update(DetailBoardItemView model) {
+		String sql = "update board_item set title=?, content=?, category=?, number=?, price=?, image=? where board_id=?";
+		
+		return this.jdbcTemplate.update(sql,
+				model.getTitle(),
+				model.getContent(),
+				model.getCategory(),
+				model.getNumber(),
+				model.getPrice(),
+				model.getImage(),
+				model.getBoard_id());
+	}
+	
 	public int update_view_cnt(DetailBoardItemView model) {
 		String sql = "update board_item set view_cnt=view_cnt+1 where board_id=?";
 		
