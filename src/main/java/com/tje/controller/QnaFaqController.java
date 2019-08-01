@@ -21,6 +21,10 @@ public class QnaFaqController {
 	private Board_freeService b_fService;
 	@Autowired
 	private Board_NoticeSelectHeadService b_nshService;
+	@Autowired
+	private Board_FaqSelectAllByBoardIdDescService b_faqService;
+	@Autowired
+	private Board_FaqWriteService b_faqwService;
 	
 	@RequestMapping("/qna")
 	public String Qna(Model model) {
@@ -49,8 +53,20 @@ public class QnaFaqController {
 	}
 	
 	@RequestMapping("/faq")
-	public String Faq() {
+	public String Faq(Model model) {
+		List<Board_Faq> faq = (List<Board_Faq>)b_faqService.service();
+		model.addAttribute("faq", faq);
 		return "faq";
+	}
+	
+	@RequestMapping("/faq/write")
+	public String FaqWrite(Board_Faq board_qna ) {
+		int r=(int) b_faqwService.service(board_qna);
+		if(r==1) {
+			return "faq";
+		}
+		
+		return "글 등록에 실패하였습니다";		
 	}
 	
 	

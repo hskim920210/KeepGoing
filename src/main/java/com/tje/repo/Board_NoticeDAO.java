@@ -79,8 +79,27 @@ private JdbcTemplate jdbcTemplate;
 		return results.isEmpty() ? null : results;
 	}
 	
+	public Board_Notice upNotice(Board_Notice model) {
+		String sql = "select * from board_notice where board_id > ? order by board_id limit 1";
+		try {
+			return this.jdbcTemplate.queryForObject(sql,
+					new Board_noticeRowMapper(), 
+					model.getBoard_id());
+		} catch (Exception e) {
+			return null;
+		}
+	}
 	
-	
+	public Board_Notice downNotice(Board_Notice model) {
+		String sql = "select * from board_notice where board_id < ? order by board_id desc limit 1";
+		try {
+			return this.jdbcTemplate.queryForObject(sql,
+					new Board_noticeRowMapper(), 
+					model.getBoard_id());
+		} catch (Exception e) {
+			return null;
+		}
+	}
 	
 	
 }

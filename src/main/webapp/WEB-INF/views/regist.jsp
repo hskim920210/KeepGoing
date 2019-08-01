@@ -290,7 +290,7 @@
 
 					<div class="mb-3" align="left">
 						<label for="nickname">*별명 </label> <input type="text"
-							onkeyup="this.value=this.value.replace(/[^0-9a-zA-Z]/g,'');"
+							onkeyup="this.value=this.value.replace(/[^0-9a-zA-Zㄱ-ㅎㅏ-ㅣ가-힣]/g,'');"
 							class="form-control" id="nickname" name="nickname" maxlength="8"
 							placeholder="한글,영문 ,숫자(중복X) 최소 3자 ~최대 10자 ">
 						<div class="invalid-feedback">X</div>
@@ -438,117 +438,7 @@
 				<hr />
 				
 <!--회원 약관 시작-->
-<script type="text/javascript">
 
-//약관 체크 다했는지 확인
-function CheckAllProvisions() {
-	if (document.getElementById("cbProvision1").checked && document.getElementById("cbFinance").checked && document.getElementById("cbIndividualInfo").checked && document.getElementById("cbThirdParty").checked && document.getElementById("cbIndividualInfo_option").checked && document.getElementById("cbLocation").checked && document.getElementById("sms_yn").checked && document.getElementById("email_yn").checked && document.getElementById("cbIndividualInfo_option1").checked && document.getElementById("cbIndividualInfo_option2").checked) {					
-		return true;
-	}
-	return false;
-}
-
-
-
-			//개인정보수집및 이용 (주문,결제배송서비스약관, 신규서비스개발 약관) 동의
-			function CheckIndividualInfoOptions(obj) {
-
-				if (document.getElementById("cbIndividualInfo_option1").checked && document.getElementById("cbIndividualInfo_option2").checked) {
-					return true;
-				}
-				return false;
-			}
-
-			// 약관 체크 박스 처리
-			function ConfirmProvision(obj) {
-				if (obj.checked == true) {
-					if (document.getElementById("cbIndividualInfo_option").checked) {
-						document.getElementById("cbIndividualInfo_option1").checked = true;
-						document.getElementById("cbIndividualInfo_option2").checked = true;
-					}					
-					if (CheckIndividualInfoOptions(obj)) {
-						document.getElementById("cbIndividualInfo_option").checked = true;
-					}							
-					if (CheckAllProvisions()) {
-						document.getElementById("cb_agreeall_1").checked = true;			
-					}
-				}
-				else {
-					if (!document.getElementById("cbIndividualInfo_option").checked) {
-						document.getElementById("cbIndividualInfo_option1").checked = false;
-						document.getElementById("cbIndividualInfo_option2").checked = false;
-					}
-					if (!CheckIndividualInfoOptions(obj)) {
-						document.getElementById("cbIndividualInfo_option").checked = false;
-					}		
-					document.getElementById("cb_agreeall_1").checked = false;				
-				}
-			}
-
-			function OpenPasswordGuide()
-			{
-				window.open("https://memberssl.auction.co.kr/Membership/IDPW/popup_passhelp.html", "PasswordGuide", "toolbar=0,location=0,directories=0,status=0,menubar=0,scrollbars=yes,copyhistory=0");
-			}
-
-			// 약관 동의
-			function CheckProvisionAgreement() {
-
-				if(document.getElementById("cbProvision1").checked == false){
-					alert("The Glasses 이용약관에 동의하지 않으셨습니다.");
-					$("#cbProvision1").select();
-					$("#cbProvision1").focus();
-					return false;
-				}
-								
-				if(document.getElementById("cbFinance").checked == false){
-					alert("The Glasses 전자금융서비스 이용약관에 동의하지 않으셨습니다.");
-					$("#cbFinance").select();
-					$("#cbFinance").focus();
-					return false;
-				}	
-	
-				if (document.getElementById("cbIndividualInfo").checked == false) {
-					alert("개인정보 수집 및 이용약관에 동의하지 않으셨습니다.");
-					$("#cbIndividualInfo").select();
-					$("#cbIndividualInfo").focus();
-					return false;
-				}
-
-			return true;
-		}
-
-		// 모든 약관 동의 체크박스 토글
-		function ToggleAllProvisions(caller) {
-			if(caller.checked) {
-				document.getElementById("cb_agreeall_1").checked = true;
-				document.getElementById("cbProvision1").checked = true;
-				document.getElementById("cbFinance").checked = true;
-				document.getElementById("cbIndividualInfo").checked = true;
-				document.getElementById("cbThirdParty").checked = true;
-				document.getElementById("cbIndividualInfo_option").checked = true;
-				document.getElementById("cbLocation").checked = true;
-				document.getElementById("sms_yn").checked = true;
-				document.getElementById("email_yn").checked = true;
-				document.getElementById("cbIndividualInfo_option1").checked = true;
-				document.getElementById("cbIndividualInfo_option2").checked = true;						
-			}
-			else
-			{
-				document.getElementById("cbProvision1").checked = false;
-				document.getElementById("cbFinance").checked = false;
-				document.getElementById("cbIndividualInfo").checked = false;
-				document.getElementById("cbThirdParty").checked = false;
-				document.getElementById("cbIndividualInfo_option").checked = false;
-				document.getElementById("cbLocation").checked = false;
-				document.getElementById("sms_yn").checked = false;
-				document.getElementById("email_yn").checked = false;
-				document.getElementById("cb_agreeall_1").checked = false;
-				document.getElementById("cbIndividualInfo_option1").checked = false;
-				document.getElementById("cbIndividualInfo_option2").checked = false;										
-			}
-		}
-		//약관 체크 다했는지 확인
-</script>
 	
 				
 				<div class="terms-agree">
@@ -588,12 +478,7 @@ function CheckAllProvisions() {
 									<a href="#" class="txt-view-all" onClick="window.open(
 									'<%= request.getContextPath() %>/regist/thirdparty', 'CLIENT_WINDOW', 'resizable=yes scrollbars=yes')">내용보기</a>						
 								</div>
-<%-- 
-								<div class="check-set"  class="terms-box provision3">
-									<label for="cbIndividualInfo_option"><input name="cbIndividualInfo_option" type="checkbox" id="cbIndividualInfo_option" onclick="CheckIndividualInfoOptions(this); ConfirmProvision(this);" /><span class="type02">(선택)</span>개인정보 수집 및 이용</label>
-									<a href="#" class="txt-view-all"  onClick="window.open('https://memberssl.auction.co.kr/membership/signup/popup/Popup_IndividualInfo_option.aspx', 'CLIENT_WINDOW', 'resizable=yes scrollbars=yes')">내용보기</a>
-								</div>
-								--%>		
+
 								
 								<div class="check-set"  class="terms-box provision3">
 									<label for="cbIndividualInfo_option"><input name="cbIndividualInfo_option" type="checkbox" id="cbIndividualInfo_option" onclick="CheckIndividualInfoOptions(this); ConfirmProvision(this);" /><span class="type02">(선택)</span>개인정보 수집 및 이용</label>
@@ -634,13 +519,7 @@ function CheckAllProvisions() {
 				
 				<hr />
 				
-		<%-- 		
-				<div class="btns-box">
-					<input id="btn_signup" type="button" value="회원가입" class="join kcc_join" onclick="ClickSignupButton();">
-					<a id="temp_signup" style="display:none;" href="#" onclick="javascript:ClickSignupButton();"><img src="https://pics.auction.co.kr/join/btn_temporary_join.gif" /></a>
-					<input type="button" value="취소" class="cancel" onclick="location.href='https://memberssl.auction.co.kr/Membership/Signup/ChoiceMemberType.aspx?frm=hometab';">
-				</div>
-		--%>
+		
 				<div class="terms-agree-notice">
 					<div class="inner">
 					<!-- [D] 이미지 변경 726.2014-11-13 -->
@@ -812,17 +691,7 @@ function CheckAllProvisions() {
 <!--회원 약관 끝-->
 
 <hr />
-<%-- 
-				<div class="text-center form-sm mt-2">
-					<button class="btn btn-info" type="button" id="member_regist">
-						동의 하고 회원 가입 <i class="fas fa-sign-in ml-1"></i>
-					</button>
-					<button class="btn btn-info" type="reset" id="">
-						취소 <i class="fas fa-sign-in ml-1"></i>
-					</button>
-				</div>
-			</form>
-			--%>
+
 
 		</div>
 		<!--Footer-->
@@ -950,15 +819,6 @@ function CheckAllProvisions() {
 			}
 		};
 		
-		//function toggleAllProvisionsCheck() {
-			//if(document.getElementById("cb_agreeall_1").checked) {
-				//isToggleAllProvisions = true;
-				//alert(isToggleAllProvisions);
-			//} else {
-				//isToggleAllProvisions = false;
-				//alert(isToggleAllProvisions);
-			//}
-		//}
 		
 
 		
