@@ -80,11 +80,17 @@
 							type="text" class="form-control" id="sample6_extraAddress"
 							placeholder="참고항목">
 							<input type="button" id="addMapBtn" name="addMapBtn" value="지도 갱신" onclick="refreshMap();"></input>
+							<input type="button" id="resetMapBtn" name="resetMapBtn" value="지도 정보 초기화" onclick="resetMap();"></input>
 					</div>
 					<div id="map" style="width: 500px; height: 400px;" align="left">
 						<!-- 지도 첨부 영역입니다. -->
 					</div>
 		     	</td>
+		     	</tr>
+		     	<tr>
+		     		<td><input type="hidden" id="selectedAddress" name="selectedAddress" value="0"></td>
+		     		<td><input type="hidden" id="selectedLat" name="selectedLat" value="0"></td>
+		     		<td><input type="hidden" id="selectedLng" name="selectedLng" value="0"></td>
 		     	</tr>
 		     	<tr>
 		     		<td><input type="button" id="insertBoard" name="insertBoard" value="등록하기"></td>
@@ -258,13 +264,13 @@
     }
     </script>
     
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=f7e87dcf28984113f6360f591c4d3f24&libraries=sevices,clusterer""></script>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=f7e87dcf28984113f6360f591c4d3f24&libraries=services,clustere"></script>
 	<script type="text/javascript">
-		var address = '';
-		var newLat = null;
-		var newLng = null;
-		// var geocoder = new daum.maps.services.Geocoder();
-	
+		var address = ''; // 폼에 작성된 주소를 가져온다.
+		var geocoder = new kakao.maps.services.Geocoder();
+		var selectedAddress = null; // 지도에서 선택한 위치의 주소를 저장할 변수
+		var selectedLat = null; // 주소 검색으로 검색된 주소의 위도
+		var selectedLng = null; // 주소 검색으로 검색된 주소의 경도
 	
 	
 		var container = document.getElementById('map');
@@ -284,7 +290,7 @@
 		marker.setMap(map);
 		// 마커에 인포 윈도우를 표시하기.
 		// 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-		var iwContent = '<div style="padding:5px;">Hello World! <br><a href="https://map.kakao.com/link/map/Hello World!,33.450701,126.570667" style="color:blue" target="_blank">큰지도보기</a> <a href="https://map.kakao.com/link/to/Hello World!,33.450701,126.570667" style="color:blue" target="_blank">길찾기</a></div>',
+		var iwContent = '<div style="padding:5px; font-size:11px;">Hello World! <br><a href="https://map.kakao.com/link/map/Hello World!,33.450701,126.570667" style="color:blue" target="_blank">큰지도보기</a> <a href="https://map.kakao.com/link/to/Hello World!,33.450701,126.570667" style="color:blue" target="_blank">길찾기</a></div>',
 						iwPosition = new kakao.maps.LatLng(33.450701, 126.570667); //인포윈도우 표시 위치입니다
 		// 1. 인포 윈도우 생성
 		var infowindow = new kakao.maps.InfoWindow({
@@ -299,16 +305,34 @@
 		kakao.maps.event.addListener(map, 'click', function (mouseEvent) {
 			// 바로 기존에 있던 인포윈도우를 지운다.
 			infowindow.close(map, marker);
-			
 			// 클릭한 위도, 경도의 정보를 저장
 			var latlng = mouseEvent.latLng;
 			alert('위도 : ' + latlng.getLat() + '\n경도 : ' + latlng.getLng());
 			// 클릭한 위치로 마커를 옮긴다.
 			marker.setPosition(latlng);
 			
+			geocoder.coord2Address(latlng.getLng(), latlng.getLat(), function(result, status) {
+			    // 정상적으로 검색이 완료됐으면 
+			     if (status === kakao.maps.services.Status.OK) {
+			    	alert(result[0].address.address_name);
+			    	selectedAddress = result[0].address.address_name;
+			    	selectedLat = latlng.getLat();
+			    	selectedLng = latlng.getLng();
+			    	$("#sample6_address").val(selectedAddress);
+			    	$("#selectedAddress").val(selectedAddress);
+			    	$("#selectedLat").val(selectedLat);
+			    	$("#selectedLng").val(selectedLng);
+			    } else {
+			    	alert("주소 정보를 정확히 가져올 수 없는 장소입니다.");
+			    	$("#selectedAddress").val(0);
+				    $("#selectedLat").val(0);
+				    $("#selectedLng").val(0);
+			     }
+			});
 			
-			iwContent = '<div style="padding:5px;">이곳에 대한 정보 <br><a href="https://map.kakao.com/link/map/Hello World!,' 
-				+ latlng.getLat() + ',' + latlng.getLng() + '" style="color:blue" target="_blank">큰지도보기</a> <a href="https://map.kakao.com/link/to/Hello World!,'
+			
+			iwContent = '<div style="padding:5px; font-size:11px;">'+selectedAddress+'<br><a href="https://map.kakao.com/link/map/'+selectedAddress+',' 
+				+ latlng.getLat() + ',' + latlng.getLng() + '" style="color:blue" target="_blank">큰지도보기</a> <a href="https://map.kakao.com/link/to/'+selectedAddress+','
 				+ latlng.getLat() + ',' + latlng.getLng() + 'style="color:blue" target="_blank">길찾기</a></div>',
 						iwPosition = new kakao.maps.LatLng(latlng.getLat(), latlng.getLng()); //인포윈도우 표시 위치입니다
 			
@@ -325,21 +349,49 @@
 		function refreshMap() {
 			address = document.getElementById("sample6_address");
 			var target = address.value;
-			
-			
-			options = {
-					center: new kakao.maps.LatLng(newLat, newLng),
-					level: 3 // 지도의 레벨(확대, 축소의 정도)
-			};
-			map = new kakao.maps.Map(container, options);
-			iwContent = '<div style="padding:5px;">Hello World! <br><a href="https://map.kakao.com/link/map/Hello World!,'+newLat+','+newLng+'" style="color:blue" target="_blank">큰지도보기</a> <a href="https://map.kakao.com/link/to/Hello World!,,'+newLat+','+newLng+'" style="color:blue" target="_blank">길찾기</a></div>',
-			iwPosition = new kakao.maps.LatLng(newLat, newLng); //인포윈도우 표시 위치입니다
-			infowindow = new kakao.maps.InfoWindow({
-				position: iwPosition,
-				content: iwContent
+			selectedAddress = target;
+			geocoder.addressSearch(target, function(result, status) {
+			    // 정상적으로 검색이 완료됐으면 
+			     if (status === kakao.maps.services.Status.OK) {
+			    	infowindow.close(map, marker);
+			        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+					selectedLat = coords.getLat();
+					selectedLng = coords.getLng();
+					$("#selectedAddress").val(selectedAddress);
+			    	$("#selectedLat").val(selectedLat);
+			    	$("#selectedLng").val(selectedLng);
+			        // 결과값으로 받은 위치를 마커로 표시합니다
+			        marker.setPosition(coords);
+
+			        // 인포윈도우로 장소에 대한 설명을 표시합니다
+			        infowindow = new kakao.maps.InfoWindow({
+			            content: '<div style="padding:5px; font-size:11px;">'+target+'<br><a href="https://map.kakao.com/link/map/'+target+',' 
+							+ coords.getLat() + ',' + coords.getLng() + '" style="color:blue" target="_blank">큰지도보기</a> <a href="https://map.kakao.com/link/to/'+target+','
+							+ coords.getLat() + ',' + coords.getLng() + 'style="color:blue" target="_blank">길찾기</a></div>'
+			        });
+			        infowindow.open(map, marker);
+			        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+			        map.setCenter(coords);
+			    } else {
+			    	alert("주소 정보를 정확히 가져올 수 없는 장소입니다.");
+			    	$("#selectedAddress").val(0);
+			    	$("#selectedLat").val(0);
+			    	$("#selectedLng").val(0);
+			    }
 			});
-			// 2. 마커 위에 인포윈도우를 표시. 두번째 파라메터인 marker를 넣어주지 않으면 그냥 지도위에 표시됨.
-			infowindow.open(map, marker);
+		}
+		
+		function resetMap() {
+			$("#selectedAddress").val(0);
+	    	$("#selectedLat").val(0);
+	    	$("#selectedLng").val(0);
+	    	alert("지도 정보 초기화 완료.");
+	    	infowindow.close(map, marker);
+	    	$("#sample6_address").val('');
+	    	selectedAddress = null; // 지도에서 선택한 위치의 주소를 저장할 변수
+			selectedLat = null; // 주소 검색으로 검색된 주소의 위도
+			selectedLng = null; // 주소 검색으로 검색된 주소의 경도
+			address = ''; // 폼에 작성된 주소를 가져온다.
 		}
 		
 	
