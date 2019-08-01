@@ -73,9 +73,6 @@
 	<jsp:include page="javascriptInclude.jsp" flush="false"></jsp:include>
 	
 	<script type="text/javascript">
-		$(document).ready(
-				
-				function() {
 		$(document).ready(function() {
 			$("#add_item").on("click", function() {
 				if(numberCheck()==false)
