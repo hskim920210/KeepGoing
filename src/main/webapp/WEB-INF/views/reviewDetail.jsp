@@ -68,8 +68,20 @@
 					</tr>
 
 					<tr>
+						<td>
+							<div class="mb-3" align="left">
+								<label for="address">주소 </label><br> <input
+									type="text" class="form-control" id="sample6_address" style="width: 70%"
+									name="address_basic" readonly="readonly" value="${ detailReview.selectedAddress }">
+							</div>
+							<div id="map" style="width: 500px; height: 400px;" align="left">
+								<!-- 지도 첨부 영역입니다. -->
+							</div>
+						</td>
+					</tr>
+					<tr>
 						<td><b style="color: black; font-size: 15px;">작성 시간 : ${ detailReview.write_date }</b></td>
-						<td><b style="color: black; font-size: 15px;">관심사 : ${ detailReview.category }</b></td>
+						<td><b style="color: black; font-size: 15px;">카테고리 : ${ detailReview.category }</b></td>
 						<td><b style="color: black; font-size: 15px;">작성자 : ${ detailReview.nickname }</b></td>
 
 					</tr>
@@ -86,6 +98,45 @@
 					</form>
 
 				</div>
+
+				<script type="text/javascript"
+					src="//dapi.kakao.com/v2/maps/sdk.js?appkey=f7e87dcf28984113f6360f591c4d3f24&libraries=services,clustere"></script>
+				<script type="text/javascript">
+					var geocoder = new kakao.maps.services.Geocoder();
+					var selectedAddress = '${ detailReview.selectedAddress }'; 
+					var selectedLat = ${ detailReview.selectedLat };
+					var selectedLng = ${ detailReview.selectedLng };
+
+					var container = document.getElementById('map');
+					// 아래 options에서 center는 지도를 생성하는데 필수이다.
+					var options = {
+						center : new kakao.maps.LatLng(selectedLat, selectedLng),
+						level : 3
+					// 지도의 레벨(확대, 축소의 정도)
+					};
+					var map = new kakao.maps.Map(container, options); // 지도의 생성 및 객체 리턴
+
+					// 지도를 클릭한 위치에 마커를 생성
+					var marker = new kakao.maps.Marker({
+						// 중심 좌표에 마커를 생성
+						position : map.getCenter()
+					});
+					marker.setMap(map);
+					// 마커에 인포 윈도우를 표시하기.
+					// 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+					var iwContent = '<div style="padding:5px; font-size:11px;">'+selectedAddress+' <br><a href="https://map.kakao.com/link/map/'+selectedAddress+','+selectedLat+','+
+					selectedLng+'" style="color:blue" target="_blank">큰지도보기</a> <a href="https://map.kakao.com/link/to/'+selectedAddress+','+selectedLat+','+selectedLng+'" style="color:blue" target="_blank">길찾기</a></div>', 
+					iwPosition = new kakao.maps.LatLng(
+							selectedLat, selectedLng); //인포윈도우 표시 위치입니다
+					// 1. 인포 윈도우 생성
+					var infowindow = new kakao.maps.InfoWindow({
+						position : iwPosition,
+						content : iwContent
+					});
+					// 2. 마커 위에 인포윈도우를 표시. 두번째 파라메터인 marker를 넣어주지 않으면 그냥 지도위에 표시됨.
+					infowindow.open(map, marker);
+
+				</script>
 
 			</div>
 		</div>
