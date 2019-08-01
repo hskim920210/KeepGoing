@@ -31,6 +31,7 @@ import com.tje.service.CommentAddService;
 import com.tje.service.CommentDeleteService;
 import com.tje.service.CommentSelectService;
 import com.tje.service.ItemAddService;
+import com.tje.service.ItemUpdateService;
 import com.tje.service.ItemViewCntUpdateService;
 import com.tje.service.ItemViewService;
 import com.tje.service.LikeAndDislikeService;
@@ -52,6 +53,8 @@ public class Board_itemController {
 	private ItemViewService ivService;
 	@Autowired
 	private ItemViewCntUpdateService ivcuService;
+	@Autowired
+	private ItemUpdateService iuService;
 	@Autowired
 	private CommentSelectService csSercie;
 	@Autowired
@@ -195,15 +198,56 @@ public class Board_itemController {
 		return "update_item";
 	}
 	
-	@PostMapping("/item_update/{board_id}")
+	@PostMapping(value = "/item_update/{board_id}", produces = "application/text; charset=utf8")
 	@ResponseBody
 	public String item_update(
 			HttpServletRequest request,
-			@PathVariable(value = "board_id", required = true) Integer board_id,
-			Model model) {
+			@PathVariable(value = "board_id", required = true) Integer board_id) {
 		
+		DetailBoardItemView d=new DetailBoardItemView();
+		d.setBoard_id(board_id);
 		
+		DetailBoardItemView before=(DetailBoardItemView) ivService.service(d);
 		
-		return "item_update";
+		String beforeImage=before.getImage();
+		
+		String dirPath=request.getSession().getServletContext().getRealPath("/resources/images");
+		System.out.println(dirPath);
+		File dir=new File(dirPath);
+		
+		if(!dir.exists())
+			dir.mkdirs();
+		
+		int size=10*1024*1024;
+		
+		MultipartRequest multipartRequest=null;
+		int result=0;
+		
+		try {
+			multipartRequest=new MultipartRequest(request, dirPath, size, "utf-8", new DefaultFileRenamePolicy());
+			String member_id=multipartRequest.getParameter("member_id");
+			String title=multipartRequest.getParameter("title");
+			String content=multipartRequest.getParameter("content");
+			String strCategory=multipartRequest.getParameter("category");
+			int category=Integer.parseInt(strCategory);
+			int number=Integer.parseInt(multipartRequest.getParameter("number"));
+			String price=multipartRequest.getParameter("price");
+			String imageName=multipartRequest.getFilesystemName("image");
+			if(imageName==null)
+				imageName=beforeImage;
+			String orginName=multipartRequest.getOriginalFileName("image");
+			
+			DetailBoardItemView item=new DetailBoardItemView(board_id, 3, category, title, content, price, number, imageName, 0, member_id, null, 0, 0, 0, null);
+			
+			result=(int) iuService.service(item);
+			
+			if(result==1)
+				return "상품 수정이 완료되었습니다.";
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "상품 수정 과정에서 문제가 발생하였습니다.";
 	}
 }
