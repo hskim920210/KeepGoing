@@ -47,7 +47,7 @@
 			<c:forEach items="${ board_noticeheadList }" var="head">
 				<tr class="table-active" style="text-align: center;">
 					<th>중요공지</th>
-					<td><b><a href="">${ head.title }</a></b></td>
+					<td><b><a href="<%= request.getContextPath() %>/notice/${ head.board_id }">${ head.title }</a></b></td>
 					<td>${ head.write_date }</td>
 				</tr>
 			</c:forEach>
@@ -58,13 +58,13 @@
 			<c:forEach items="${ board_noticeList }" var="notice">
 				<tr style="text-align: center;">
 					<td>${ notice.board_id }</td>
-					<td><a href="">${ notice.title }</a></td>
+					<td style="text-align: left;"><a href="<%= request.getContextPath() %>/notice/${ notice.board_id }">${ notice.title }</a></td>
 					<td>${ notice.write_date }</td>
 				</tr>
 			</c:forEach>
 		</table>
 		
-		<c:if test="${ login_member.auth == 4 }">
+		<c:if test="${ login_member.auth >= 3 }">
       		<p align="right"><a href="<%=request.getContextPath()%>/notice/write" class="btn btn-info btn-xs" type="button">작성</a></p>
       	</c:if>
 		</div>

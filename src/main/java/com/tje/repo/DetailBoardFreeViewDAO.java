@@ -1,4 +1,4 @@
-package com.tje.repo;
+﻿package com.tje.repo;
 
 
 import java.sql.ResultSet;
@@ -28,67 +28,35 @@ private JdbcTemplate jdbcTemplate;
 			DetailBoardFreeView detailBoardFreeView=new DetailBoardFreeView(
 					rs.getInt(1),
 					rs.getInt(2),
-					rs.getString(3),
+					rs.getInt(3),
 					rs.getString(4),
-					rs.getInt(5),
-					rs.getString(6),
+					rs.getString(5),
+					rs.getInt(6),
 					rs.getString(7),
-					rs.getInt(8),
+					rs.getString(8),
 					rs.getInt(9),
 					rs.getInt(10),
-					rs.getDate(11));
+					rs.getInt(11),
+					rs.getDate(12));
 			return detailBoardFreeView;
 		}
 	}
 	
+	
+	// 게시글 조회
 	public DetailBoardFreeView selectOne(DetailBoardFreeView model) {
-		String sql = "select * from DetailBoardFreeView where board_id=?";
+		String sql = "select * from detailboardfreeview where board_id=?";
 		return this.jdbcTemplate.queryForObject(sql, 
 				new DetailBoardFreeViewRowMapper(), 
 				model.getBoard_id());
 	}
 	
-	public List<DetailBoardFreeView> selectAllOrdByDateDesc() {
-		String sql = "select * from DetailBoardFreeView order by write_date desc";
-		List<DetailBoardFreeView> results=this.jdbcTemplate.query(sql,
-				new DetailBoardFreeViewRowMapper());
-		return results.isEmpty() ? null : results;
-	}
-	
-	public List<DetailBoardFreeView> selectAllOrdByCmtCntDesc() {
-		String sql = "select * from DetailBoardFreeView order by comment_cnt desc";
-		List<DetailBoardFreeView> results=this.jdbcTemplate.query(sql,
-				new DetailBoardFreeViewRowMapper());
-		return results.isEmpty() ? null : results;
-	}
-	
-	public List<DetailBoardFreeView> selectAllOrdByLikeCntDesc() {
-		String sql = "select * from DetailBoardFreeView order by like_cnt desc";
-		List<DetailBoardFreeView> results=this.jdbcTemplate.query(sql,
-				new DetailBoardFreeViewRowMapper());
-		return results.isEmpty() ? null : results;
-	}
-	
-	public List<DetailBoardFreeView> selectAllOrdByDisLikeCntDesc() {
-		String sql = "select * from DetailBoardFreeView order by dislike_cnt desc";
-		List<DetailBoardFreeView> results=this.jdbcTemplate.query(sql,
-				new DetailBoardFreeViewRowMapper());
-		return results.isEmpty() ? null : results;
-	}
-	
-	
-	public List<DetailBoardFreeView> selectAllOrdByDateAsc() {
-		String sql = "select * from DetailBoardFreeView order by write_date asc";
-		List<DetailBoardFreeView> results=this.jdbcTemplate.query(sql,
-				new DetailBoardFreeViewRowMapper());
-		return results.isEmpty() ? null : results;
-	}
-	
-	public List<DetailBoardFreeView> selectAllOrdByCmtCntAsc() {
-		String sql = "select * from DetailBoardFreeView order by comment_cnt asc";
-		List<DetailBoardFreeView> results=this.jdbcTemplate.query(sql,
-				new DetailBoardFreeViewRowMapper());
-		return results.isEmpty() ? null : results;
+	// 게시글 조회수
+	public int update_view_cnt(DetailBoardFreeView model) {
+		String sql = "update board_free set view_cnt=view_cnt+1 where board_id=?";
+		
+		return this.jdbcTemplate.update(sql,
+				model.getBoard_id());
 	}
 	
 	
@@ -100,7 +68,7 @@ private JdbcTemplate jdbcTemplate;
 		return results.isEmpty() ? null : results;
 	}
 	
-	//좋아요 카운트
+	//싫어요 카운트
 	public List<DetailBoardFreeView> selectAllOrdByDisLikeCntAsc() {
 		String sql = "select * from DetailBoardFreeView order by dislike_cnt asc";
 		List<DetailBoardFreeView> results=this.jdbcTemplate.query(sql,
@@ -111,20 +79,19 @@ private JdbcTemplate jdbcTemplate;
 
 	
 	// 게시판 삭제
-	public int delete(DetailBoardFreeView model) {	
-		return this.jdbcTemplate.update("delete board_free set content = ? where board_id = ?)",
-					model.getContent(),
-					model.getBoard_id());
-	}
-
+	public int delete(DetailBoardFreeView model) {
+				return this.jdbcTemplate.update("delete from board_free where board_id = ?",
 	
+				model.getBoard_id());
+	}
 	
 	
 	// 게시판 수정
-	public int update(DetailBoardFreeView model) {
+	public int update(DetailBoardFreeView model) throws Exception{
 		
-		return this.jdbcTemplate.update("update board_free set content = ? where board_id = ?)",
+				return this.jdbcTemplate.update("update board_free set Content = ? , Title = ? where board_id = ?",
 				model.getContent(),
+				model.getTitle(),
 				model.getBoard_id()
 				);
 				

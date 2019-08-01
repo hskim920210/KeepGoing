@@ -1,5 +1,7 @@
-package com.tje.repo;
+﻿package com.tje.repo;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -7,10 +9,13 @@ import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import com.tje.model.Board_Free;
+import com.tje.model.*;
 
 
 
@@ -43,36 +48,28 @@ private JdbcTemplate jdbcTemplate;
 	}
 	
 	public int insert(Board_Free model) {
+		KeyHolder keyHolder = new GeneratedKeyHolder();
 		
-		return this.jdbcTemplate.update("insert into board_free values(0,6,?,?,?,?,0,now())",
-				model.getCategory(),
-				model.getTitle(),
-				model.getContent(),
-				model.getMember_id()
-				);
-				
-				
-	}
-	
-	public int update(Board_Free model) {
+		this.jdbcTemplate.update(new PreparedStatementCreator() {			
+			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
 		
-		return this.jdbcTemplate.update("update board_free set content = ? where board_id = ?)",
-				model.getContent(),
-				model.getBoard_id()
-				);
-				
-				
-	}
-	
-public int delete(Board_Free model) {
+				PreparedStatement pstmt = 
+					con.prepareStatement(
+							"insert into board_free values(0,2,?,?,?,?,0,now())", 
+						 new String[]{"board_id"});
+				pstmt.setInt(1, model.getCategory());
+				pstmt.setString(2, model.getTitle());
+				pstmt.setString(3, model.getContent());
+				pstmt.setString(4, model.getMember_id());
+				return pstmt;
+			}
+		}, keyHolder);
 		
-		return this.jdbcTemplate.update("delete board_free set content = ? where board_id = ?)",
-				model.getContent(),
-				model.getBoard_id()
-				);
-				
-				
+		return keyHolder.getKey().intValue();
+		
+		
 	}
+
 	
 	
 }

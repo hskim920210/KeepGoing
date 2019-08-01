@@ -39,7 +39,7 @@
     		<input type="hidden" name="board_id"  value="${ searchedFree.board_id }">
 			<div class="form-group">
 				<label for="title">제목</label>
-				<input type="text" class="form-control" name="title" value="${ searchedFree.title }" required >
+				<input type="text" class="form-control" name="title" value="${ searchedFree.title }" maxlength="30" required >
 						
 			</div>
 			<div class="form-group">
@@ -55,8 +55,9 @@
 			
 			
 			
-			
+			<c:if	test="${ login_member.member_id eq 'admin' or login_member.member_id eq searchedFree.member_id }">
 			<button type="submit" class="btn btn-info" id="add_free_insert">수정</button>
+			</c:if>
 		</form>
 
     </div>

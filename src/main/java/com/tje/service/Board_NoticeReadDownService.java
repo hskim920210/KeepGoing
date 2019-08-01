@@ -3,19 +3,21 @@ package com.tje.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.tje.model.Board_Notice;
 import com.tje.model.SimpleBoardFreeView;
+import com.tje.repo.Board_NoticeDAO;
 import com.tje.repo.SimpleBoardFreeViewDAO;
 
 @Service
-public class Board_freeViewService {
+public class Board_NoticeReadDownService {
 
 	@Autowired
-	private SimpleBoardFreeViewDAO simpleBoardFreeViewDAO;
+	private Board_NoticeDAO board_NoticeDAO;
 
 	public Object service(Object args) {
 		Object result = null;
 
-		result = simpleBoardFreeViewDAO.selectOne((SimpleBoardFreeView) args);
+		result = board_NoticeDAO.downNotice((Board_Notice) args);
 
 		return result;
 	}

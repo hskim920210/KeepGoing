@@ -72,8 +72,8 @@
 									<div>
 										<c:if
 											test="${ login_member.member_id eq 'admin' or login_member.member_id eq searchedItem.member_id }">
-											<button class="btn btn-default" id="update_item">수정</button>
-											<button class="btn btn-default" id="delete_item">삭제</button>
+											<a href="<%=request.getContextPath()%>/item_update/${searchedItem.board_id}" class="btn btn-primary" type="button">수정</a>
+											<a href="<%=request.getContextPath()%>/item_delete/${searchedItem.board_id}" class="btn btn-primary" type="button">삭제</a>
 										</c:if>
 										<form method="post" id="form6">
 											<input type="hidden" name="board_id"
@@ -91,8 +91,8 @@
 								</div>
 								
 								<!-- 좋아요, 싫어요 -->
-								<button type="button" name="like_and_dislike" id="like" class="btn btn-light">좋아요[${searchedItem.like_cnt}]</button>
-								<button type="button" name="like_and_dislike" id="dislike" class="btn btn-light">싫어요[${searchedItem.dislike_cnt}]</button>
+								<button type="button" name="like_and_dislike" id="like" class="${ btn_status==1 ? 'btn btn-info' : 'btn btn-light'}">좋아요[<span>${searchedItem.like_cnt}</span>]</button>
+								<button type="button" name="like_and_dislike" id="dislike" class="${ btn_status==2 ? 'btn btn-danger' : 'btn btn-light'}">싫어요[<span>${searchedItem.dislike_cnt}</span>]</button>
 								
 							</div>
 						</div>
@@ -259,7 +259,7 @@
 	<!-- 댓글 삭제 -->
 	<script type="text/javascript">
 		$(document).ready(function() {
-			$("button[name=comment_delete_btn]").on("click", function() {
+			$(document).on("click", "button[name=comment_delete_btn]", function() {
 				var rw=$(this).parent(".rw");
 				var comment_id=$(this).val();
 				console.log(comment_id);
@@ -290,12 +290,17 @@
 				var class_val=$(this).attr("class");
 				var status=0;
 				
+				if( "${login_member.member_id}" == "" ){
+					alert("로그인이 필요한 기능입니다.");
+					return;
+				}
+				
 				if(id_val=="like"){
 					if(class_val=="btn btn-light"){
 						if( $("#dislike").attr("class")=="btn btn-danger" ){
 							$(this).attr("class", "btn btn-info");
 							$("#dislike").attr("class", "btn btn-light");
-							// dislike 활성 == update is_like=0
+							// dislike 비활성, like 활성 == update is_like=1
 							status=1;
 						}else{
 							$(this).attr("class", "btn btn-info");
@@ -312,21 +317,59 @@
 						if( $("#like").attr("class")=="btn btn-info" ){
 							$(this).attr("class", "btn btn-danger");
 							$("#like").attr("class", "btn btn-light");
-							// like 활성 == update is_like=1
+							// like 비활성, dislike 활성 == update is_like=2
 							status=4;
 						}else{
 							$("#dislike").attr("class", "btn btn-danger");
-							// 둘다 비활성 == insert is_like=0
+							// 둘다 비활성 == insert is_like=2
 							status=5;
 						}
 					}else{
 						$(this).attr("class", "btn btn-light");
 						// dislike 활성 -> 비활성 == delete
-						status=3;
+						status=6;
 					}
 				}
 				
+				console.log(status);
 				
+				$.ajax({
+		            url: "<%=request.getContextPath()%>/like_and_dislike",
+		            type: "post",
+		            data: JSON.stringify({"board_id": ${searchedItem.board_id}, "topic": ${searchedItem.topic}, "status": status}),
+		            dataType: 'text',
+		            contentType: 'application/json; charset=utf-8',
+		            success: function(data){
+		                console.log(data);
+		                
+		                var like_cnt=Number( $("#like").children("span").text() );
+		                var dislike_cnt=Number( $("#dislike").children("span").text() );
+		                
+		                
+		                if(status==1){
+		                	$("#like").children("span").text(like_cnt+1);
+		                	$("#dislike").children("span").text(dislike_cnt-1);
+		                }else if(status==2){
+		                	$("#like").children("span").text(like_cnt+1);
+		                }else if(status==3){
+		                	$("#like").children("span").text(like_cnt-1);
+		                }else if(status==4){
+		                	$("#like").children("span").text(like_cnt-1);
+		                	$("#dislike").children("span").text(dislike_cnt+1);
+		                }else if(status==5){
+		                	$("#dislike").children("span").text(dislike_cnt+1);
+		                }else{
+		                	$("#dislike").children("span").text(dislike_cnt-1);
+		                }
+		                
+		                console.log(like_cnt);
+		                console.log(dislike_cnt);
+		            },
+		            error: function(request,status,error){
+		                alert("err");
+		                alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		            }
+		        });
 			})
 		});
 	</script>

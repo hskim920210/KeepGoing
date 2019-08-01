@@ -17,7 +17,7 @@ public class DetailBoardFreeView_DeleteService {
 	
 	public Object service(DetailBoardFreeView detailBoardFreeView) {
 		int result=0;
-		result=((DetailBoardFreeViewDAO) detailBoardFreeViewDAO).delete(detailBoardFreeView);
+		result=detailBoardFreeViewDAO.delete(detailBoardFreeView);
 		return result;
 	}
 }

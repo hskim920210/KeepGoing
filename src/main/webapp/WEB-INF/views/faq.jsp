@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<title>Index</title>
+<title>자주묻는질문</title>
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -45,63 +45,38 @@
 		  <li role="presentation" class="active"><a href="#">전체</a></li>
 		  <li role="presentation"><a href="#">회원가입</a></li>
 		  <li role="presentation"><a href="#">상품</a></li>
+		  <li role="presentation"><a href="#">기타</a></li>
 		</ul>
+		
+		
 
 
 			<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-			
+			<c:forEach items="${ faq }" var="faq">
 			  <div class="panel panel-default">
-			    <div class="panel-heading" role="tab" id="headingOne">
+			    <div class="panel-heading" role="tab" id="heading${ faq.board_id }">
 			      <h5 class="panel-title">
 			        <a class="collapsed" data-toggle="collapse" data-parent="#accordion"
-			        href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-			       Q. 자주 묻는 질문 1
+			        href="#collapse${ faq.board_id }" aria-expanded="true" aria-controls="collapse${ faq.board_id }">
+			       Q. ${ faq.title }
 			        </a>
 			      </h5>
 			    </div>
-			    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+			    <div id="collapse${ faq.board_id }" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading${ faq.board_id }">
 			      <div class="panel-body">
-			      A. 답변입니다.
+			      A. ${ faq.content }
 			      </div>
 			    </div>
 			  </div>
-			  
-			  <div class="panel panel-default">
-			    <div class="panel-heading" role="tab" id="headingTwo">
-			      <h4 class="panel-title">
-			        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-						Q. 자주 묻는 질문 2
-			        </a>
-			      </h4>
-			    </div>
-			    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-			      <div class="panel-body">
-						A. 그만 물으세요.
-			      </div>
-			    </div>
-			  </div>
-			  
-			  <div class="panel panel-default">
-			    <div class="panel-heading" role="tab" id="headingThree">
-			      <h4 class="panel-title">
-			        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-						Q. 자주 묻는 질문 3
-			        </a>
-			      </h4>
-			    </div>
-			    <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
-			      <div class="panel-body">
-						A. 묻어 버리겠어!!!
-			      </div>
-			    </div>
-			  </div>
+			</c:forEach>
 			</div>
 
-
-
-
+		<c:if test="${ login_member.auth >= 3 }">
+      		<p align="right"><a href="<%=request.getContextPath()%>/faq/write" class="btn btn-info btn-xs" type="button">작성</a></p>
+      	</c:if>
 
 		</div>
+		
 	</div>
 	<!-- 
 	<script type="text/javascript">

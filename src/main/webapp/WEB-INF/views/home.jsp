@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
 <head>
-<title>Index</title>
+<title>home</title>
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -25,7 +25,7 @@
 
 				<div class="col-md-8" data-aos="fade-up" data-aos-delay="400">
 					<h1 
-						class="text-white font-weight-light text-uppercase font-weight-bold">Index</h1>
+						class="text-white font-weight-light text-uppercase font-weight-bold">KeepGoing</h1>
 				</div>
 			</div>
 		</div>
@@ -53,7 +53,7 @@
           <a href="#" class="unit-1 text-center">
             <img src="<%=request.getContextPath() %>/resources/images/img_2.jpg" alt="Image" class="img-fluid">
             <div class="unit-1-text">
-              <h3 class="unit-1-heading">Air Transports</h3>
+              <h3 class="unit-1-heading">오늘의 최다 판매 상품</h3>
               <p class="px-5">운동을 여ㅑㄹ심히 하자 운동을 여ㅑㄹ심히 하자  운동을 여ㅑㄹ심히 하자  운동을 여ㅑㄹ심히 하자  운동을 여ㅑㄹ심히 하자it. Eos tempore ullam minus voluptate libero.</p>
             </div>
           </a>
@@ -63,7 +63,7 @@
           <a href="#" class="unit-1 text-center">
             <img src="<%=request.getContextPath() %>/resources/images/img_3.jpg" alt="Image" class="img-fluid">
             <div class="unit-1-text">
-              <h3 class="unit-1-heading">Cargo Transports</h3>
+              <h3 class="unit-1-heading">최대 리뷰 헬스장 </h3>
               <p class="px-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos tempore ullam minus voluptate libero.</p>
             </div>
           </a>
@@ -73,7 +73,7 @@
           <a href="#" class="unit-1 text-center">
             <img src="<%=request.getContextPath() %>/resources/images/img_4.jpg" alt="Image" class="img-fluid">
             <div class="unit-1-text">
-              <h3 class="unit-1-heading">Cargo Ship</h3>
+              <h3 class="unit-1-heading">오늘의 최다 리뷰</h3>
               <p class="px-5">Lorem ipsum dolor sit amet 자  운동을 여ㅑㄹ심히 하자  운동을 여ㅑㄹ심e libero.</p>
             </div>
           </a>
@@ -83,7 +83,7 @@
           <a href="#" class="unit-1 text-center">
             <img src="<%=request.getContextPath() %>/resources/images/img_5.jpg" alt="Image" class="img-fluid">
             <div class="unit-1-text">
-              <h3 class="unit-1-heading">Ware Housing</h3>
+              <h3 class="unit-1-heading">오늘의 추천 레시피</h3>
               <p class="px-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. ghhhhhEos tempore ullam minus voluptate libero.</p>
             </div>
           </a>

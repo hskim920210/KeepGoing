@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.tje.model.*;
+
 import java.util.*;
 
 @Repository
@@ -82,6 +83,25 @@ private JdbcTemplate jdbcTemplate;
 				new SimpleBoardFreeViewRowMapper());
 		return results.isEmpty() ? null : results;
 	}
+	
+	//페이징 처리///////////////
+	public int listCountCriteria() {
+		String sql = "select count(*) from simpleboardfreeview";
+		return this.jdbcTemplate.queryForObject(sql, Integer.class);
+	}
+	
+	
+	
+	public List<SimpleBoardFreeView> listCriteria(int pageStart, int perPageNum) {
+		String sql = "select * from simpleboardfreeview where board_id >0 order by board_id desc limit ?,?";
+		List<SimpleBoardFreeView> results=this.jdbcTemplate.query(sql,
+				new SimpleBoardFreeViewRowMapper(),
+				pageStart,
+				perPageNum);
+		return results.isEmpty() ? null : results;
+	}
+	
+	////////////////////
 	
 	public List<SimpleBoardFreeView> selectAllOrdByCmtCntAsc() {
 		String sql = "select * from SimpleBoardFreeView order by comment_cnt asc";
