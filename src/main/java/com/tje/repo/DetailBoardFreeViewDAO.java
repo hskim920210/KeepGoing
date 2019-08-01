@@ -28,27 +28,36 @@ private JdbcTemplate jdbcTemplate;
 			DetailBoardFreeView detailBoardFreeView=new DetailBoardFreeView(
 					rs.getInt(1),
 					rs.getInt(2),
-					rs.getString(3),
+					rs.getInt(3),
 					rs.getString(4),
-					rs.getInt(5),
-					rs.getString(6),
+					rs.getString(5),
+					rs.getInt(6),
 					rs.getString(7),
-					rs.getInt(8),
+					rs.getString(8),
 					rs.getInt(9),
 					rs.getInt(10),
-					rs.getDate(11));
+					rs.getInt(11),
+					rs.getDate(12));
 			return detailBoardFreeView;
 		}
 	}
 	
+	
+	// 게시글 조회
 	public DetailBoardFreeView selectOne(DetailBoardFreeView model) {
-		String sql = "select * from DetailBoardFreeView where board_id=?";
+		String sql = "select * from detailboardfreeview where board_id=?";
 		return this.jdbcTemplate.queryForObject(sql, 
 				new DetailBoardFreeViewRowMapper(), 
 				model.getBoard_id());
 	}
 	
-	
+	// 게시글 조회수
+	public int update_view_cnt(DetailBoardFreeView model) {
+		String sql = "update board_free set view_cnt=view_cnt+1 where board_id=?";
+		
+		return this.jdbcTemplate.update(sql,
+				model.getBoard_id());
+	}
 	
 	
 	//좋아요 카운트
@@ -59,7 +68,7 @@ private JdbcTemplate jdbcTemplate;
 		return results.isEmpty() ? null : results;
 	}
 	
-	//좋아요 카운트
+	//싫어요 카운트
 	public List<DetailBoardFreeView> selectAllOrdByDisLikeCntAsc() {
 		String sql = "select * from DetailBoardFreeView order by dislike_cnt asc";
 		List<DetailBoardFreeView> results=this.jdbcTemplate.query(sql,

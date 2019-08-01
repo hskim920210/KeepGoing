@@ -15,8 +15,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import com.tje.model.Board_Free;
-import com.tje.model.DetailBoardFreeView;
+import com.tje.model.*;
 
 
 
@@ -69,35 +68,7 @@ private JdbcTemplate jdbcTemplate;
 		return keyHolder.getKey().intValue();
 		
 		
-		
-//		return this.jdbcTemplate.update("insert into board_free values(0,6,?,?,?,?,0,now())",
-//				model.getCategory(),
-//				model.getTitle(),
-//				model.getContent(),
-//				model.getMember_id()
-//				);
-				
-				
 	}
-	
-//	public int update(Board_Free model) {
-//		
-//		return this.jdbcTemplate.update("update board_free set content = ? where board_id = ?)",
-//				model.getContent(),
-//				model.getBoard_id()
-//				);
-//				
-//				
-//	}
-//	
-//	// 게시판 삭제
-//		public int delete(DetailBoardFreeView model) {
-//					return this.jdbcTemplate.update("delete from board_free where board_id = ?",
-//					model.getContent(),
-//					model.getBoard_id()
-//						);
-//		}
-//	
 
 	
 	
