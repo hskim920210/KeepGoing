@@ -72,8 +72,8 @@
 									<div>
 										<c:if
 											test="${ login_member.member_id eq 'admin' or login_member.member_id eq searchedItem.member_id }">
-											<button class="btn btn-default" id="update_item">수정</button>
-											<button class="btn btn-default" id="delete_item">삭제</button>
+											<a href="<%=request.getContextPath()%>/item_update/${searchedItem.board_id}" class="btn btn-primary" type="button">수정</a>
+											<a href="<%=request.getContextPath()%>/item_delete/${searchedItem.board_id}" class="btn btn-primary" type="button">삭제</a>
 										</c:if>
 										<form method="post" id="form6">
 											<input type="hidden" name="board_id"

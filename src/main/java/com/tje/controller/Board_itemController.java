@@ -53,11 +53,7 @@ public class Board_itemController {
 	@Autowired
 	private ItemViewCntUpdateService ivcuService;
 	@Autowired
-	private CommentAddService caService;
-	@Autowired
 	private CommentSelectService csSercie;
-	@Autowired
-	private CommentDeleteService cdService;
 	@Autowired
 	private LikeAndDislikeService ladService;
 	
@@ -114,7 +110,6 @@ public class Board_itemController {
 		
 		try {
 			multipartRequest=new MultipartRequest(request, dirPath, size, "utf-8", new DefaultFileRenamePolicy());
-			
 			String member_id=multipartRequest.getParameter("member_id");
 			String title=multipartRequest.getParameter("title");
 			String content=multipartRequest.getParameter("content");
@@ -128,12 +123,12 @@ public class Board_itemController {
 			Board_Item item=new Board_Item(0, 3, category, title, content, member_id, number, price, imageName, 0, null);
 			
 			result=(int) aiService.service(item);
-			System.out.println(result);
 			
 			if(result==1)
 				return "상품 추가가 완료되었습니다.";
 			
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		
 		return "상품 추가 과정에서 문제가 발생하였습니다.";
@@ -181,90 +176,34 @@ public class Board_itemController {
 		return "item_view";
 	}
 	
-	@PostMapping(value = "/comment_add")
-	@ResponseBody
-	public Comment comment_add(
-			Comment comment,
-			Model model,
-			HttpServletResponse response) {
-		
-		int r=(int) caService.service(comment);
-		comment.setComment_id(r);
-		
-		response.setContentType("application/json; charset=utf-8");
-		
-		if(r!=0) {
-			return comment;
-		}
-		
-		return null;
-	}
-	
-	@PostMapping(value = "/comment_delete", produces = "application/text; charset=utf8")
-	@ResponseBody
-	public String comment_delete(@RequestParam("comment_id") int comment_id) {
-		
-		Comment comment=new Comment();
-		comment.setComment_id(comment_id);
-		
-		int r=(int) cdService.service(comment);
-		
-		if(r==1) {
-			return "댓글 삭제을 완료했습니다.";
-		}
-		
-		return "댓글 삭제를 실패했습니다.";
-	}
-	
-	@PostMapping(value = "/like_and_dislike", produces = "application/text; charset=utf8")
-	@ResponseBody
-	public String like_and_dislike(
-			@RequestBody Map<String, Object> map,
-			HttpSession session,
+	@GetMapping("/item_update/{board_id}")
+	public String item_update(
+			@PathVariable(value = "board_id", required = true) Integer board_id,
 			Model model) {
 		
-		Member login_member=(Member) session.getAttribute("login_member");
+		DetailBoardItemView item=new DetailBoardItemView();
+		item.setBoard_id(board_id);
 		
-		LikeAndDislike lad=new LikeAndDislike();
-		lad.setMember_id(login_member.getMember_id());
-		lad.setBoard_id((int) map.get("board_id"));
-		lad.setTopic((int) map.get("topic"));
+		DetailBoardItemView result=(DetailBoardItemView) ivService.service(item);
 		
-		int status=(int) map.get("status");
-		
-		int r=0;
-		
-		switch (status) {
-		case 1:	
-			lad.setIs_like(1);
-			r=(int) ladService.update(lad);
-			break;
-		case 2:	
-			lad.setIs_like(1);
-			r=(int) ladService.insert(lad);
-			break;
-		case 3:	
-			r=(int) ladService.delete(lad);
-			break;
-		case 4:	
-			lad.setIs_like(2);
-			r=(int) ladService.update(lad);
-			break;
-		case 5:	
-			lad.setIs_like(2);
-			r=(int) ladService.insert(lad);
-			break;
-		case 6:	
-			r=(int) ladService.delete(lad);
-			break;
-		default:
-			break;
+		if(result==null) {
+			return "redirect:/error/update_item";
 		}
 		
-		if(r!=0) {
-			return "success";
-		}
+		model.addAttribute("searchedItem", result);
 		
-		return "fail";
+		return "update_item";
+	}
+	
+	@PostMapping("/item_update/{board_id}")
+	@ResponseBody
+	public String item_update(
+			HttpServletRequest request,
+			@PathVariable(value = "board_id", required = true) Integer board_id,
+			Model model) {
+		
+		
+		
+		return "item_update";
 	}
 }
