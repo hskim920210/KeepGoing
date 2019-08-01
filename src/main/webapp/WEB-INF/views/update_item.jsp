@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
 <head>
-<title>상품 추가</title>
+<title>상품 수정</title>
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -25,7 +25,7 @@
 
 				<div class="col-md-8" data-aos="fade-up" data-aos-delay="400">
 					<h1
-						class="text-white font-weight-light text-uppercase font-weight-bold">상품 추가</h1>
+						class="text-white font-weight-light text-uppercase font-weight-bold">상품 수정</h1>
 				</div>
 			</div>
 		</div>
@@ -34,38 +34,39 @@
 	
 	<div class="container">
 
-    	<form id="add_item_form" enctype="multipart/form-data" method="post">
+    	<form id="update_item_form" enctype="multipart/form-data" method="post">
     		<input type="hidden" name="member_id" value="${ login_member.member_id }">
 			<div class="form-group">
 				<label for="title">제목</label>
-				<input type="text" class="form-control" name="title" placeholder="Title">
+				<input type="text" class="form-control" name="title" placeholder="Title" value="${ searchedItem.title }">
 			</div>
 			<div class="form-group">
 				<label for="content">내용</label>
-				<textarea rows="20" cols="" class="form-control" name="content" placeholder="Content"></textarea>
+				<textarea rows="20" cols="" class="form-control" name="content" placeholder="Content">${ searchedItem.content }</textarea>
 			</div>
 			<div class="form-group">
 				<label for="category">카테고리</label>
 				<select name="category">
-					<option value="1">운동기구</option>
-					<option value="2">보충제</option>
-					<option value="3">기타</option>
+					<option value="1" ${ searchedItem.category==1 ? 'selected' : '' }>운동기구</option>
+					<option value="2" ${ searchedItem.category==2 ? 'selected' : '' }>보충제</option>
+					<option value="3" ${ searchedItem.category==3 ? 'selected' : '' }>기타</option>
 				</select>
 			</div>
 			<div class="form-group">
 				<label for="title">개수</label>
-				<input type="text" class="form-control" id="number" name="number" placeholder="Number">
+				<input type="text" class="form-control" id="number" name="number" placeholder="Number" value="${ searchedItem.number }">
 			</div>
 			<div class="form-group">
 				<label for="title">가격</label>
-				<input type="text" class="form-control" id="price" name="price" placeholder="Price">
+				<input type="text" class="form-control" id="price" name="price" placeholder="Price" value="${ searchedItem.price }">
 			</div>
 			<div class="form-group">
 				<label for="image">이미지 업로드</label>
 				<input type="file" name="image">
+				<p>*미 입력시 이전의 이미지 사용</p>
 			</div>
 			
-			<button type="button" class="btn btn-info" id="add_item">상품 등록</button>
+			<button type="button" class="btn btn-info" id="update_item">상품 수정</button>
 		</form>
 
     </div>
@@ -74,19 +75,19 @@
 	
 	<script type="text/javascript">
 		$(document).ready(function() {
-			$("#add_item").on("click", function() {
+			$("#update_item").on("click", function() {
 				if(numberCheck()==false)
 		    		return;
 		    	if(priceCheck()==false)
 		    		return;
 		    	
-		    	var form = $('#add_item_form')[0];
+		    	var form = $('#update_item_form')[0];
 
 		        var formData = new FormData(form);
 		    	
 			   	 $.ajax({
 			   	        type:"POST",
-			   	        url:"<%=request.getContextPath()%>/add_item",
+			   	        url:"<%=request.getContextPath()%>/item_update/${searchedItem.board_id}",
 			   	     	enctype: 'multipart/form-data',
 			   	        contentType: false,
 			   	    	processData: false,
@@ -95,9 +96,8 @@
 			   	        success: function(result) {
 							alert(result);
 			   	        },
-			   	        error: function(request,status,error) {
-			   	          alert("err");
-			   	       alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			   	        error: function(e) {
+			   	          alert("에러 발생");
 			   	        }			
 			   	});
 			})
