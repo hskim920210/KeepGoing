@@ -79,6 +79,11 @@
     </div>
 	
 	<jsp:include page="javascriptInclude.jsp" flush="false"></jsp:include>
+	
+	
+     <footer>
+ <jsp:include page="site_footer.jsp"></jsp:include>
+</footer>
 
 </body>
 </html>

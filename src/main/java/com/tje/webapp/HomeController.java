@@ -109,4 +109,28 @@ public class HomeController {
 	public String registIndividual_option() {
 		return "/terms/individual_option";
 	}
+	
+
+	@GetMapping("/site_footer/service")
+	public String service() {
+		return "/terms/service";
+	}
+	
+
+	@GetMapping("/site_footer/about_us")
+	public String about_us() {
+		return "/terms/about_us";
+	}
+	
+
+	@GetMapping("/site_footer/company_info")
+	public String company_info() {
+		return "/terms/company_info";
+	}
+	
+
+	@GetMapping("/site_footer/privacy_policy")
+	public String privacy_policy() {
+		return "/terms/privacy_policy";
+	}
 }

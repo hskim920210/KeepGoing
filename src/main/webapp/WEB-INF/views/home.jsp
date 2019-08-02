@@ -185,6 +185,16 @@
       </div>
     </div>
     
+
+ <jsp:include page="site_footer.jsp"></jsp:include>
+    
+ 
+
+
+
+</div>
+    
+    <%-- 
 	<footer class="site-footer">
 		<div class="container">
 			<div class="row">
@@ -262,7 +272,9 @@
 			</div>
 		</div>
 	</footer>
+	--%>
 	</div>
+	
 
 	<jsp:include page="javascriptInclude.jsp" flush="false"></jsp:include>
 	

@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
 <head>
-<title>Index</title>
+<title>Cart</title>
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -38,5 +38,10 @@
 	
 
 	<jsp:include page="javascriptInclude.jsp" flush="false"></jsp:include>
+	
+	
+ <jsp:include page="site_footer.jsp"></jsp:include>
+
+	
 </body>
 </html>
