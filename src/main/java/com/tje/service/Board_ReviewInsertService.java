@@ -16,6 +16,7 @@ public class Board_ReviewInsertService {
 		try {
 			result=board_ReviewDAO.insert(b_r);
 		} catch (Exception e) {
+			e.printStackTrace();
 			System.out.println(b_r.getBoard_id());
 			System.out.println(b_r.getTopic());
 			System.out.println(b_r.getCategory());

@@ -43,6 +43,104 @@ private JdbcTemplate jdbcTemplate;
 		}
 	}
 	
+	public List<SimpleBoardReviewView> recipelistCriteria(int pageStart, int perPageNum) {
+		String sql = "select * from simpleboardreviewview where board_id>0 and category=7 order by board_id desc limit ?,?";
+		List<SimpleBoardReviewView> results=this.jdbcTemplate.query(sql,
+				new SimpleBoardReviewViewRowMapper(),
+				pageStart,
+				perPageNum);
+		return results.isEmpty() ? null : results;
+	}
+	
+	public int recipelistCountCriteria() {
+		String sql = "select count(*) from simpleboardreviewview where category=7";
+		return this.jdbcTemplate.queryForObject(sql, Integer.class);
+	}
+	
+	public List<SimpleBoardReviewView> weightlistCriteria(int pageStart, int perPageNum) {
+		String sql = "select * from simpleboardreviewview where category=6 order by board_id desc limit ?,?";
+		List<SimpleBoardReviewView> results=this.jdbcTemplate.query(sql,
+				new SimpleBoardReviewViewRowMapper(),
+				pageStart,
+				perPageNum);
+		return results.isEmpty() ? null : results;
+	}
+	
+	public int weightlistCountCriteria() {
+		String sql = "select count(*) from simpleboardreviewview where category=6";
+		return this.jdbcTemplate.queryForObject(sql, Integer.class);
+	}
+	
+	public List<SimpleBoardReviewView> dietlistCriteria(int pageStart, int perPageNum) {
+		String sql = "select * from simpleboardreviewview where board_id>0 and category=5 order by board_id desc limit ?,?";
+		List<SimpleBoardReviewView> results=this.jdbcTemplate.query(sql,
+				new SimpleBoardReviewViewRowMapper(),
+				pageStart,
+				perPageNum);
+		return results.isEmpty() ? null : results;
+	}
+	
+	public int dietlistCountCriteria() {
+		String sql = "select count(*) from simpleboardreviewview where category=5";
+		return this.jdbcTemplate.queryForObject(sql, Integer.class);
+	}
+	
+	public List<SimpleBoardReviewView> placelistCriteria(int pageStart, int perPageNum) {
+		String sql = "select * from simpleboardreviewview where board_id>0 and category=4 order by board_id desc limit ?,?";
+		List<SimpleBoardReviewView> results=this.jdbcTemplate.query(sql,
+				new SimpleBoardReviewViewRowMapper(),
+				pageStart,
+				perPageNum);
+		return results.isEmpty() ? null : results;
+	}
+	
+	public int placelistCountCriteria() {
+		String sql = "select count(*) from simpleboardreviewview where category=4";
+		return this.jdbcTemplate.queryForObject(sql, Integer.class);
+	}
+	
+	public List<SimpleBoardReviewView> fitnesslistCriteria(int pageStart, int perPageNum) {
+		String sql = "select * from simpleboardreviewview where board_id>0 and category=3 order by board_id desc limit ?,?";
+		List<SimpleBoardReviewView> results=this.jdbcTemplate.query(sql,
+				new SimpleBoardReviewViewRowMapper(),
+				pageStart,
+				perPageNum);
+		return results.isEmpty() ? null : results;
+	}
+	
+	public int fitnesslistCountCriteria() {
+		String sql = "select count(*) from simpleboardreviewview where category=3";
+		return this.jdbcTemplate.queryForObject(sql, Integer.class);
+	}
+	
+	public List<SimpleBoardReviewView> itemlistCriteria(int pageStart, int perPageNum) {
+		String sql = "select * from simpleboardreviewview where board_id>0 and category=2 order by board_id desc limit ?,?";
+		List<SimpleBoardReviewView> results=this.jdbcTemplate.query(sql,
+				new SimpleBoardReviewViewRowMapper(),
+				pageStart,
+				perPageNum);
+		return results.isEmpty() ? null : results;
+	}
+	
+	public int itemlistCountCriteria() {
+		String sql = "select count(*) from simpleboardreviewview where category=2";
+		return this.jdbcTemplate.queryForObject(sql, Integer.class);
+	}
+	
+	public List<SimpleBoardReviewView> listCriteria(int pageStart, int perPageNum) {
+		String sql = "select * from simpleboardreviewview where board_id>0 order by board_id desc limit ?,?";
+		List<SimpleBoardReviewView> results=this.jdbcTemplate.query(sql,
+				new SimpleBoardReviewViewRowMapper(),
+				pageStart,
+				perPageNum);
+		return results.isEmpty() ? null : results;
+	}
+	
+	public int listCountCriteria() {
+		String sql = "select count(*) from simpleboardreviewview";
+		return this.jdbcTemplate.queryForObject(sql, Integer.class);
+	}
+	
 	public SimpleBoardReviewView selectOne(SimpleBoardReviewView model) throws Exception{
 		String sql = "select * from SimpleBoardReviewView where board_id=?";
 		return this.jdbcTemplate.queryForObject(sql, 

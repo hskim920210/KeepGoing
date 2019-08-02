@@ -15,6 +15,7 @@
 	<jsp:include page="menu.jsp" flush="false"></jsp:include>
 
 	<jsp:include page="modalLogin.jsp" flush="false"></jsp:include>
+	<jsp:include page="reviewSearchModal.jsp" flush="false"></jsp:include>
 
 	<div class="site-blocks-cover inner-page-cover overlay"
 		style="background-image: url(<%=request.getContextPath()%>/resources/images/hero_bg_1.jpg);"
