@@ -73,19 +73,11 @@
 										<c:if
 											test="${ login_member.member_id eq 'admin' or login_member.member_id eq searchedItem.member_id }">
 											<a href="<%=request.getContextPath()%>/item_update/${searchedItem.board_id}" class="btn btn-primary" type="button">수정</a>
-											<a href="<%=request.getContextPath()%>/item_delete/${searchedItem.board_id}" class="btn btn-primary" type="button">삭제</a>
+											<a class="btn btn-primary" id="item_delete" type="button">삭제</a>
 										</c:if>
-										<form method="post" id="form6">
-											<input type="hidden" name="board_id"
-												value="${ searchedItem.board_id }"> <input
-												type="hidden" name="image" value="${ searchedItem.image }">
-											<input type="hidden" name="title"
-												value="${ searchedItem.title }"> <input
-												type="hidden" name="category"
-												value="${ searchedItem.category }">
-										</form>
-										<button class="btn btn-default" id="buy" type="button">구매</button>
-										<button class="btn btn-default" id="add_cart" type="button">장바구니에
+										
+										<button class="btn btn-primary" id="item_buy" type="button">구매</button>
+										<button class="btn btn-primary" id="add_cart" type="button">장바구니에
 											추가</button>
 									</div>
 								</div>
@@ -372,6 +364,76 @@
 		        });
 			})
 		});
+	</script>
+	<!-- 상품 삭제 -->
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$("#item_delete").on("click", function() {
+				
+				var board_id=${searchedItem.board_id};
+				
+				$.ajax({
+		            url: "<%=request.getContextPath()%>/item_delete/${searchedItem.board_id}",
+		            type: "post",
+		            data: "board_id="+board_id,
+		            success: function(data){
+		                alert(data);
+		                
+		                location.href="<%=request.getContextPath()%>/item";
+		            },
+		            error: function(){
+		                alert("err");
+		            }
+		        });
+			})
+		})
+	</script>
+	<!-- 상품 구매 -->
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$("#item_buy").on("click", function() {
+				
+				var board_id=${searchedItem.board_id};
+				
+				$.ajax({
+		            url: "<%=request.getContextPath()%>/add_cart/${searchedItem.board_id}",
+		            type: "post",
+		            data: "board_id="+board_id,
+		            success: function(data){
+		                alert(data);
+		                
+		                location.href="<%=request.getContextPath()%>/cart";
+		            },
+		            error: function(){
+		                alert("err");
+		            }
+		        });
+			})
+		})
+	</script>
+	<!-- 장바구니 추가 -->
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$("#add_cart").on("click", function() {
+				
+				var board_id=${searchedItem.board_id};
+				
+				$.ajax({
+		            url: "<%=request.getContextPath()%>/add_cart/${searchedItem.board_id}",
+		            type: "post",
+		            data: "board_id="+board_id,
+		            success: function(data){
+		            	if(data=="success")
+		                	alert("장바구니에 추가되었습니다.");
+		            	else
+		            		alert("장바구니 추가가 실패했습니다.");
+		            },
+		            error: function(){
+		                alert("err");
+		            }
+		        });
+			})
+		})
 	</script>
 </body>
 </html>

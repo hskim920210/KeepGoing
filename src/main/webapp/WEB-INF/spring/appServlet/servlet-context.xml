@@ -34,7 +34,16 @@
 	<!-- kakao 로그인 -->
 	<beans:bean name="auth" class="com.tje.api.Auth" />
 
-
+	<beans:bean id="AuthInterceptor" class="com.tje.interceptor.AuthInterceptor"/>
+	
+	<interceptors>
+		<interceptor>
+			<mapping path="/add_item"/>
+			<mapping path="/item_update/*"/>
+			<mapping path="/item_delete/*"/>
+			<beans:ref bean="AuthInterceptor"/>
+		</interceptor>
+	</interceptors>
 	
 	
 </beans:beans>
