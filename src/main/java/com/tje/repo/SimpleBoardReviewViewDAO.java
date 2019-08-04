@@ -43,6 +43,71 @@ private JdbcTemplate jdbcTemplate;
 		}
 	}
 	
+	public int searchReviewWriterCount(int category_Num, String keyword) {
+		String sql = "select count(*) from simpleboardreviewview where board_id>0 and category=? and nickname like ?";
+		return this.jdbcTemplate.queryForObject(sql, Integer.class, 
+				category_Num, keyword);
+	}
+	
+	public List<SimpleBoardReviewView> searchReviewWriter(int category_Num, String keyword, int pageStart, int perPageNum) {
+		String sql = "select * from simpleboardreviewview where board_id>0 and category=? and nickname like ? order by board_id desc limit ?,?";
+		List<SimpleBoardReviewView> results=this.jdbcTemplate.query(sql, new SimpleBoardReviewViewRowMapper(), 
+				category_Num, keyword, pageStart, perPageNum);
+		return results.isEmpty() ? null : results;
+	}
+	
+	public int searchReviewTitleAndContentCount(int category_Num, String keyword) {
+		String sql = "select count(*) from simpleboardreviewview where (board_id>0 and category=?) and (title like ? or content like ?)";
+		return this.jdbcTemplate.queryForObject(sql,
+				Integer.class, category_Num, keyword, keyword);
+	}
+	
+	public List<SimpleBoardReviewView> searchReviewTitleAndContent(int category_Num, String keyword, int pageStart, int perPageNum) {
+		String sql = "select * from simpleboardreviewview where (board_id>0 and category=?) and (title like ? or content like ?) order by board_id desc limit ?,?";
+		List<SimpleBoardReviewView> results=this.jdbcTemplate.query(sql, new SimpleBoardReviewViewRowMapper(),
+				category_Num, keyword, keyword, pageStart, perPageNum);
+		return results.isEmpty() ? null : results;
+	}
+	
+	public int searchReviewContentCount(int category_Num, String keyword) {
+		String sql = "select count(*) from simpleboardreviewview where board_id>0 and category=? and content like ?";
+		return this.jdbcTemplate.queryForObject(sql,
+				Integer.class, category_Num, keyword);
+	}
+	
+	public List<SimpleBoardReviewView> searchReviewContent(int category_Num, String keyword, int pageStart, int perPageNum) {
+		String sql = "select * from simpleboardreviewview where board_id>0 and category=? and content like ? order by board_id desc limit ?,?";
+		List<SimpleBoardReviewView> results=this.jdbcTemplate.query(sql,
+				new SimpleBoardReviewViewRowMapper(), category_Num, keyword, pageStart, perPageNum);
+		return results.isEmpty() ? null : results;
+	}
+	
+	public int searchReviewTitleCount(int category_Num, String keyword) {
+		String sql = "select count(*) from simpleboardreviewview where board_id>0 and category=? and title like ?";
+		return this.jdbcTemplate.queryForObject(sql,
+				Integer.class, category_Num, keyword);
+	}
+	
+	public List<SimpleBoardReviewView> searchReviewTitle(int category_Num, String keyword, int pageStart, int perPageNum) {
+		String sql = "select * from simpleboardreviewview where board_id>0 and category=? and title like ? order by board_id desc limit ?,?";
+		List<SimpleBoardReviewView> results=this.jdbcTemplate.query(sql,
+				new SimpleBoardReviewViewRowMapper(), category_Num, keyword, pageStart, perPageNum);
+		return results.isEmpty() ? null : results;
+	}
+	
+	public int searchReviewAllCount(int category_Num, String keyword) {
+		String sql = "select count(*) from simpleboardreviewview where (board_id>0 and category=?) and (content like ? or title like ? or nickname like ?)";
+		return this.jdbcTemplate.queryForObject(sql, Integer.class, category_Num, keyword);
+	}
+	
+	public List<SimpleBoardReviewView> searchReviewAll(int category_Num, String keyword, int pageStart, int perPageNum) {
+		String sql = "select * from simpleboardreviewview where (board_id>0 and category=?) and (content like ? or title like ? or nickname like ?) order by board_id desc limit ?,?";
+		List<SimpleBoardReviewView> results=this.jdbcTemplate.query(sql,
+				new SimpleBoardReviewViewRowMapper(),
+				category_Num, keyword, keyword, keyword, pageStart, perPageNum);
+		return results.isEmpty() ? null : results;
+	}
+	
 	public List<SimpleBoardReviewView> recipelistCriteria(int pageStart, int perPageNum) {
 		String sql = "select * from simpleboardreviewview where board_id>0 and category=7 order by board_id desc limit ?,?";
 		List<SimpleBoardReviewView> results=this.jdbcTemplate.query(sql,

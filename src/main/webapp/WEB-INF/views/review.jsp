@@ -59,6 +59,7 @@
 	<div align="center" style="margin-left: 10%; margin-right: 10%;">
 		<div class="site-section block-13" style="padding-top: 5;">
 			<div class="row">
+			<h2>${ strCategory }의 리뷰</h2>
 				<c:forEach items="${ simpleBoardReviewViewList }" var="item">
 					<a
 						href="<%= request.getContextPath() %>/review/detail/${ item.category }_${item.board_id}"

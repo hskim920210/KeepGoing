@@ -2,8 +2,7 @@ package com.tje.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -35,38 +34,15 @@ public class Board_ReviewController {
 	private DetailBoardReviewViewSelectOneService dbrvsoService;
 	@Autowired
 	private ReviewWriteTransactionService rwtService;
-	@Autowired
-	private SimpleBoardReviewListCriteriaService sbrlcService;
-	@Autowired
-	private SimpleBoardReviewListCountCriteriaService sbrlccService;
+	
 	@Autowired
 	private LikeAndDislikeService ladService;
 	@Autowired
 	private ReviewViewCntUpdateService rvcuService;
 	@Autowired
-	private SimpleBoardReviewItemListCriteriaService sbrilcService;
+	private SimpleBoardReviewViewService sbrvService;
 	@Autowired
-	private SimpleBoardReviewItemListCountCriteriaService sbrilccService;
-	@Autowired
-	private SimpleBoardReviewFitnessListCriteriaService sbrflcService;
-	@Autowired
-	private SimpleBoardReviewFitnessListCountCriteriaService sbrflccService;
-	@Autowired
-	private SimpleBoardReviewPlaceListCriteriaService sbrplcService;
-	@Autowired
-	private SimpleBoardReviewPlaceListCountCriteriaService sbrplccService;
-	@Autowired
-	private SimpleBoardReviewDietListCriteriaService sbrdlcService;
-	@Autowired
-	private SimpleBoardReviewDietListCountCriteriaService sbrdlccService;
-	@Autowired
-	private SimpleBoardReviewWeightListCriteriaService sbrwlcService;
-	@Autowired
-	private SimpleBoardReviewWeightListCountCriteriaService sbrwlccService;
-	@Autowired
-	private SimpleBoardReviewRecipeListCriteriaService sbrrlcService;
-	@Autowired
-	private SimpleBoardReviewRecipeListCountCriteriaService sbrrlccService;
+	private SimpleBoardReviewViewSearchService sbrvsService;
 	
 	// 전체 게시글 컨트롤러 
 	@RequestMapping(value = {"/review/{category_Num}","/review/{category_Num}/{curPageNo}"})
@@ -88,43 +64,12 @@ public class Board_ReviewController {
 		PageMaker pageMaker=new PageMaker();
 		pageMaker.setCri(criteria);
 		
-		if (category_Num == 1) {
-			model.addAttribute("simpleBoardReviewViewList", (List<SimpleBoardReviewView>)sbrlcService.service(criteria));
-			pageMaker.setTotalCount((int)sbrlccService.service());
-			model.addAttribute("curPageNo", curPageNo);
-			model.addAttribute("pageMaker", pageMaker);  // 게시판 하단의 페이징 관련, 이전페이지, 페이지 링크 , 다음 페이지
-		} else if (category_Num == 2) {
-			model.addAttribute("simpleBoardReviewViewList", (List<SimpleBoardReviewView>)sbrilcService.service(criteria));
-			pageMaker.setTotalCount((int)sbrilccService.service());
-			model.addAttribute("curPageNo", curPageNo);
-			model.addAttribute("pageMaker", pageMaker);
-		} else if (category_Num == 3) {
-			model.addAttribute("simpleBoardReviewViewList", (List<SimpleBoardReviewView>)sbrflcService.service(criteria));
-			pageMaker.setTotalCount((int)sbrflccService.service());
-			model.addAttribute("curPageNo", curPageNo);
-			model.addAttribute("pageMaker", pageMaker);
-		} else if (category_Num == 4) {
-			model.addAttribute("simpleBoardReviewViewList", (List<SimpleBoardReviewView>)sbrplcService.service(criteria));
-			pageMaker.setTotalCount((int)sbrplccService.service());
-			model.addAttribute("curPageNo", curPageNo);
-			model.addAttribute("pageMaker", pageMaker);
-		} else if (category_Num == 5) {
-			model.addAttribute("simpleBoardReviewViewList", (List<SimpleBoardReviewView>)sbrdlcService.service(criteria));
-			pageMaker.setTotalCount((int)sbrdlccService.service());
-			model.addAttribute("curPageNo", curPageNo);
-			model.addAttribute("pageMaker", pageMaker);
-		} else if (category_Num == 6) {
-			model.addAttribute("simpleBoardReviewViewList", (List<SimpleBoardReviewView>)sbrwlcService.service(criteria));
-			pageMaker.setTotalCount((int)sbrwlccService.service());
-			model.addAttribute("curPageNo", curPageNo);
-			model.addAttribute("pageMaker", pageMaker);
-		} else if (category_Num == 7) {
-			model.addAttribute("simpleBoardReviewViewList", (List<SimpleBoardReviewView>)sbrrlcService.service(criteria));
-			pageMaker.setTotalCount((int)sbrrlccService.service());
-			model.addAttribute("curPageNo", curPageNo);
-			model.addAttribute("pageMaker", pageMaker);
-		}
-
+		HashMap<String, Object> result = (HashMap<String, Object>)sbrvService.service(criteria, category_Num);
+		model.addAttribute("simpleBoardReviewViewList", (List<SimpleBoardReviewView>)result.get("list"));
+		pageMaker.setTotalCount((int)result.get("count"));
+		model.addAttribute("curPageNo", curPageNo);
+		model.addAttribute("pageMaker", pageMaker);  // 게시판 하단의 페이징 관련, 이전페이지, 페이지 링크 , 다음 페이지
+		model.addAttribute("strCategory", Board_Review_Category.returnCategory(category_Num));
 		System.out.println(pageMaker.toString());
 		return "review";
 	}
@@ -235,6 +180,30 @@ public class Board_ReviewController {
 		return "reviewDetail";
 	}
 	
-	
+	@PostMapping(value= {"/review/search","/review/search/{curPageNo"})
+	public String searchReview(Model model, HttpServletRequest req, Criteria criteria,
+			@PathVariable(value="curPageNo", required = false) Integer curPageNo) {
+		if(curPageNo==null) {
+			curPageNo=1;
+		}
+		// 현재 페이지
+		criteria.setPage(curPageNo);
+		// 페이지 당 게시물 갯수
+		criteria.setPerPageNum(3);
+		PageMaker pageMaker=new PageMaker();
+		pageMaker.setCri(criteria);
+		
+		int category_Num = Integer.parseInt(req.getParameter("category_Num"));
+		int search_Type = Integer.parseInt(req.getParameter("search_Type"));
+		String keyword = req.getParameter("keyword");
+		HashMap<String, Object> result = (HashMap<String, Object>)sbrvsService.service(search_Type, category_Num, keyword, criteria);
+		model.addAttribute("simpleBoardReviewViewList", (List<SimpleBoardReviewView>)result.get("list"));
+		pageMaker.setTotalCount((int)result.get("count"));
+		
+		model.addAttribute("curPageNo", curPageNo);
+		model.addAttribute("pageMaker", pageMaker);  // 게시판 하단의 페이징 관련, 이전페이지, 페이지 링크 , 다음 페이지
+		model.addAttribute("strCategory", Board_Review_Category.returnCategory(category_Num));
+		return "reviewDetail";
+	}
 	
 }

@@ -27,7 +27,7 @@
 
 						<!--Body-->
 						<div class="modal-body mb-1">
-							<form action="<%= request.getContextPath() %>/review/search" method="get" id="searchForm">
+							<form action="<%= request.getContextPath() %>/review/search" method="post" id="searchForm">
 								<div class="mb-3">
 										<select name="category_Num">
 											<option value="1" selected="selected">전체</option>
@@ -38,11 +38,18 @@
 											<option value="6">웨이트 트레이닝</option>
 											<option value="7">레시피</option>
 										</select>
+										<select name="search_Type">
+											<option value="1" selected="selected">전체</option>
+											<option value="2">제목</option>
+											<option value="3">내용</option>
+											<option value="4">제목+내용</option>
+											<option value="5">글쓴이</option>
+										</select>
 								</div>
 
 								<div class="mb-3">
 									<input type="text"
-										class="form-control" name="search_Keyword"
+										class="form-control" name="keyword"
 										placeholder="검색어를 입력해주세요.">
 								</div>
 
