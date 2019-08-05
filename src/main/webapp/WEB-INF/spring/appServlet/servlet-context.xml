@@ -18,7 +18,7 @@
 	
 	<beans:bean id="broadCastController" class="com.tje.websocket.BroadCastController" />
 	<websocket:handlers>
-		<websocket:mapping handler="broadCastController" path="/bc"/>
+		<websocket:mapping handler="broadCastController" path="/chat_admin"/>
 	</websocket:handlers>
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->

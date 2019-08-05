@@ -68,8 +68,6 @@ public class Free_BoardController {
 	@Autowired
 	private SimpleComplex_ListCriteriaService6 sc_lcSerivce; // 컴플랙스 극복 게시판 첫화면 _리스트 기준 서비스
 	@Autowired
-	private ItemViewCntUpdateService ivcuService; //조회수
-	@Autowired
 	private FreeViewService fvService;
 	@Autowired
 	private FreeViewCntUpdateService fvcuSErvice;

@@ -17,7 +17,6 @@
 
 	<jsp:include page="modalLogin.jsp" flush="false"></jsp:include>
 	<jsp:include page="reviewSearchModal.jsp" flush="false"></jsp:include>
-	<jsp:include page="chattingModal.jsp" flush="false"></jsp:include>
 
 	<div class="site-blocks-cover inner-page-cover overlay"
 		style="background-image: url(<%=request.getContextPath()%>/resources/images/top.jpg);"
@@ -89,7 +88,6 @@
 	</div>
 
 	<div class="container text-center pb-5">
-	<a href="" data-toggle="modal" data-target="#chattingModal">채팅</a>
 		<div class="row">
 			<div class="col-12">
 

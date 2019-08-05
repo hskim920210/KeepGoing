@@ -2,6 +2,7 @@ package com.tje.websocket;
 
 import java.util.*;
 
+import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
@@ -51,9 +52,59 @@ public class BroadCastController extends TextWebSocketHandler {
 		idAndNicknames.append(String.format("%s (%s),", sessionMap.get(id).getNickname(), id));
 		TextMessage message = new TextMessage(idAndNicknames.toString());
 		for( String key : sessionMap.keySet() ) {
-			if( !key.equals(id) ) {
+			 if( !key.equals(id) ) {
 				sessionMap.get(key).getSession().sendMessage(message);
+			 }
+		}
+	}
+	
+	// 웹 소켓 클라이언트가 서버측으로 데이터를 전송할 때 실행되는 메소드
+	@Override
+	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+		// 각 세션의 첫번째 메세지 전달 코드는 닉네임
+		String id = session.getId();
+		// 연결 되자마자 닉네임이 바로 전달되어 닉네임 설정
+		if( sessionMap.get(id).getNickname() == null ) {
+			StringBuffer idAndNicknames = new StringBuffer("newClient:");
+			for( String key : sessionMap.keySet() ) {
+				if( key.equals(id) ) {
+					continue;
+				}
+				idAndNicknames.append(String.format("%s (%s)", sessionMap.get(key).getNickname(), key));
 			}
+			session.sendMessage(new TextMessage(idAndNicknames.toString()));
+			sessionMap.get(id).setNickname(message.getPayload());
+			sendClientNicknames(id);
+			return;
+		}
+		// 클라이언트가 전송한 데이터 출력
+		System.out.printf("%s로부터 [%s]를 받음\n", sessionMap.get(id).getNickname(), message.getPayload());
+		
+		StringTokenizer st = new StringTokenizer(message.getPayload(), ":@");
+		st.nextToken(); // to
+		String target = st.nextToken(); // target ID
+		String msg = st.nextToken(); // 메세지
+		
+		if( !target.equals("all") ) {
+			sessionMap.get(target).getSession().sendMessage(
+					new TextMessage("(" + sessionMap.get(id).getNickname() + "님으로부터 쪽지 : " + msg));
+		} else {
+			// 모든 클라이언트에게 전송
+			for( String key : sessionMap.keySet() ) {
+				sessionMap.get(key).getSession().sendMessage(new TextMessage(sessionMap.get(id).getNickname() + " : " + message.getPayload()));
+			}
+		}
+	}
+	
+	@Override
+	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+		System.out.println(session.getId() + "가 연결 종료됨");
+		// 연결이 종료된 클라이언트를 세션 목록에서 제거하고 그 정보를 받아온다. (remove 리턴값)
+		WebSocketClientInfo closedClient = sessionMap.remove(session.getId());
+		String strClosedClient = String.format("closed:%s (%s)", closedClient.getNickname(), session.getId());
+		
+		for( String key : sessionMap.keySet() ) {
+			sessionMap.get(key).getSession().sendMessage(new TextMessage(strClosedClient));
 		}
 	}
 }
