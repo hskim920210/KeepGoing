@@ -266,6 +266,5 @@
 
 	<jsp:include page="javascriptInclude.jsp" flush="false"></jsp:include>
 	
-	
 </body>
 </html>
