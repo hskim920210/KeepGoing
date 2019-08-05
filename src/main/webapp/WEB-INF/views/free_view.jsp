@@ -45,12 +45,12 @@
 		
           <table class="table">
           	<tr align="center">
-          	<td colspan="3"><b style="color: black; font-size: 30px; ">게시글 제목1  : ${ searchedFree.title }</b></td>
+          	<td colspan="3"><b style="color: black; font-size: 30px; ">게시글 제목  : ${ searchedFree.title }</b></td>
           	</tr>
           	
 	          	<tr align="center">
 	          	<td colspan="3"><div class="jumbotron"><a style="color: black; font-size: 15px; ">${ searchedFree.content }</a></div></td>
-	          	</tr>
+	          	</tr><!-- /${ searchedFree.image } -->
           	
 			<tr>
 			<td><b style="color: black; font-size: 15px; ">작성 시간 : ${ searchedFree.write_date }</b></td>
@@ -70,7 +70,7 @@
 	          	<a class="btn btn-default" type="submit" href="<%=request.getContextPath()%>/update_free/${ searchedFree.board_id}"	id = "update_free" >수정</a>
 	          	<a class="btn btn-default" type="submit" href="<%=request.getContextPath()%>/delete_free/${ searchedFree.board_id}"	id = "delete_free" >삭제</a>
 	          </c:if>
-	         <p align="right"><a class="btn btn-default" style="color : black;" type="submit" href="<%=request.getContextPath()%>/free">자유게시판으로 이동</a></p>
+	         <p align="right"><a class="btn btn-default" style="color : black;" type="submit" href="<%=request.getContextPath()%>/free/2">자유게시판으로 이동</a></p>
 	         <p align="right"><a class="btn btn-default" style="color : black;" type="submit" href="<%=request.getContextPath()%>/home">홈페이지로 이동</a></p>
 	          <!-- 해당 값을 가져와 출력 -->
 	          <form method="post" id="form6">
@@ -129,20 +129,7 @@
 
 				</div>
 				<!-- 리뷰 -->
-				<div role="tabpanel" class="tab-pane fade" id="profile"
-					aria-labelledby="profile-tab">
-					<p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla
-						single-origin coffee squid. Exercitation +1 labore velit, blog
-						sartorial PBR leggings next level wes anderson artisan four loko
-						farm-to-table craft beer twee. Qui photo booth letterpress,
-						commodo enim craft beer mlkshk aliquip jean shorts ullamco ad
-						vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic
-						magna delectus mollit. Keytar helvetica VHS salvia yr, vero magna
-						velit sapiente labore stumptown. Vegan fanny pack odio cillum wes
-						anderson 8-bit, sustainable jean shorts beard ut DIY ethical culpa
-						terry richardson biodiesel. Art party scenester stumptown, tumblr
-						butcher vero sint qui sapiente accusamus tattooed echo park.</p>
-				</div>
+				
 			</div>
 		</div>
         

@@ -8,6 +8,7 @@ public class Board_Free {
 	private int category;
 	private String title;
 	private String content;
+	private int image;
 	private String member_id;
 	private int view_cnt;
 	private Date write_date;
@@ -15,13 +16,15 @@ public class Board_Free {
 	public Board_Free() {
 	}
 
-	public Board_Free(int board_id, int topic, int category, String title, String content, String member_id,
+	public Board_Free(int board_id, int topic, int category, String title, String content, int image, String member_id,
 			int view_cnt, Date write_date) {
+		super();
 		this.board_id = board_id;
 		this.topic = topic;
 		this.category = category;
 		this.title = title;
 		this.content = content;
+		this.image = image;
 		this.member_id = member_id;
 		this.view_cnt = view_cnt;
 		this.write_date = write_date;
@@ -67,6 +70,14 @@ public class Board_Free {
 		this.content = content;
 	}
 
+	public int getImage() {
+		return image;
+	}
+
+	public void setImage(int image) {
+		this.image = image;
+	}
+
 	public String getMember_id() {
 		return member_id;
 	}
@@ -90,5 +101,7 @@ public class Board_Free {
 	public void setWrite_date(Date write_date) {
 		this.write_date = write_date;
 	}
+
+	
 	
 }

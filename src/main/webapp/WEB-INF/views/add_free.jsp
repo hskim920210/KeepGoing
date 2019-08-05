@@ -41,14 +41,20 @@
 			</div>
 			<div class="form-group">
 				<label for="content">내용</label>
-				<textarea rows="20" cols="" class="form-control" name="content" placeholder="Content" maxlength="500" required></textarea>
+				<textarea rows="20" cols="" class="form-control" name="content" placeholder="Content" maxlength="500" required
+				style="button">
+				</textarea>
 			</div>
 			<div class="form-group">
 				<label for="category">카테고리</label>
 				<select name="category">
-					<option value="1">운동기구</option>
-					<option value="2">보충제</option>
-					<option value="3">기타</option>
+					<option value="1">전체 게시판</option>
+					<option value="2">우리동네 운동부</option>
+					<option value="3">건강한 식생활</option>
+					<option value="4">나만의 운동법</option>
+					<option value="5">초보자를 위한 운동 추천</option>
+					<option value="6">콤플랙스 극복</option>
+									
 				</select>
 			</div>
 			

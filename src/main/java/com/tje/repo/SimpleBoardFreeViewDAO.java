@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.tje.model.*;
+import com.tje.repo.DetailBoardFreeViewDAO.DetailBoardFreeViewRowMapper;
 
 import java.util.*;
 
@@ -43,9 +44,17 @@ private JdbcTemplate jdbcTemplate;
 	
 	public SimpleBoardFreeView selectOne(SimpleBoardFreeView model) {
 		String sql = "select * from SimpleBoardFreeView where board_id=?";
-		return this.jdbcTemplate.queryForObject(sql, 
+		return this.jdbcTemplate.queryForObject(sql,   // 결과 값이 하나 일때 queryForObject 사용
 				new SimpleBoardFreeViewRowMapper(), 
 				model.getBoard_id());
+	}
+	
+	// 게시글 우리동네 운동부 게시글 조회 _Hometown_Motion_Part_
+	public List<SimpleBoardFreeView> select_Hometown_Motion_Part(SimpleBoardFreeView model) {
+		String sql = "select * from simpleBoardFreeView where category=2";
+		List<SimpleBoardFreeView> results = this.jdbcTemplate.query(sql, 
+				new SimpleBoardFreeViewRowMapper()); 				
+		return results.isEmpty() ? null : results;
 	}
 	
 	public List<SimpleBoardFreeView> selectAllOrdByDateDesc() {
@@ -84,7 +93,7 @@ private JdbcTemplate jdbcTemplate;
 		return results.isEmpty() ? null : results;
 	}
 	
-	//페이징 처리///////////////
+//////////////// 전체 게시글 ///////////////
 	public int listCountCriteria() {
 		String sql = "select count(*) from simpleboardfreeview";
 		return this.jdbcTemplate.queryForObject(sql, Integer.class);
@@ -93,6 +102,7 @@ private JdbcTemplate jdbcTemplate;
 	
 	
 	public List<SimpleBoardFreeView> listCriteria(int pageStart, int perPageNum) {
+		// desc내림차순  limit 한도  order주문 by으로?
 		String sql = "select * from simpleboardfreeview where board_id >0 order by board_id desc limit ?,?";
 		List<SimpleBoardFreeView> results=this.jdbcTemplate.query(sql,
 				new SimpleBoardFreeViewRowMapper(),
@@ -101,7 +111,127 @@ private JdbcTemplate jdbcTemplate;
 		return results.isEmpty() ? null : results;
 	}
 	
-	////////////////////
+//////////////// 전체 게시글 ///////////////	
+//
+//
+// 
+////////////////2 우리동네 운동부 게시글 HometownMotionPart///////e/
+		public int HometownMotionPart_listCountCriteria() {
+			String sql = "select count(*) from simpleboardfreeview where category = 2";
+			return this.jdbcTemplate.queryForObject(sql, Integer.class);
+		}
+		
+		
+		
+		public List<SimpleBoardFreeView> HometownMotionPart_listCriteria(int pageStart, int perPageNum) {
+			// desc내림차순  limit 한도  order주문 by으로?
+			String sql = "select * from simpleboardfreeview where board_id >0 and category = 2 order by board_id desc limit ?,?";
+			List<SimpleBoardFreeView> results=this.jdbcTemplate.query(sql,
+					new SimpleBoardFreeViewRowMapper(),
+					pageStart,
+					perPageNum);
+			return results.isEmpty() ? null : results;
+		}		
+////////////////2 우리동네 운동부 게시글 HometownMotionPart ////////e/
+//
+//
+// 
+////////////////3 건강한 식생활 게시글  healthy_diet ////////e/
+		
+		
+		public int Healthy_Diet_ListCountCriteria() {
+			String sql = "select count(*) from simpleboardfreeview where category = 3";
+			return this.jdbcTemplate.queryForObject(sql, Integer.class);
+		}
+		
+		
+		
+		public List<SimpleBoardFreeView> Healthy_Diet_ListCriteria(int pageStart, int perPageNum) {
+			// desc내림차순  limit 한도  order주문 by으로?
+			String sql = "select * from simpleboardfreeview where board_id >0 and category = 3 order by board_id desc limit ?,?";
+			List<SimpleBoardFreeView> results=this.jdbcTemplate.query(sql,
+					new SimpleBoardFreeViewRowMapper(),
+					pageStart,
+					perPageNum);
+			return results.isEmpty() ? null : results;
+		}
+				
+				
+////////////////3 건강한 식생활 게시글  healthy_diet ////////e/		
+//
+//
+// 
+////////////////4 나만의 운동법  게시글 My_own_exercise ////////e/				
+
+		public int My_Own_Exercise_ListCountCriteria() {
+			String sql = "select count(*) from simpleboardfreeview where category = 4";
+			return this.jdbcTemplate.queryForObject(sql, Integer.class);
+		}
+		
+		
+		
+		public List<SimpleBoardFreeView> My_Own_Exercise_ListCriteria(int pageStart, int perPageNum) {
+			// desc내림차순  limit 한도  order주문 by으로?
+			String sql = "select * from simpleboardfreeview where board_id >0 and category = 4 order by board_id desc limit ?,?";
+			List<SimpleBoardFreeView> results=this.jdbcTemplate.query(sql,
+					new SimpleBoardFreeViewRowMapper(),
+					pageStart,
+					perPageNum);
+			return results.isEmpty() ? null : results;
+		}
+				
+////////////////4 나만의 운동법  게시글 My_own_exercise ////////e/					
+//
+//
+// 
+////////////////5 초보자를 위한 운동 추천 게시글 Beginner_exercise ////////e/		
+
+		public int Beginner_Exercise_ListCountCriteria() {
+			String sql = "select count(*) from simpleboardfreeview where category = 5";
+			return this.jdbcTemplate.queryForObject(sql, Integer.class);
+		}
+		
+		
+		public List<SimpleBoardFreeView> Beginner_Exercise_listCriteria(int pageStart, int perPageNum) {
+			// desc내림차순  limit 한도  order주문 by으로?
+			String sql = "select * from simpleboardfreeview where board_id >0 and category = 5 order by board_id desc limit ?,?";
+			List<SimpleBoardFreeView> results=this.jdbcTemplate.query(sql,
+					new SimpleBoardFreeViewRowMapper(),
+					pageStart,
+					perPageNum);
+			return results.isEmpty() ? null : results;
+		}
+		
+		
+////////////////5 초보자를 위한 운동 추천 게시글 Beginner_exercise /////////
+//
+//
+// 
+////////////////6 콤플랙스 극복 게시글 Complex ////////e/				
+
+		public int Complex_ListCountCriteria() {
+			String sql = "select count(*) from simpleboardfreeview where category = 6";
+			return this.jdbcTemplate.queryForObject(sql, Integer.class);
+		}
+		
+		
+		
+		public List<SimpleBoardFreeView> Complex_ListCriteria(int pageStart, int perPageNum) {
+			// desc내림차순  limit 한도  order주문 by으로?
+			String sql = "select * from simpleboardfreeview where board_id >0 and category = 6 order by board_id desc limit ?,?";
+			List<SimpleBoardFreeView> results=this.jdbcTemplate.query(sql,
+					new SimpleBoardFreeViewRowMapper(),
+					pageStart,
+					perPageNum);
+			return results.isEmpty() ? null : results;
+		}
+		
+		
+////////////////6 콤플랙스 극복 게시글 Complex  /////////
+
+		
+		
+
 	
 	public List<SimpleBoardFreeView> selectAllOrdByCmtCntAsc() {
 		String sql = "select * from SimpleBoardFreeView order by comment_cnt asc";

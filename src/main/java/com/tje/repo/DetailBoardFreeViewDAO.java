@@ -22,37 +22,40 @@ private JdbcTemplate jdbcTemplate;
 		this.jdbcTemplate=new JdbcTemplate(dataSource);
 	}
 	
-	class DetailBoardFreeViewRowMapper implements RowMapper<DetailBoardFreeView>{
+	class DetailBoardFreeViewRowMapper implements RowMapper<DetailBoardFree_View>{
 		@Override
-		public DetailBoardFreeView mapRow(ResultSet rs, int rowNum) throws SQLException {
-			DetailBoardFreeView detailBoardFreeView=new DetailBoardFreeView(
+		public DetailBoardFree_View mapRow(ResultSet rs, int rowNum) throws SQLException {
+			DetailBoardFree_View detailBoardFreeView=new DetailBoardFree_View(
 					rs.getInt(1),
 					rs.getInt(2),
 					rs.getInt(3),
 					rs.getString(4),
 					rs.getString(5),
 					rs.getInt(6),
-					rs.getString(7),
+					rs.getInt(7),
 					rs.getString(8),
-					rs.getInt(9),
+					rs.getString(9),
 					rs.getInt(10),
 					rs.getInt(11),
-					rs.getDate(12));
+					rs.getInt(12),
+					rs.getDate(13));
 			return detailBoardFreeView;
 		}
 	}
 	
 	
-	// 게시글 조회
-	public DetailBoardFreeView selectOne(DetailBoardFreeView model) {
+	// 게시글 조회 전체 조회
+	public DetailBoardFree_View selectOne(DetailBoardFree_View model) {
 		String sql = "select * from detailboardfreeview where board_id=?";
 		return this.jdbcTemplate.queryForObject(sql, 
 				new DetailBoardFreeViewRowMapper(), 
 				model.getBoard_id());
 	}
 	
+	
+	
 	// 게시글 조회수
-	public int update_view_cnt(DetailBoardFreeView model) {
+	public int update_view_cnt(DetailBoardFree_View model) {
 		String sql = "update board_free set view_cnt=view_cnt+1 where board_id=?";
 		
 		return this.jdbcTemplate.update(sql,
@@ -61,17 +64,17 @@ private JdbcTemplate jdbcTemplate;
 	
 	
 	//좋아요 카운트
-	public List<DetailBoardFreeView> selectAllOrdByLikeCntAsc() {
+	public List<DetailBoardFree_View> selectAllOrdByLikeCntAsc() {
 		String sql = "select * from DetailBoardFreeView order by like_cnt asc";
-		List<DetailBoardFreeView> results=this.jdbcTemplate.query(sql,
+		List<DetailBoardFree_View> results=this.jdbcTemplate.query(sql,
 				new DetailBoardFreeViewRowMapper());
 		return results.isEmpty() ? null : results;
 	}
 	
 	//싫어요 카운트
-	public List<DetailBoardFreeView> selectAllOrdByDisLikeCntAsc() {
+	public List<DetailBoardFree_View> selectAllOrdByDisLikeCntAsc() {
 		String sql = "select * from DetailBoardFreeView order by dislike_cnt asc";
-		List<DetailBoardFreeView> results=this.jdbcTemplate.query(sql,
+		List<DetailBoardFree_View> results=this.jdbcTemplate.query(sql,
 				new DetailBoardFreeViewRowMapper());
 		return results.isEmpty() ? null : results;
 	}
@@ -79,7 +82,7 @@ private JdbcTemplate jdbcTemplate;
 
 	
 	// 게시판 삭제
-	public int delete(DetailBoardFreeView model) {
+	public int delete(DetailBoardFree_View model) {
 				return this.jdbcTemplate.update("delete from board_free where board_id = ?",
 	
 				model.getBoard_id());
@@ -87,7 +90,7 @@ private JdbcTemplate jdbcTemplate;
 	
 	
 	// 게시판 수정
-	public int update(DetailBoardFreeView model) throws Exception{
+	public int update(DetailBoardFree_View model) throws Exception{
 		
 				return this.jdbcTemplate.update("update board_free set Content = ? , Title = ? where board_id = ?",
 				model.getContent(),

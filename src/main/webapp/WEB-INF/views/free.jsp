@@ -14,7 +14,7 @@
 <body>
 
 	<jsp:include page="menu.jsp" flush="false"></jsp:include>
-
+ 
 	<jsp:include page="modalLogin.jsp" flush="false"></jsp:include>
 
 	<div class="site-blocks-cover inner-page-cover overlay"
@@ -36,26 +36,38 @@
 	<div class="site-section block-13"> 
 		<div align="center"  style="margin-left: 15%; margin-right: 15%; margin-top: 130;">
 		<table>
+			
+			
 			<c:if test="${ login_member.auth >= 2 }">
       		<p align="right"><a href="<%=request.getContextPath()%>/add_free" class="btn btn-info "  type="button">글쓰기</a></p>
       		<!-- <p><button class="btn btn-info" type="button" id="add_item">상품 추가</button></p> -->
       		</c:if>
+			
 				
 		</table>
 		<br>
 		<table class="table">
 			<tr>
-				<td><a href="#">전체</a></td>
-				<td><a href="#">이두</a></td> 
-				<td><a href="#">삼두</a></td> 
-				<td><a href="#">하체체체</a></td>    
-				<td><a href="#">광배</a></td>
-				<td><a href="#">배</a></td>
+			<!-- all -->
+				<td><a href="<%= request.getContextPath() %>/free/1">전체</a></td>
+				<!-- hometown_Motion_part -->
+				<td><a href="<%= request.getContextPath() %>/free/2">우리동네 운동부 (이미지 ,영상)</a></td>
+				<!-- healthy_diet --> 
+				<td><a href="<%= request.getContextPath() %>/free/3">건강한 식생활 (이미지 )</a></td>
+				 <!-- My_own_exercise -->
+				<td><a href="<%= request.getContextPath() %>/free/4">나만의 운동법(이미지.영상)</a></td>
+				<!-- Beginner exercise -->    
+				<td><a href="<%= request.getContextPath() %>/free/5">초보자를 위한 운동 추천(게시글 답글, 이미지 .영상)</a></td>
+				<!-- Complex -->
+				<td><a href="<%= request.getContextPath() %>/free/6">콤플랙스 극복(이미지.영상)</a></td>
 			</tr>
 		</table>
 		
 		</div>
 		
+		
+		
+		<!--  게시글 조회 처리       -->
 		<div align="center"  style="margin-left: 15%; margin-right: 15%;">
 		<table class="table">
 			<tr style="text-align: center;">
@@ -67,12 +79,12 @@
 				<th>작성일</th>
 			</tr>
 			
-			<!-- 상단노출 3개 -->
+		
 			
-			<!-- 상단노출 3개 -->
+			<!-- 반복처리하여 값을 불러온다. -->
 			<c:forEach items="${ free_list }" var="free">
 				<tr style="text-align: center;">
-					<td>${ free.category }</td>
+					<td>${ category_name }</td>
 					<td><a href="<%= request.getContextPath() %>/free_view/${ free.board_id} ">${ free.title } (${ free.comment_cnt })</a></td>
 					<td>${ free.nickname }</td>
 					<td>${ free.view_cnt }</td>
@@ -81,33 +93,39 @@
 					</tr>
 			</c:forEach>
 			
+			
+			
 		</table>
 		</div>
 	</div>
+	<!--  게시글 조회 처리       -->
+
 	
+	<!--  페이징 처리       -->
 	<div class="container text-center pb-5">
       <div class="row">
         <div class="col-12">
         	
           <p class="custom-pagination">
          	<c:if test="${pageMaker.prev == true }">
-        		<a href="<%=request.getContextPath()%>/free/${pageMaker.startPage-1}">&laquo;</a>
+        		<a href="<%=request.getContextPath()%>/free/${category_num}/${pageMaker.startPage-1}">&laquo;</a>
         	</c:if>
           	<c:forEach var="pageNo" begin="${ pageMaker.startPage }" end="${ pageMaker.endPage }">
           		<c:if test="${curPageNo == pageNo}" var="r">
           			<span>${curPageNo}</span>
           		</c:if>
           		<c:if test="${ not r }">
-          			<a href="<%=request.getContextPath()%>/free/${pageNo}">${ pageNo }</a>
+          			<a href="<%=request.getContextPath()%>/free/${category_num}/${pageNo}">${ pageNo }</a>
           		</c:if>
           	</c:forEach>
             <c:if test="${pageMaker.next == true and pageMaker.endPage > 0}">
-        		<a href="<%=request.getContextPath()%>/free/${pageMaker.endPage+1}">&raquo;</a>
+        		<a href="<%=request.getContextPath()%>/free/${category_num}/${pageMaker.endPage+1}">&raquo;</a>
         	</c:if>
           </p>
         </div>
       </div>
     </div>
+   <!--  페이징 처리       -->
 	
 
 	<jsp:include page="javascriptInclude.jsp" flush="false"></jsp:include>
