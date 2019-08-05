@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 
 import javax.sql.DataSource;
 
@@ -38,7 +39,7 @@ private JdbcTemplate jdbcTemplate;
 					rs.getInt(3),
 					rs.getString(4),
 					rs.getString(5),
-					rs.getInt(6),
+					rs.getString(6),
 					rs.getString(7),
 					rs.getInt(8),
 					rs.getTimestamp(9));
@@ -52,16 +53,18 @@ private JdbcTemplate jdbcTemplate;
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		
 		this.jdbcTemplate.update(new PreparedStatementCreator() {			
+			
 			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-		
+	
 				PreparedStatement pstmt = 
 					con.prepareStatement(
 							"insert into board_free values(0,2,?,?,?,?,?,0,now())", 
-						 new String[]{"board_id"});
+						 new String[]{"board_id"});			
 				pstmt.setInt(1, model.getCategory());
 				pstmt.setString(2, model.getTitle());
 				pstmt.setString(3, model.getContent());
 				pstmt.setString(4, model.getMember_id());
+				pstmt.setString(5, model.getImage());
 				return pstmt;
 			}
 		}, keyHolder);

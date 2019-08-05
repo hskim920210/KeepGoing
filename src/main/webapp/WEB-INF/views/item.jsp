@@ -41,17 +41,21 @@
       	</c:if>
             	
         <div class="row">
+        
         <c:forEach items="${ item_list }" var="item">
           <div class="col-md-6 col-lg-4 mb-4 mb-lg-4">
             <div class="h-entry">
               <img src="<%=request.getContextPath()%>/resources/images/${item.image}" alt="Image" class="img-fluid">
               <h2 class="font-size-regular"><a href="<%=request.getContextPath()%>/item_view/${item.board_id}">${ item.title }</a></h2>
-              <div class="meta">${ item.nickname } <span class="mx-2">•</span> ${ item.write_date }<span class="mx-2">•</span> ${ item.getCategoryString() }</div>
+              <div class="meta">${ item.nickname } 
+              <span class="mx-2">•</span> ${ item.write_date }
+              <span class="mx-2">•</span> ${ item.getCategoryString() }</div>
               <div class="meta mb-4">조회수 : ${ item.view_cnt } <span class="mx-2">•</span>댓글수 : ${ item.comment_cnt }<span class="mx-2">•</span>좋아요/싫어요 : ${ item.like_cnt }/${ item.dislike_cnt } </div>
               <p style="word-wrap: break-word;">${ item.getRestrictedContent() }</p>
             </div> 
           </div>
           </c:forEach>
+          
         </div>
       </div>
     </div>

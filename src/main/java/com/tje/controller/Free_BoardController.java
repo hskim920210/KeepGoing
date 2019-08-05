@@ -67,6 +67,13 @@ public class Free_BoardController {
 	private SimpleComplex_ListCountCriteriaService6 sc_lccSerivce; //컴플랙스 극복 게시판 첫화면 _목록 개수 기준 서비스
 	@Autowired
 	private SimpleComplex_ListCriteriaService6 sc_lcSerivce; // 컴플랙스 극복 게시판 첫화면 _리스트 기준 서비스
+	@Autowired
+	private ItemViewCntUpdateService ivcuService; //조회수
+	@Autowired
+	private FreeViewService fvService;
+	@Autowired
+	private FreeViewCntUpdateService fvcuSErvice;
+
 	
 	
 	////////////////////// 게시글 등록////////////////////  <글쓰기 버튼에 주소값 입력  게시판 안에서 공통적으로 사용 
@@ -86,6 +93,8 @@ public class Free_BoardController {
 			if(board_id != null) {
 				model.addAttribute("searchedFree", (DetailBoardFree_View)dbf_vService.service(dbfv));
 				return "free_view";
+			}else {
+				
 			}
 			
 			
@@ -165,7 +174,7 @@ public class Free_BoardController {
 			pageMaker.setTotalCount((int)sbf_lccService.service());
 			model.addAttribute("curPageNo", curPageNo);	 // 기준
 			model.addAttribute("pageMaker", pageMaker);  // 게시판 하단의 페이징 관련, 이전페이지, 페이지 링크 , 다음 페이지
-			model.addAttribute("category_name", Borad_Free_Info.getCategoryName(category_num)); // 카테고리의 값을 변환 시켜준다.
+//			model.addAttribute("category_name", Borad_Free_Info.getCategoryName(category_num)); // 카테고리의 값을 변환 시켜준다.
 			model.addAttribute("category_num", category_num);
 			System.out.println(pageMaker.toString());
 		}
@@ -225,16 +234,18 @@ public class Free_BoardController {
 //	
 //			
 	/////////////////////자유게시판 조회 ////////////////	
+	
 	@GetMapping("/free_view/{board_id}")
 	public String free_view(Model model, 
 			@PathVariable(value = "board_id") Integer board_id,
 			HttpSession session) {
 		
+		
 		DetailBoardFree_View free =new DetailBoardFree_View();
 		free.setBoard_id(board_id);
 		
-		model.addAttribute("searchedFree", (DetailBoardFree_View)dbf_vService.service(free));
-
+		model.addAttribute("searchedFree", (DetailBoardFree_View)dbf_vService.service(free));		
+	
 		Comment comment=new Comment();
 		comment.setBoard_id(board_id);
 		comment.setTopic(2);
@@ -244,6 +255,7 @@ public class Free_BoardController {
 		if(login_member==null)
 			model.addAttribute("btn_status", 0);
 		else {
+			// 로그인 한 상태에서 게시물에 좋아요 or 싫어요를 눌렀었는지 체크
 			String member_id=login_member.getMember_id();
 			
 			LikeAndDislike lad=new LikeAndDislike();
@@ -258,11 +270,15 @@ public class Free_BoardController {
 				model.addAttribute("btn_status", result.getIs_like());
 		}
 		
+		
+		if((int)fvcuSErvice.service(free)!=1)
+			return "redirect:error/free_view";
+		
+		model.addAttribute("searchedFree", fvService.service(free));
 		model.addAttribute("commentList", csSercie.service(comment));
 		
-		return "free_view";		
-
-		}
+		return "free_view";
+	}
 	///////////////////// 자유게시판 조회 ////////////////	
 
 
