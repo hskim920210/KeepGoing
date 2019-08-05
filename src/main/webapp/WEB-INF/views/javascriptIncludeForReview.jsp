@@ -33,3 +33,25 @@
 			});
 	});
 </script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#member_login").on("click", function() {
+			var params=$("#login_form").serialize();
+			console.log(params);
+			
+			$.ajax({
+	            url: "<%=request.getContextPath()%>/login",
+	            type: "POST",
+	            data: params,
+	            success: function(data){
+	                console.log(data);
+	                alert(data);
+	                location.reload();
+	            },
+	            error: function(){
+	                alert("err");
+	            }
+	        });
+		})
+	})
+</script>

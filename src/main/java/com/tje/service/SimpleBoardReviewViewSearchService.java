@@ -16,8 +16,12 @@ public class SimpleBoardReviewViewSearchService {
 		HashMap<String, Object> result = new HashMap<String, Object>();
 		if(search_Type == 1) {
 			// 전체에서 검색 서비스
-			result.put("list", simpleBoardReviewViewDAO.searchReviewAll(category_Num, keyword, criteria.getPageStart(), criteria.getPerPageNum()));
-			result.put("count", simpleBoardReviewViewDAO.searchReviewAllCount(category_Num, keyword));
+			if(category_Num == 1) {
+				result.put("list", simpleBoardReviewViewDAO.searchReviewAll(category_Num, keyword, criteria.getPageStart(), criteria.getPerPageNum()));
+				result.put("count", simpleBoardReviewViewDAO.searchReviewAllCount(category_Num, keyword));
+			} else {
+				
+			}
 		} else if(search_Type == 2) {
 			// 제목 검색 서비스
 			result.put("list", simpleBoardReviewViewDAO.searchReviewTitle(category_Num, keyword, criteria.getPageStart(), criteria.getPerPageNum()));

@@ -17,6 +17,7 @@
 
 	<jsp:include page="modalLogin.jsp" flush="false"></jsp:include>
 	<jsp:include page="reviewSearchModal.jsp" flush="false"></jsp:include>
+	<jsp:include page="chattingModal.jsp" flush="false"></jsp:include>
 
 	<div class="site-blocks-cover inner-page-cover overlay"
 		style="background-image: url(<%=request.getContextPath()%>/resources/images/hero_bg_1.jpg);"
@@ -58,8 +59,12 @@
 
 	<div align="center" style="margin-left: 10%; margin-right: 10%;">
 		<div class="site-section block-13" style="padding-top: 5;">
+			<blockquote><h2>${ strCategory }의 리뷰</h2></blockquote>
 			<div class="row">
-			<h2>${ strCategory }의 리뷰</h2>
+				<c:if test="${ pageMaker.totalCount == 0 }" var="r">
+					<h1>게시글이 존재하지 않습니다.</h1>
+				</c:if>
+				<c:if test="${ not r }">
 				<c:forEach items="${ simpleBoardReviewViewList }" var="item">
 					<a
 						href="<%= request.getContextPath() %>/review/detail/${ item.category }_${item.board_id}"
@@ -78,18 +83,20 @@
 						</div>
 					</a>
 				</c:forEach>
+				</c:if>
 			</div>
 		</div>
 	</div>
 
 	<div class="container text-center pb-5">
+	<a href="" data-toggle="modal" data-target="#chattingModal">채팅</a>
 		<div class="row">
 			<div class="col-12">
 
 				<p class="custom-pagination">
 					<c:if test="${pageMaker.prev == true }">
 						<a
-							href="<%=request.getContextPath()%>/review/${pageMaker.startPage-1}">&laquo;</a>
+							href="<%=request.getContextPath()%>/review/${category_Num}/${pageMaker.startPage-1}">&laquo;</a>
 					</c:if>
 					<c:forEach var="pageNo" begin="${ pageMaker.startPage }"
 						end="${ pageMaker.endPage }">
@@ -97,12 +104,12 @@
 							<span>${curPageNo}</span>
 						</c:if>
 						<c:if test="${ not r }">
-							<a href="<%=request.getContextPath()%>/review/${pageNo}">${ pageNo }</a>
+							<a href="<%=request.getContextPath()%>/review/${category_Num}/${pageNo}">${ pageNo }</a>
 						</c:if>
 					</c:forEach>
 					<c:if test="${pageMaker.next == true and pageMaker.endPage > 0}">
 						<a
-							href="<%=request.getContextPath()%>/review/${pageMaker.endPage+1}">&raquo;</a>
+							href="<%=request.getContextPath()%>/review/${category_Num}/${pageMaker.endPage+1}">&raquo;</a>
 					</c:if>
 				</p>
 			</div>

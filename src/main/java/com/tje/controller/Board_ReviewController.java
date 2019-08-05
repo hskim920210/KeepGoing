@@ -66,10 +66,12 @@ public class Board_ReviewController {
 		
 		HashMap<String, Object> result = (HashMap<String, Object>)sbrvService.service(criteria, category_Num);
 		model.addAttribute("simpleBoardReviewViewList", (List<SimpleBoardReviewView>)result.get("list"));
-		pageMaker.setTotalCount((int)result.get("count"));
+		int count = (Integer)result.get("count") == null ? 0 : (Integer)result.get("count");
+		pageMaker.setTotalCount(count);
 		model.addAttribute("curPageNo", curPageNo);
 		model.addAttribute("pageMaker", pageMaker);  // 게시판 하단의 페이징 관련, 이전페이지, 페이지 링크 , 다음 페이지
 		model.addAttribute("strCategory", Board_Review_Category.returnCategory(category_Num));
+		model.addAttribute("category_Num", category_Num);
 		System.out.println(pageMaker.toString());
 		return "review";
 	}
@@ -177,6 +179,7 @@ public class Board_ReviewController {
 		DetailBoardReviewView result = (DetailBoardReviewView)dbrvsoService.service(dbrv);
 		model.addAttribute("detailReview", result);
 		model.addAttribute("strCategory", Board_Review_Category.returnCategory(result.getCategory()));
+		model.addAttribute("category_Num", category_Num);
 		return "reviewDetail";
 	}
 	
@@ -196,14 +199,18 @@ public class Board_ReviewController {
 		int category_Num = Integer.parseInt(req.getParameter("category_Num"));
 		int search_Type = Integer.parseInt(req.getParameter("search_Type"));
 		String keyword = req.getParameter("keyword");
+		System.out.println(category_Num + "" + search_Type + keyword);
+		
 		HashMap<String, Object> result = (HashMap<String, Object>)sbrvsService.service(search_Type, category_Num, keyword, criteria);
 		model.addAttribute("simpleBoardReviewViewList", (List<SimpleBoardReviewView>)result.get("list"));
-		pageMaker.setTotalCount((int)result.get("count"));
+		int count = (Integer)result.get("count") == null ? 0 : (Integer)result.get("count");
+		pageMaker.setTotalCount(count);
 		
 		model.addAttribute("curPageNo", curPageNo);
 		model.addAttribute("pageMaker", pageMaker);  // 게시판 하단의 페이징 관련, 이전페이지, 페이지 링크 , 다음 페이지
 		model.addAttribute("strCategory", Board_Review_Category.returnCategory(category_Num));
-		return "reviewDetail";
+		model.addAttribute("category_Num", category_Num);
+		return "review";
 	}
 	
 }
