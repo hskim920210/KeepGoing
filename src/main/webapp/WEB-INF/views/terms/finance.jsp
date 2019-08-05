@@ -11,9 +11,7 @@
 	<meta name="Vs_targetschema" content="Https://Schemas.Microsoft.Com/Intellisense/Ie5">                                                        
 	<meta name="Description" content="">                                                                                                          
 	<meta name="Keywords" content="">                                           
-	<link rel="stylesheet" type="text/css" href="https://script.auction.co.kr/style/css_ssl/member/member_new.css">               
-	<script type="text/javascript" src="https://script.auction.co.kr/style/js/common.js"></script>
-	<script type="text/javascript">document.domain = 'auction.co.kr';</script>
+	
 </head>     
 
 <body class="uxc-mpiframe">

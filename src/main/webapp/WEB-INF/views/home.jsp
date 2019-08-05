@@ -17,7 +17,7 @@
 	<jsp:include page="modalLogin.jsp" flush="false"></jsp:include>
 	
 	<div class="site-blocks-cover inner-page-cover overlay"
-		style="background-image: url(<%=request.getContextPath()%>/resources/images/hero_bg_1.jpg);"
+		style="background-image: url(<%=request.getContextPath()%>/resources/images/top.jpg);"
 		data-aos="fade" data-stellar-background-ratio="0.5">
 		<div class="container">
 			<div
@@ -41,40 +41,40 @@
       <div class="owl-carousel nonloop-block-13">
         <div>
           <a href="#" class="unit-1 text-center">
-            <img src="<%=request.getContextPath() %>/resources/images/img_1.jpg" alt="Image" class="img-fluid">
+            <img src="<%=request.getContextPath() %>/resources/images/img1.jpg" alt="Image" class="img-fluid" width="700" height="799">
             <div class="unit-1-text">
               <h3 class="unit-1-heading">오늘의 운동법</h3>
-              <p class="px-5">운동을 여ㅑㄹ심히 하자 운동을 여ㅑㄹ심히 하자  운동을 여ㅑㄹ심히 하자  운동을 여ㅑㄹ심히 하자  운동을 여ㅑㄹ심히 하자</p>
+              <p class="px-6">운동을 여ㅑㄹ심히 하자 운동을 여ㅑㄹ심히 하자  운동을 여ㅑㄹ심히 하자  운동을 여ㅑㄹ심히 하자  운동을 여ㅑㄹ심히 하자</p>
             </div>
           </a>
         </div>
 
         <div>
           <a href="#" class="unit-1 text-center">
-            <img src="<%=request.getContextPath() %>/resources/images/img_2.jpg" alt="Image" class="img-fluid">
+            <img src="<%=request.getContextPath() %>/resources/images/img2.jpg" alt="Image" class="img-fluid">
             <div class="unit-1-text">
               <h3 class="unit-1-heading">오늘의 최다 판매 상품</h3>
-              <p class="px-5">운동을 여ㅑㄹ심히 하자 운동을 여ㅑㄹ심히 하자  운동을 여ㅑㄹ심히 하자  운동을 여ㅑㄹ심히 하자  운동을 여ㅑㄹ심히 하자it. Eos tempore ullam minus voluptate libero.</p>
+              <p class="px-6">운동을 여ㅑㄹ심히 하자 운동을 여ㅑㄹ심히 하자  운동을 여ㅑㄹ심히 하자  운동을 여ㅑㄹ심히 하자  운동을 여ㅑㄹ심히 하자it. Eos tempore ullam minus voluptate libero.</p>
             </div>
           </a>
         </div>
 
         <div>
           <a href="#" class="unit-1 text-center">
-            <img src="<%=request.getContextPath() %>/resources/images/img_3.jpg" alt="Image" class="img-fluid">
+            <img src="<%=request.getContextPath() %>/resources/images/img3.jpg" alt="Image" class="img-fluid">
             <div class="unit-1-text">
               <h3 class="unit-1-heading">최대 리뷰 헬스장 </h3>
-              <p class="px-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos tempore ullam minus voluptate libero.</p>
+              <p class="px-6">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos tempore ullam minus voluptate libero.</p>
             </div>
           </a>
         </div>
 
         <div>
           <a href="#" class="unit-1 text-center">
-            <img src="<%=request.getContextPath() %>/resources/images/img_4.jpg" alt="Image" class="img-fluid">
+            <img src="<%=request.getContextPath() %>/resources/images/img4.jpg" alt="Image" class="img-fluid">
             <div class="unit-1-text">
               <h3 class="unit-1-heading">오늘의 최다 리뷰</h3>
-              <p class="px-5">Lorem ipsum dolor sit amet 자  운동을 여ㅑㄹ심히 하자  운동을 여ㅑㄹ심e libero.</p>
+              <p class="px-6">Lorem ipsum dolor sit amet 자  운동을 여ㅑㄹ심히 하자  운동을 여ㅑㄹ심e libero.</p>
             </div>
           </a>
         </div>
@@ -84,7 +84,19 @@
             <img src="<%=request.getContextPath() %>/resources/images/img_5.jpg" alt="Image" class="img-fluid">
             <div class="unit-1-text">
               <h3 class="unit-1-heading">오늘의 추천 레시피</h3>
-              <p class="px-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. ghhhhhEos tempore ullam minus voluptate libero.</p>
+              <p class="px-6">Lorem ipsum dolor sit amet consectetur adipisicing elit. ghhhhhEos tempore ullam minus voluptate libero.</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    <div>
+          <a href="#" class="unit-1 text-center">
+            <img src="<%=request.getContextPath() %>/resources/images/img_5.jpg" alt="Image" class="img-fluid">
+            <div class="unit-1-text">
+              <h3 class="unit-1-heading">오늘의 추천 6번</h3>
+              <p class="px-6">Lorem ipsum dolor sit amet consectetur adipisicing elit. ghhhhhEos tempore ullam minus voluptate libero.</p>
             </div>
           </a>
         </div>
@@ -185,6 +197,16 @@
       </div>
     </div>
     
+
+ <jsp:include page="site_footer.jsp"></jsp:include>
+    
+ 
+
+
+
+</div>
+    
+    <%-- 
 	<footer class="site-footer">
 		<div class="container">
 			<div class="row">
@@ -262,7 +284,9 @@
 			</div>
 		</div>
 	</footer>
+	--%>
 	</div>
+	
 
 	<jsp:include page="javascriptInclude.jsp" flush="false"></jsp:include>
 	

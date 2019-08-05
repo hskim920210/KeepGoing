@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
 <head>
-<title>Index</title>
+<title>Item</title>
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -17,7 +17,7 @@
 	<jsp:include page="modalLogin.jsp" flush="false"></jsp:include>
 	
 	<div class="site-blocks-cover inner-page-cover overlay"
-		style="background-image: url(<%=request.getContextPath()%>/resources/images/hero_bg_1.jpg);"
+		style="background-image: url(<%=request.getContextPath()%>/resources/images/top.jpg);"
 		data-aos="fade" data-stellar-background-ratio="0.5">
 		<div class="container">
 			<div
@@ -81,5 +81,10 @@
     </div>
 
 	<jsp:include page="javascriptInclude.jsp" flush="false"></jsp:include>
+	
+	
+ 
+ <jsp:include page="site_footer.jsp"></jsp:include>
+
 </body>
 </html>

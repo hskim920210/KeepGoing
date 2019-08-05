@@ -89,12 +89,18 @@
 	<jsp:include page="javascriptInclude.jsp" flush="false"></jsp:include>
 	
 	
+
+    
+ <jsp:include page="site_footer.jsp"></jsp:include>
+
+
 			<script type="text/javascript">
 			$('#myTab a').click(function (e) {
 				  e.preventDefault()
 				  $(this).tab('show')
 				})
 			</script>
+
 	
 	
 </body>

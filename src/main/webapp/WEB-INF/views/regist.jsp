@@ -11,6 +11,8 @@
 <jsp:include page="cssInclude.jsp" flush="false"></jsp:include>
 
 
+ 
+
 </head>
 <body>
 
@@ -19,7 +21,7 @@
 	<jsp:include page="modalLogin.jsp" flush="false"></jsp:include>
 
 	<div class="site-blocks-cover inner-page-cover overlay"
-		style="background-image: url(<%=request.getContextPath()%>/resources/images/hero_bg_1.jpg);"
+		style="background-image: url(<%=request.getContextPath()%>/resources/images/top.jpg);"
 		data-aos="fade" data-stellar-background-ratio="0.5">
 		<div class="container">
 			<div
@@ -695,9 +697,9 @@
 
 		</div>
 		<!--Footer-->
-		<div class="modal-footer">
-			<div class="options text-right">
-				<p class="pt-1">
+		<div class="modal-footer align="center">
+			<div class=" ">
+				<p class="pt-1" ">
 					이미 아이디가 있습니까? <a href="#" class="blue-text">로그인 하기</a>
 				</p>
 			</div>
@@ -905,6 +907,9 @@
 			}
 		});
 	</script>
+	
+ <jsp:include page="site_footer.jsp"></jsp:include>
+	
 
 </body>
 </html>
