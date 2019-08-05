@@ -16,6 +16,8 @@ import com.tje.page.*;
 import com.tje.BoardService.*;
 import com.tje.model.*;
 import com.tje.service.*;
+import com.tje.service.common.CommentSelectService;
+import com.tje.service.common.LikeAndDislikeService;
 import com.tje.CategoryInfo.*;
 
 @Controller

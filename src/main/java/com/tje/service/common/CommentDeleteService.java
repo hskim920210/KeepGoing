@@ -1,20 +1,20 @@
-package com.tje.service;
+package com.tje.service.common;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.tje.model.Member;
-import com.tje.repo.MemberDAO;
+import com.tje.model.Comment;
+import com.tje.repo.CommentDAO;
 
 @Service
-public class MemberInsertService {
+public class CommentDeleteService {
 	@Autowired
-	private MemberDAO memberDAO;
+	private CommentDAO commentDAO;
 	
 	public Object service(Object args) {
 		Object result=null;
 		
-		result=memberDAO.insert((Member)args);
+		result=commentDAO.delete((Comment)args);
 		
 		return result;
 	}

@@ -30,18 +30,18 @@ import com.tje.model.LikeAndDislike;
 import com.tje.model.Member;
 import com.tje.page.Criteria;
 import com.tje.page.PageMaker;
-import com.tje.service.CartAddService;
-import com.tje.service.CommentAddService;
-import com.tje.service.CommentDeleteService;
-import com.tje.service.CommentSelectService;
-import com.tje.service.ItemAddService;
-import com.tje.service.ItemDeleteService;
-import com.tje.service.ItemUpdateService;
-import com.tje.service.ItemViewCntUpdateService;
-import com.tje.service.ItemViewService;
-import com.tje.service.LikeAndDislikeService;
-import com.tje.service.SimpleBoardItemListCountCriteriaService;
-import com.tje.service.SimpleBoardItemListCriteriaService;
+import com.tje.service.board_item.ItemAddService;
+import com.tje.service.board_item.ItemDeleteService;
+import com.tje.service.board_item.ItemUpdateService;
+import com.tje.service.board_item.ItemViewCntUpdateService;
+import com.tje.service.board_item.ItemViewService;
+import com.tje.service.board_item.SimpleBoardItemListCountCriteriaService;
+import com.tje.service.board_item.SimpleBoardItemListCriteriaService;
+import com.tje.service.cart.CartAddService;
+import com.tje.service.common.CommentAddService;
+import com.tje.service.common.CommentDeleteService;
+import com.tje.service.common.CommentSelectService;
+import com.tje.service.common.LikeAndDislikeService;
 
 @Controller
 public class Board_itemController {
