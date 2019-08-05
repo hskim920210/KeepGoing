@@ -9,13 +9,13 @@ public class Cart {
 	private String image;
 	private String title;
 	private int category;
-	private int price;
+	private String price;
 	private Date add_time;
 	
 	public Cart() {
 	}
 
-	public Cart(int cart_id, int board_id, String member_id, String image, String title, int category, int price,
+	public Cart(int cart_id, int board_id, String member_id, String image, String title, int category, String price,
 			Date add_time) {
 		this.cart_id = cart_id;
 		this.board_id = board_id;
@@ -75,11 +75,11 @@ public class Cart {
 		this.category = category;
 	}
 
-	public int getPrice() {
+	public String getPrice() {
 		return price;
 	}
 
-	public void setPrice(int price) {
+	public void setPrice(String price) {
 		this.price = price;
 	}
 

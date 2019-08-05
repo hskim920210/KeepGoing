@@ -79,6 +79,13 @@ private JdbcTemplate jdbcTemplate;
 				model.getBoard_id());
 	}
 	
+	public int delete(DetailBoardItemView model) {
+		String sql = "delete from board_item where board_id=?";
+		
+		return this.jdbcTemplate.update(sql,
+				model.getBoard_id());
+	}
+	
 	public List<DetailBoardItemView> selectAllOrdByDateDesc() {
 		String sql = "select * from DetailBoardItemView order by write_date desc";
 		List<DetailBoardItemView> results=this.jdbcTemplate.query(sql,

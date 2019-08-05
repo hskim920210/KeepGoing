@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -271,5 +272,15 @@ public class LoginController {
 		System.out.println("여기는 logout");
 		session.invalidate();
 		return "redirect:home";
+	}
+	
+	@RequestMapping(value = "/needLogin")
+	public ModelAndView needLogin() {
+		
+		ModelAndView mav=new ModelAndView();
+		mav.setViewName("needLogin");
+		mav.addObject("msg", "로그인이 필요한 기능입니다.");
+		
+		return mav;
 	}
 }
