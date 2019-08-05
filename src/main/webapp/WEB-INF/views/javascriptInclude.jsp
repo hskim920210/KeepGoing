@@ -34,6 +34,7 @@
 			});
 	});
 </script>
+
 <script type="text/javascript">
 	$(document).ready(function() {
 		$("#member_login").on("click", function() {
@@ -56,3 +57,4 @@
 		})
 	})
 </script>
+

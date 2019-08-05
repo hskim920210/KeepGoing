@@ -1,6 +1,8 @@
 package com.tje.controller;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,16 +23,19 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.tje.model.Board_Item;
+import com.tje.model.Cart;
 import com.tje.model.Comment;
 import com.tje.model.DetailBoardItemView;
 import com.tje.model.LikeAndDislike;
 import com.tje.model.Member;
 import com.tje.page.Criteria;
 import com.tje.page.PageMaker;
+import com.tje.service.CartAddService;
 import com.tje.service.CommentAddService;
 import com.tje.service.CommentDeleteService;
 import com.tje.service.CommentSelectService;
 import com.tje.service.ItemAddService;
+import com.tje.service.ItemDeleteService;
 import com.tje.service.ItemUpdateService;
 import com.tje.service.ItemViewCntUpdateService;
 import com.tje.service.ItemViewService;
@@ -56,9 +61,13 @@ public class Board_itemController {
 	@Autowired
 	private ItemUpdateService iuService;
 	@Autowired
+	private ItemDeleteService idService;
+	@Autowired
 	private CommentSelectService csSercie;
 	@Autowired
 	private LikeAndDislikeService ladService;
+	@Autowired
+	private CartAddService caService;
 	
 	@RequestMapping(value = {"/item","/item/{curPageNo}"})
 	public String Item(Model model,
@@ -249,5 +258,68 @@ public class Board_itemController {
 		}
 		
 		return "상품 수정 과정에서 문제가 발생하였습니다.";
+	}
+	
+	@PostMapping(value = "/item_delete/{board_id}", produces = "application/text; charset=utf8")
+	@ResponseBody
+	public String item_delete(
+			@PathVariable(value = "board_id", required = true) Integer board_id) {
+		
+		DetailBoardItemView item=new DetailBoardItemView();
+		item.setBoard_id(board_id);
+		
+		int r = (int) idService.service(item);
+		
+		if(r==1) {
+			return "상품 삭제를 완료했습니다.";
+		}
+		
+		return "상품 삭제를 실패했습니다.";
+	}
+	
+	@PostMapping(value = "/add_cart/{board_id}", produces = "application/text; charset=utf8")
+	@ResponseBody
+	public String add_cart(
+			@PathVariable(value = "board_id", required = true) Integer board_id,
+			HttpSession session,
+			Model model) {
+		
+		DetailBoardItemView item=new DetailBoardItemView();
+		item.setBoard_id(board_id);
+		
+		Member login_member=(Member) session.getAttribute("login_member");
+		String member_id=null;
+		try {
+			member_id=login_member.getMember_id();
+		} catch (Exception e) {
+
+		}
+			
+		DetailBoardItemView result = (DetailBoardItemView) ivService.service(item);
+		Cart cart=new Cart(0, board_id, member_id, result.getImage(), result.getTitle(), result.getCategory(), result.getPrice(), null);
+		
+		if(login_member==null) {
+			ArrayList<Cart> cartList=(ArrayList<Cart>)session.getAttribute("cartList");
+			
+			if(cartList==null) {
+				cartList=new ArrayList<Cart>();
+				cart.setAdd_time(new Date());
+				cartList.add(cart);
+			}else {
+				cart.setAdd_time(new Date());
+				cartList.add(cart);
+			}
+			
+			session.setAttribute("cartList", cartList);
+			return "success";
+		}
+		
+		int r=(int) caService.service(cart);
+		
+		if(r==1) {
+			return "success";
+		}
+		
+		return "fail";
 	}
 }
