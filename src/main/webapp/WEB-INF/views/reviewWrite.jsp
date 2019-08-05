@@ -280,7 +280,7 @@
 	<script type="text/javascript">
 		var address = ''; // 폼에 작성된 주소를 가져온다.
 		var geocoder = new kakao.maps.services.Geocoder();
-		var selectedAddress = null; // 지도에서 선택한 위치의 주소를 저장할 변수
+		var selectedAddress_js = null; // 지도에서 선택한 위치의 주소를 저장할 변수
 		var selectedLat = null; // 주소 검색으로 검색된 주소의 위도
 		var selectedLng = null; // 주소 검색으로 검색된 주소의 경도
 	
@@ -327,11 +327,11 @@
 			    // 정상적으로 검색이 완료됐으면 
 			     if (status === kakao.maps.services.Status.OK) {
 			    	alert(result[0].address.address_name);
-			    	selectedAddress = result[0].address.address_name;
+			    	selectedAddress_js = result[0].address.address_name;
 			    	selectedLat = latlng.getLat();
 			    	selectedLng = latlng.getLng();
-			    	$("#sample6_address").val(selectedAddress);
-			    	$("#selectedAddress").val(selectedAddress);
+			    	$("#sample6_address").val(selectedAddress_js);
+			    	$("#selectedAddress").val(selectedAddress_js);
 			    	$("#selectedLat").val(selectedLat);
 			    	$("#selectedLng").val(selectedLng);
 			    } else {
@@ -343,8 +343,8 @@
 			});
 			
 			
-			iwContent = '<div style="padding:5px; font-size:11px;">'+selectedAddress+'<br><a href="https://map.kakao.com/link/map/'+selectedAddress+',' 
-				+ latlng.getLat() + ',' + latlng.getLng() + '" style="color:blue" target="_blank">큰지도보기</a> <a href="https://map.kakao.com/link/to/'+selectedAddress+','
+			iwContent = '<div style="padding:5px; font-size:11px;">'+selectedAddress_js+'<br><a href="https://map.kakao.com/link/map/'+selectedAddress_js+',' 
+				+ latlng.getLat() + ',' + latlng.getLng() + '" style="color:blue" target="_blank">큰지도보기</a> <a href="https://map.kakao.com/link/to/'+selectedAddress_js+','
 				+ latlng.getLat() + ',' + latlng.getLng() + 'style="color:blue" target="_blank">길찾기</a></div>',
 						iwPosition = new kakao.maps.LatLng(latlng.getLat(), latlng.getLng()); //인포윈도우 표시 위치입니다
 			
@@ -369,7 +369,7 @@
 			        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 					selectedLat = coords.getLat();
 					selectedLng = coords.getLng();
-					$("#selectedAddress").val(selectedAddress);
+					$("#selectedAddress").val(selectedAddress_js);
 			    	$("#selectedLat").val(selectedLat);
 			    	$("#selectedLng").val(selectedLng);
 			        // 결과값으로 받은 위치를 마커로 표시합니다
@@ -400,7 +400,7 @@
 	    	alert("지도 정보 초기화 완료.");
 	    	infowindow.close(map, marker);
 	    	$("#sample6_address").val('');
-	    	selectedAddress = null; // 지도에서 선택한 위치의 주소를 저장할 변수
+	    	selectedAddress_js = null; // 지도에서 선택한 위치의 주소를 저장할 변수
 			selectedLat = null; // 주소 검색으로 검색된 주소의 위도
 			selectedLng = null; // 주소 검색으로 검색된 주소의 경도
 			address = ''; // 폼에 작성된 주소를 가져온다.
