@@ -63,6 +63,7 @@ private JdbcTemplate jdbcTemplate;
 		return results.isEmpty() ? null : results;
 	}
 	
+	
 	public int insert(Board_Faq model) {
 		return this.jdbcTemplate.update("insert into board_qna values(0,5,?,?,?)",
 				model.getCategory(),
