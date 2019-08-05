@@ -15,7 +15,8 @@
 	<jsp:include page="menu.jsp" flush="false"></jsp:include>
 
 	<jsp:include page="modalLogin.jsp" flush="false"></jsp:include>
-
+	<jsp:include page="reviewSearchModal.jsp" flush="false"></jsp:include>
+	
 	<div class="site-blocks-cover inner-page-cover overlay"
 		style="background-image: url(<%=request.getContextPath()%>/resources/images/hero_bg_1.jpg);"
 		data-aos="fade" data-stellar-background-ratio="0.5">
@@ -33,7 +34,7 @@
 	<jsp:include page="right_sidebar.jsp" flush="false"></jsp:include>
 
 	<div class="site-section block-13" align="center" style="padding-bottom: 10; margin-left: 10%; margin-right: 10%; margin-top: 130;">
-		<form action="<%= request.getContextPath() %>/review/write" method="post">
+		<form action="<%= request.getContextPath() %>/review/write" method="post" enctype="multipart/form-data">
 				<table style="width: 650px;">
 				<tr>
 					<th> <label for="nickname">작성자</label><input type="text" name="nickname" readonly="readonly" value="${ login_member.nickname }"> </th>
@@ -47,11 +48,12 @@
 					    <span class="caret">카테고리</span>
 					  </button>
 					  <ul class="dropdown-menu" role="menu">
-					    <li value="1" onclick="adjustCategory('1');">전체</li>
-					    <li class="divider"></li>
-					    <li value="2" onclick="adjustCategory('2');">운동기구</li>
-					    <li value="3" onclick="adjustCategory('3');">헬스장</li>
+					    <li value="2" onclick="adjustCategory('2');">상품</li>
+					    <li value="3" onclick="adjustCategory('3');">피트니스</li>
 					    <li value="4" onclick="adjustCategory('4');">장소</li>
+					    <li value="4" onclick="adjustCategory('5');">다이어트</li>
+					    <li value="4" onclick="adjustCategory('6');">웨이트 트레이닝</li>
+					    <li value="4" onclick="adjustCategory('7');">레시피</li>
 					  </ul>
 					</div>
 					<input type="hidden" id="category" name="category" value="0">
@@ -59,6 +61,14 @@
 				</tr>
 				<tr>
 					<td colspan="2"><textarea id="content" name="content" cols="60" rows="15"></textarea></td>
+		     	</tr>
+		     	<tr>
+		     		<td>
+		     		<div class="form-group">
+						<label for="image">이미지 업로드</label>
+						<input type="file" name="file">
+					</div>
+					</td>
 		     	</tr>
 		     	<tr>
 		     		<td>
@@ -182,24 +192,26 @@
     });
 	</script>
 	
-	
 	<script type="text/javascript">
 	function adjustCategory(e) {
-		if(e == 1){
-			$(".caret").text('전체');
-			$("#category").val(1);
-			
-		} else if (e == 2){
-			$(".caret").text('운동기구');
+		if (e == 2){
+			$(".caret").text('상품');
 			$("#category").val(2);
-			
 		} else if (e == 3){
-			$(".caret").text('헬스장');
+			$(".caret").text('피트니스');
 			$("#category").val(3);
-			
 		} else if (e == 4){
 			$(".caret").text('장소');
 			$("#category").val(4);
+		} else if (e == 5){
+			$(".caret").text('다이어트');
+			$("#category").val(5);
+		} else if (e == 6){
+			$(".caret").text('웨이트 트레이닝');
+			$("#category").val(6);
+		} else if (e == 7){
+			$(".caret").text('레시피');
+			$("#category").val(7);
 		}
 	}
 	</script>

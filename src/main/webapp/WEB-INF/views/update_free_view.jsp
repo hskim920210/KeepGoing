@@ -43,7 +43,7 @@
 	  	<br> 
 	  
 	   
-	   <h4 align="center"><a href="<%= request.getContextPath()%>/free">자유게시판으로 이동 </a></h4>
+	   <h4 align="center"><a href="<%= request.getContextPath()%>/free/1">자유게시판으로 이동 </a></h4>
 	   <br>
 	   
 	   <h4 align="center"><a href="<%= request.getContextPath()%>/home">홈페이지로 이동</a></h4>

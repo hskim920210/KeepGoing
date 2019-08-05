@@ -2,13 +2,13 @@ package com.tje.model;
 
 import java.util.Date;
 
-public class DetailBoardFreeView {
+public class DetailBoardFree_View {
 	private int board_id;          // 게시판 아이디
 	private int topic;			   // sql data의 board info 의 넘버링
 	private int category;		   // 관심사
 	private String title;          // 제목
 	private String content;		   // 게시글
-	
+	private int image; 	// 이미지 추가 
 	private int comment_cnt;       // 댓글 숫자   
 	private String member_id;      // 멤버 아이디
 	private String nickname;       // 닉네임
@@ -16,16 +16,18 @@ public class DetailBoardFreeView {
 	private int like_cnt;          // 좋아요 수
 	private int dislike_cnt;       // 싫어요 수
 	private Date write_date;       // 작성날자
-		public DetailBoardFreeView() {
+		public DetailBoardFree_View() {
 		}
-		public DetailBoardFreeView(int board_id, int topic, int category, String title, String content, int comment_cnt,
-				String member_id, String nickname, int view_cnt, int like_cnt, int dislike_cnt, Date write_date) {
+		public DetailBoardFree_View(int board_id, int topic, int category, String title, String content, int image,
+				int comment_cnt, String member_id, String nickname, int view_cnt, int like_cnt, int dislike_cnt,
+				Date write_date) {
 			super();
 			this.board_id = board_id;
 			this.topic = topic;
 			this.category = category;
 			this.title = title;
 			this.content = content;
+			this.image = image;
 			this.comment_cnt = comment_cnt;
 			this.member_id = member_id;
 			this.nickname = nickname;
@@ -63,6 +65,12 @@ public class DetailBoardFreeView {
 		}
 		public void setContent(String content) {
 			this.content = content;
+		}
+		public int getImage() {
+			return image;
+		}
+		public void setImage(int image) {
+			this.image = image;
 		}
 		public int getComment_cnt() {
 			return comment_cnt;
@@ -106,6 +114,8 @@ public class DetailBoardFreeView {
 		public void setWrite_date(Date write_date) {
 			this.write_date = write_date;
 		}
+		
+		
 		
 		
 		

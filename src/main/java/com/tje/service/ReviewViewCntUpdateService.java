@@ -7,15 +7,15 @@ import com.tje.model.*;
 import com.tje.repo.*;
 
 @Service
-public class FreeViewCnt_UpdateService {
+public class ReviewViewCntUpdateService {
 
 	@Autowired
-	private DetailBoardFreeViewDAO detailBoardFreeViewDAO;
+	private DetailBoardReviewViewDAO detailBoardReviewViewDAO;
 
 	public Object service(Object args) {
 		Object result = null;
 
-		result = detailBoardFreeViewDAO.update_view_cnt((DetailBoardFreeView)args);
+		result = detailBoardReviewViewDAO.update_view_cnt((DetailBoardReviewView)args);
 
 		return result;
 	}
