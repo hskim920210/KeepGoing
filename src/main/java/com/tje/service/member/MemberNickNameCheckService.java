@@ -1,20 +1,20 @@
-package com.tje.service;
+package com.tje.service.member;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.tje.model.Comment;
-import com.tje.repo.CommentDAO;
+import com.tje.model.Member;
+import com.tje.repo.MemberDAO;
 
 @Service
-public class CommentSelectService {
+public class MemberNickNameCheckService {
 	@Autowired
-	private CommentDAO commentDAO;
+	private MemberDAO memberDAO;
 	
 	public Object service(Object args) {
 		Object result=null;
 		
-		result=commentDAO.select((Comment)args);
+		result=memberDAO.selectOneNickName((Member)args);
 		
 		return result;
 	}

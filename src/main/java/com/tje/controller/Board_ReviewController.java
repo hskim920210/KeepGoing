@@ -23,6 +23,7 @@ import com.tje.CategoryInfo.*;
 import com.tje.model.*;
 import com.tje.page.*;
 import com.tje.service.*;
+import com.tje.service.common.LikeAndDislikeService;
 
 @Controller
 public class Board_ReviewController {

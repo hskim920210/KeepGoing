@@ -70,6 +70,15 @@ public class Cart {
 	public int getCategory() {
 		return category;
 	}
+	
+	public String getCategoryString() {
+		if(this.category==1)
+			return "운동기구";
+		else if(this.category==2)
+			return "보충제";
+		else
+			return "기타";
+	}
 
 	public void setCategory(int category) {
 		this.category = category;

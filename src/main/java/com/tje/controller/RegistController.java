@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tje.model.Member;
-import com.tje.service.MemberIDCheckService;
-import com.tje.service.MemberInsertService;
-import com.tje.service.MemberNickNameCheckService;
+import com.tje.service.member.MemberIDCheckService;
+import com.tje.service.member.MemberInsertService;
+import com.tje.service.member.MemberNickNameCheckService;
 
 @Controller
 public class RegistController {

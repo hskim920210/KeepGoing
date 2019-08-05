@@ -39,10 +39,10 @@
 	<beans:bean name="auth" class="com.tje.api.Auth" />
 
 
-	<beans:bean id="multipartResolver"
+	<!-- <beans:bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver"
 		p:maxUploadSize="104857600"
-		/>
+		/> -->
 
 	<beans:bean id="AuthInterceptor" class="com.tje.interceptor.AuthInterceptor"/>
 	

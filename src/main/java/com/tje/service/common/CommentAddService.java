@@ -1,20 +1,20 @@
-package com.tje.service;
+package com.tje.service.common;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.tje.model.Cart;
-import com.tje.repo.CartDAO;
+import com.tje.model.Comment;
+import com.tje.repo.CommentDAO;
 
 @Service
-public class CartAddService {
+public class CommentAddService {
 	@Autowired
-	private CartDAO cartDAO;
+	private CommentDAO commentDAO;
 	
 	public Object service(Object args) {
 		Object result=null;
 		
-		result=cartDAO.insert((Cart)args);
+		result=commentDAO.insert((Comment)args);
 		
 		return result;
 	}

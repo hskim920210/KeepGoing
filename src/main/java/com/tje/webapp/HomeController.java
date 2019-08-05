@@ -17,6 +17,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.tje.model.*;
 import com.tje.service.*;
+import com.tje.service.board_item.AllItemListService;
+import com.tje.service.board_item.ItemAddService;
+import com.tje.service.board_item.ItemViewCntUpdateService;
+import com.tje.service.board_item.ItemViewService;
+import com.tje.service.board_item.SimpleBoardItemListCountCriteriaService;
+import com.tje.service.board_item.SimpleBoardItemListCriteriaService;
+import com.tje.service.common.CommentAddService;
+import com.tje.service.common.CommentDeleteService;
+import com.tje.service.common.CommentSelectService;
+import com.tje.service.common.LikeAndDislikeService;
 
 
 @Controller
