@@ -8,6 +8,14 @@
 
 <style type="text/css">
 footer {
+
+
+bottom: 0;
+left: 0;
+right: 0;
+
+
+
 	background-color: #505050;
 	font-size: 10px;
 	color:#dcdcdc;
@@ -16,9 +24,12 @@ footer {
 
 
 
+
 </style>
 </head>
 <body>
+
+
 <footer>
 
 <div align="center"><br>

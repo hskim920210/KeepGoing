@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tje.model.LikeAndDislike;
 import com.tje.model.Member;
-import com.tje.service.LikeAndDislikeService;
+import com.tje.service.common.LikeAndDislikeService;
 
 @Controller
 public class LikeAndDislikeController {

@@ -182,6 +182,11 @@
 		    <artifactId>cos</artifactId>
 		    <version>05Nov2002</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-websocket</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
 		<!-- commons FileUpload -->
         <dependency>
             <groupId>commons-fileupload</groupId>
