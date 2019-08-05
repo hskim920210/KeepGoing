@@ -51,15 +51,15 @@
 			<!-- all -->
 				<td><a href="<%= request.getContextPath() %>/free/1">전체</a></td>
 				<!-- hometown_Motion_part -->
-				<td><a href="<%= request.getContextPath() %>/free/2">우리동네 운동부 (이미지 ,영상)</a></td>
+				<td><a href="<%= request.getContextPath() %>/free/2">우리동네 운동부</a></td>
 				<!-- healthy_diet --> 
-				<td><a href="<%= request.getContextPath() %>/free/3">건강한 식생활 (이미지 )</a></td>
+				<td><a href="<%= request.getContextPath() %>/free/3">건강한 식생활</a></td>
 				 <!-- My_own_exercise -->
-				<td><a href="<%= request.getContextPath() %>/free/4">나만의 운동법(이미지.영상)</a></td>
+				<td><a href="<%= request.getContextPath() %>/free/4">나만의 운동법</a></td>
 				<!-- Beginner exercise -->    
-				<td><a href="<%= request.getContextPath() %>/free/5">초보자를 위한 운동 추천(게시글 답글, 이미지 .영상)</a></td>
+				<td><a href="<%= request.getContextPath() %>/free/5">초보자를 위한 운동 추천</a></td>
 				<!-- Complex -->
-				<td><a href="<%= request.getContextPath() %>/free/6">콤플랙스 극복(이미지.영상)</a></td>
+				<td><a href="<%= request.getContextPath() %>/free/6">컴플랙스 극복</a></td>
 			</tr>
 		</table>
 		
@@ -81,10 +81,10 @@
 			
 		
 			
-			<!-- 반복처리하여 값을 불러온다. -->
+			<!-- 반복처리하여 값을 불러온다. getCategoryString() -->
 			<c:forEach items="${ free_list }" var="free">
 				<tr style="text-align: center;">
-					<td>${ category_name }</td>
+					<td>${ free.getCategoryString() }</td>
 					<td><a href="<%= request.getContextPath() %>/free_view/${ free.board_id} ">${ free.title } (${ free.comment_cnt })</a></td>
 					<td>${ free.nickname }</td>
 					<td>${ free.view_cnt }</td>

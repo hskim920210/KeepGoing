@@ -60,6 +60,10 @@
 			<mapping path="/item_update/*"/>
 			<mapping path="/item_delete/*"/>
 			<mapping path="/review/write"/>
+			<mapping path="/add_free"/>
+			<mapping path="/free_update/*"/>
+			<mapping path="/free_delete/*"/>			
+
 			<beans:ref bean="AuthInterceptor"/>
 		</interceptor>
 	</interceptors>
