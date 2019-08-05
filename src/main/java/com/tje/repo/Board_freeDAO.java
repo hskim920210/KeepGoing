@@ -38,9 +38,10 @@ private JdbcTemplate jdbcTemplate;
 					rs.getInt(3),
 					rs.getString(4),
 					rs.getString(5),
-					rs.getString(6),
-					rs.getInt(7),
-					rs.getTimestamp(8));
+					rs.getInt(6),
+					rs.getString(7),
+					rs.getInt(8),
+					rs.getTimestamp(9));
 			
 			return board_free;
 		}
@@ -55,7 +56,7 @@ private JdbcTemplate jdbcTemplate;
 		
 				PreparedStatement pstmt = 
 					con.prepareStatement(
-							"insert into board_free values(0,2,?,?,?,?,0,now())", 
+							"insert into board_free values(0,2,?,?,?,?,?,0,now())", 
 						 new String[]{"board_id"});
 				pstmt.setInt(1, model.getCategory());
 				pstmt.setString(2, model.getTitle());

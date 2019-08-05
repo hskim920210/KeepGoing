@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-
+import com.tje.BoardService.Board_freeService;
+import com.tje.BoardService.SimpleBoardFreeViewSelectByDateDescService;
 import com.tje.model.*;
 import com.tje.service.*;
 

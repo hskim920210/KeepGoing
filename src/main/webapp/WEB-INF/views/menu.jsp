@@ -26,7 +26,7 @@
 
               <ul class="site-menu js-clone-nav mx-auto d-none d-lg-block">
                 <li><a href="<%= request.getContextPath() %>/review">리뷰</a></li>
-                <li><a href="<%= request.getContextPath() %>/free">자유 게시판</a></li>
+                <li><a href="<%= request.getContextPath() %>/free/1">자유 게시판</a></li>
                 <li><a href="<%= request.getContextPath() %>/item">상품</a></li>
                 <li class="has-children"><a href="#">고객센터</a>
                 	<ul class="dropdown">

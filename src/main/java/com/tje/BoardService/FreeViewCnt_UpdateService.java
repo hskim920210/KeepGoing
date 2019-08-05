@@ -1,4 +1,4 @@
-package com.tje.service;
+package com.tje.BoardService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ public class FreeViewCnt_UpdateService {
 	public Object service(Object args) {
 		Object result = null;
 
-		result = detailBoardFreeViewDAO.update_view_cnt((DetailBoardFreeView)args);
+		result = detailBoardFreeViewDAO.update_view_cnt((DetailBoardFree_View)args);
 
 		return result;
 	}
