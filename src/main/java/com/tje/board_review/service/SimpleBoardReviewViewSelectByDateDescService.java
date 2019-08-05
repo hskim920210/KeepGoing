@@ -1,4 +1,4 @@
-package com.tje.service;
+package com.tje.board_review.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

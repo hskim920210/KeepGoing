@@ -1,7 +1,6 @@
 package com.tje.controller;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,12 +9,10 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
@@ -23,6 +20,7 @@ import com.tje.CategoryInfo.*;
 import com.tje.model.*;
 import com.tje.page.*;
 import com.tje.service.*;
+import com.tje.board_review.service.*;
 
 @Controller
 public class Board_ReviewController {
@@ -84,9 +82,9 @@ public class Board_ReviewController {
 	}
 	
 	@PostMapping("/review/write")
-	public String ReviewWritePost(MultipartFile file ,Board_Review b_r, Review_Map r_m, Model model, HttpServletRequest request) {
+	public String ReviewWritePost(Board_Review b_r, Review_Map r_m, Model model, HttpServletRequest request) {
 		// Multipart Request
-		System.out.println("rr");
+		/*
 		UUID uid = UUID.randomUUID();
 		String oriName = file.getOriginalFilename();
 		// String savedName = uid.toString() + "_" + oriName;
@@ -99,20 +97,26 @@ public class Board_ReviewController {
 			System.out.println("FileCopyUtils에러");
 		}
 		b_r.setImage(savedName);
-		/*
+		*/
+		String dirPath=request.getSession().getServletContext().getRealPath("/resources/images");
 		File dir=new File(dirPath);
 		if(!dir.exists()) { dir.mkdirs(); }
 		int size=10*1024*1024;
 		MultipartRequest multipartRequest=null;
 		try {
 			multipartRequest=new MultipartRequest(request, dirPath, size, "utf-8", new DefaultFileRenamePolicy());
-			String imageName=multipartRequest.getFilesystemName("file");
-			b_r.setImage(imageName);
-			System.out.println(b_r.getImage());
+			r_m.setSelectedAddress(multipartRequest.getParameter("selectedAddress"));
+			r_m.setSelectedLat(Double.parseDouble(multipartRequest.getParameter("selectedLat")));
+			r_m.setSelectedLng(Double.parseDouble(multipartRequest.getParameter("selectedLng")));
+			b_r.setImage(multipartRequest.getFilesystemName("file"));
+			b_r.setCategory(Integer.parseInt(multipartRequest.getParameter("category")));
+			b_r.setTitle(multipartRequest.getParameter("title"));
+			b_r.setContent(multipartRequest.getParameter("content"));
+			b_r.setMember_id(multipartRequest.getParameter("member_id"));
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		*/
+		
 		if( r_m.getSelectedAddress().equals("0") ) { // 주소 입력 안한 경우
 			int b_rInsert = (Integer)b_riService.service(b_r);
 			if (b_rInsert == 1) {
