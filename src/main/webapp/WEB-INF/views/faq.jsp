@@ -16,8 +16,15 @@
 <body>
 
 	<jsp:include page="menu.jsp" flush="false"></jsp:include>
-
 	<jsp:include page="modalLogin.jsp" flush="false"></jsp:include>
+	
+	<jsp:include page="javascriptInclude.jsp" flush="false"></jsp:include>
+
+
+	
+	
+	
+	
 	<div class="site-blocks-cover inner-page-cover overlay"
 		style="background-image: url(<%=request.getContextPath()%>/resources/images/top.jpg);"
 		data-aos="fade" data-stellar-background-ratio="0.5">
@@ -42,20 +49,36 @@
 		
 		
 		<ul id="myTab" class="nav nav-tabs" role="tablist">
-		  <li role="presentation" class="active" id="tabs" ><a href="#">전체</a></li>
-		  <li role="presentation" class="" id="tabs" value="1" ><a href="#" role="tab" data-toggle="tab">회원가입</a></li>
-		  <li role="presentation" class="" id="tabs" value="2" ><a href="#">상품</a></li>
-		  <li role="presentation" class="" id="tabs" value="3" ><a href="#">기타</a></li>
+		  <li role="presentation" class="tabcontent active" id="tabs1" data-toggle="tab"><a href="<%=request.getContextPath()%>/faq?p=0" style="display: block;">전체</a></li>
+		  <li role="presentation" class="tabcontent" id="tabs2" value="1" data-toggle="tab"><a href="<%=request.getContextPath()%>/faq?p=1" style="display: block;">회원가입</a></li>
+		  <li role="presentation" class="tabcontent" id="tabs3" value="2" data-toggle="tab" ><a href="<%=request.getContextPath()%>/faq?p=2" style="display: block;">상품</a></li>
+		  <li role="presentation" class="tabcontent" id="tabs4" value="3" data-toggle="tab" ><a href="<%=request.getContextPath()%>/faq?p=3" style="display: block;">기타</a></li>
 		</ul>
 		
 		
-
-
-
+	<script>
+	var tabValue
+		$(function() {
+			$('#myTab li').click(function() {
+				var activeTab = $(this).attr('data-toggle');
+				$('#myTab li').removeClass('active');
+				$('.tabcontent').removeClass('active');
+				$(this).addClass('active');
+				$('#' + activeTab).addClass('active');
+				tabValue = $(this).attr('value');
+				console.log(tabValue)
+			})
+		});
+	</script>
+		
+		
+		
+		
+		
 
 			<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 			<c:forEach items="${ faq }" var="faq">
-			<c:if test="${ faq.category  == tabs_val }">
+			<c:if test="${ faq.category == param.p }">
 			  <div class="panel panel-default">
 			    <div class="panel-heading" role="tab" id="heading${ faq.board_id }">
 			      <h5 class="panel-title">
@@ -76,6 +99,12 @@
 			</div>
 			
 
+
+
+
+
+
+
 		<c:if test="${ login_member.auth >= 3 }">
       		<p align="right"><a href="<%=request.getContextPath()%>/faq/write" class="btn btn-info btn-xs" type="button">작성</a></p>
       	</c:if>
@@ -86,22 +115,12 @@
 
 	
 	
-	<jsp:include page="javascriptInclude.jsp" flush="false"></jsp:include>
-	
+
 	
 
     
  <jsp:include page="site_footer.jsp"></jsp:include>
 
-
-			<script type="text/javascript">
-			$('#myTab a').click(function (e) {
-				  e.preventDefault()
-				  $(this).tab('show')
-				})
-			</script>
-
-	
 	
 </body>
 </html>

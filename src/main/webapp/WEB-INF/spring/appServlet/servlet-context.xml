@@ -47,11 +47,6 @@
 	<beans:bean name="auth" class="com.tje.api.Auth" />
 
 
-	<!-- <beans:bean id="multipartResolver"
-		class="org.springframework.web.multipart.commons.CommonsMultipartResolver"
-		p:maxUploadSize="104857600"
-		/> -->
-
 	<beans:bean id="AuthInterceptor" class="com.tje.interceptor.AuthInterceptor"/>
 	
 	<interceptors>
@@ -59,11 +54,11 @@
 			<mapping path="/add_item"/>
 			<mapping path="/item_update/*"/>
 			<mapping path="/item_delete/*"/>
+			<mapping path="/faq/write"/>
 			<mapping path="/review/write"/>
 			<mapping path="/add_free"/>
 			<mapping path="/free_update/*"/>
 			<mapping path="/free_delete/*"/>			
-
 			<beans:ref bean="AuthInterceptor"/>
 		</interceptor>
 	</interceptors>
