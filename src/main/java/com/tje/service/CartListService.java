@@ -3,16 +3,19 @@ package com.tje.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.tje.repo.*;
+import com.tje.model.Cart;
+import com.tje.repo.CartDAO;
 
 @Service
-public class SimpleBoardFreeViewSelectByDateDescService {
+public class CartListService {
 	@Autowired
-	private SimpleBoardFreeViewDAO simpleBoardFreeViewDAO;
+	private CartDAO cartDAO;
 	
 	public Object service() {
 		Object result=null;
-		result=simpleBoardFreeViewDAO.selectAllOrdByDateDesc();
+		
+		result=cartDAO.selectAll();
+		
 		return result;
 	}
 }

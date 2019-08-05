@@ -46,6 +46,13 @@ private JdbcTemplate jdbcTemplate;
 		}
 	}
 	
+	public int update_view_cnt(DetailBoardReviewView model) {
+		String sql = "update board_review set view_cnt=view_cnt+1 where board_id=?";
+		
+		return this.jdbcTemplate.update(sql,
+				model.getBoard_id());
+	}
+	
 	public DetailBoardReviewView selectOne(DetailBoardReviewView model) throws Exception{
 		String sql = "select * from DetailBoardReviewView where board_id=?";
 		return this.jdbcTemplate.queryForObject(sql, 

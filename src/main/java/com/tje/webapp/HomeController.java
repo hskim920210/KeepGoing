@@ -66,13 +66,6 @@ public class HomeController {
 	public String Cs() {
 		return "cs";
 	}	
-
-
-	
-	@RequestMapping("/cart")
-	public String Cart() {
-		return "cart";
-	}
 	
 	@GetMapping("/regist")
 	public String registGet(HttpSession session) {
