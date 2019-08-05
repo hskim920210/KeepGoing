@@ -41,9 +41,7 @@
 			</div>
 			<div class="form-group">
 				<label for="content">내용</label>
-				<textarea rows="20" cols="" class="form-control" name="content" placeholder="Content" maxlength="500" required
-				style="button">
-				</textarea>
+				<textarea rows="20" cols="" class="form-control" name="content" placeholder="Content" maxlength="500" required></textarea>
 			</div>
 			<div class="form-group">
 				<label for="category">카테고리</label>

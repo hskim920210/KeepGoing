@@ -8,7 +8,7 @@ public class Board_Free {
 	private int category;
 	private String title;
 	private String content;
-	private int image;
+	private String image;
 	private String member_id;
 	private int view_cnt;
 	private Date write_date;
@@ -16,8 +16,8 @@ public class Board_Free {
 	public Board_Free() {
 	}
 
-	public Board_Free(int board_id, int topic, int category, String title, String content, int image, String member_id,
-			int view_cnt, Date write_date) {
+	public Board_Free(int board_id, int topic, int category, String title, String content, String image,
+			String member_id, int view_cnt, Date write_date) {
 		super();
 		this.board_id = board_id;
 		this.topic = topic;
@@ -70,11 +70,11 @@ public class Board_Free {
 		this.content = content;
 	}
 
-	public int getImage() {
+	public String getImage() {
 		return image;
 	}
 
-	public void setImage(int image) {
+	public void setImage(String image) {
 		this.image = image;
 	}
 
@@ -102,6 +102,7 @@ public class Board_Free {
 		this.write_date = write_date;
 	}
 
+	
 	
 	
 }

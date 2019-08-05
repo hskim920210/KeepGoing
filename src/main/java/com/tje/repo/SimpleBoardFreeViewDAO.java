@@ -49,14 +49,14 @@ private JdbcTemplate jdbcTemplate;
 				model.getBoard_id());
 	}
 	
-	// 게시글 우리동네 운동부 게시글 조회 _Hometown_Motion_Part_
-	public List<SimpleBoardFreeView> select_Hometown_Motion_Part(SimpleBoardFreeView model) {
-		String sql = "select * from simpleBoardFreeView where category=2";
-		List<SimpleBoardFreeView> results = this.jdbcTemplate.query(sql, 
-				new SimpleBoardFreeViewRowMapper()); 				
-		return results.isEmpty() ? null : results;
-	}
-	
+//	// 게시글 우리동네 운동부 게시글 조회 _Hometown_Motion_Part_
+//	public List<SimpleBoardFreeView> select_Hometown_Motion_Part(SimpleBoardFreeView model) {
+//		String sql = "select * from simpleBoardFreeView where category=2";
+//		List<SimpleBoardFreeView> results = this.jdbcTemplate.query(sql, 
+//				new SimpleBoardFreeViewRowMapper()); 				
+//		return results.isEmpty() ? null : results;
+//	}
+//	
 	public List<SimpleBoardFreeView> selectAllOrdByDateDesc() {
 		String sql = "select * from SimpleBoardFreeView order by write_date desc";
 		List<SimpleBoardFreeView> results=this.jdbcTemplate.query(sql,

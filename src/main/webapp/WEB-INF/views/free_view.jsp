@@ -54,7 +54,8 @@
           	
 			<tr>
 			<td><b style="color: black; font-size: 15px; ">작성 시간 : ${ searchedFree.write_date }</b></td>
-			<td><b style="color: black; font-size: 15px; ">관심사 : ${ searchedFree.category }</b></td>
+			<!-- 디테일 모델에서 카테고리 이름 변환 -->
+			<td><b style="color: black; font-size: 15px; ">관심사 : ${ searchedFree.getCategoryString() }</b></td>
 			<td><b style="color: black; font-size: 15px; ">작성자 : ${ searchedFree.nickname }</b></td>
 			
 			</tr>
@@ -70,7 +71,7 @@
 	          	<a class="btn btn-default" type="submit" href="<%=request.getContextPath()%>/update_free/${ searchedFree.board_id}"	id = "update_free" >수정</a>
 	          	<a class="btn btn-default" type="submit" href="<%=request.getContextPath()%>/delete_free/${ searchedFree.board_id}"	id = "delete_free" >삭제</a>
 	          </c:if>
-	         <p align="right"><a class="btn btn-default" style="color : black;" type="submit" href="<%=request.getContextPath()%>/free/2">자유게시판으로 이동</a></p>
+	         <p align="right"><a class="btn btn-default" style="color : black;" type="submit" href="<%=request.getContextPath()%>/free/1">자유게시판으로 이동</a></p>
 	         <p align="right"><a class="btn btn-default" style="color : black;" type="submit" href="<%=request.getContextPath()%>/home">홈페이지로 이동</a></p>
 	          <!-- 해당 값을 가져와 출력 -->
 	          <form method="post" id="form6">
