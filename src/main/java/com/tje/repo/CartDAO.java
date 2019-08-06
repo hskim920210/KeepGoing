@@ -1,5 +1,6 @@
 package com.tje.repo;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -7,11 +8,13 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.tje.model.Cart;
+import com.tje.model.Sold_item;
 
 @Repository
 public class CartDAO {
@@ -67,4 +70,26 @@ public class CartDAO {
 				model.getPrice());
 	}
 	
+	public int delete(Cart model) {
+		
+		return this.jdbcTemplate.update("delete from cart where cart_id=?",
+				model.getCart_id());
+	}
+	
+	public int[] batchDelete(List<Cart> carts) {
+		return jdbcTemplate.batchUpdate("delete from cart1 where cart_id=?",
+				new BatchPreparedStatementSetter() {
+					
+					@Override
+					public void setValues(PreparedStatement ps, int i) throws SQLException {
+						// TODO Auto-generated method stub
+						ps.setInt(1, carts.get(i).getCart_id());
+					}
+					
+					@Override
+					public int getBatchSize() {
+						return carts.size();
+					}
+			});
+	}
 }

@@ -36,7 +36,7 @@
 
     	<form id="update_free"  method="post" action="<%=request.getContextPath() %>/update_free/${searchedFree.board_id}">
     		<input type="hidden" name="member_id"  value="${ login_member.member_id }">
-    		<input type="hidden" name="board_id"  value="${ searchedFree.board_id }">
+    		
 			<div class="form-group">
 				<label for="title">제목</label>
 				<input type="text" class="form-control" name="title" value="${ searchedFree.title }" maxlength="30" required >
@@ -56,7 +56,7 @@
 			
 			
 			<c:if	test="${ login_member.member_id eq 'admin' or login_member.member_id eq searchedFree.member_id }">
-			<button type="submit" class="btn btn-info" id="add_free_insert">수정</button>
+			<button type="submit" class="btn btn-info">수정</button>
 			</c:if>
 		</form>
 

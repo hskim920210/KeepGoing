@@ -68,8 +68,6 @@ public class Free_BoardController {
 	@Autowired
 	private SimpleComplex_ListCriteriaService6 sc_lcSerivce; // 컴플랙스 극복 게시판 첫화면 _리스트 기준 서비스
 	@Autowired
-	private ItemViewCntUpdateService ivcuService; //조회수
-	@Autowired
 	private FreeViewService fvService;
 	@Autowired
 	private FreeViewCntUpdateService fvcuSErvice;
@@ -113,17 +111,21 @@ public class Free_BoardController {
 	public String Update_free(Model model, @PathVariable(value = "board_id") Integer board_id) {
 		DetailBoardFree_View free=new DetailBoardFree_View();
 		free.setBoard_id(board_id);
-		System.out.println(free.getBoard_id());
+		System.out.println(board_id);
+		System.out.println("get");
 		
 		model.addAttribute("searchedFree", (DetailBoardFree_View)dbf_vService.service(free));
 		return "update_free";
 	}
 	
 	@PostMapping("/update_free/{board_id}")
-	public String Update_freePost(DetailBoardFree_View detailBoardFreeView, Model model, @PathVariable(value = "board_id") Integer board_id) {
-		Integer result = (Integer)dbfv_uService.service(detailBoardFreeView);
+	public String Update_freePost(DetailBoardFree_View detailBoardFreeView, Model model,
+			@PathVariable(value = "board_id") Integer board_id) {
+			Integer result = (Integer)dbfv_uService.service(detailBoardFreeView);
 		if (result != null) {
 			model.addAttribute("resultMsg", "수정 완료");
+			System.out.println(board_id);
+			System.out.println("post");
 			return "update_free_view";
 		}
 		model.addAttribute("resultMsg", "수정 실패");
