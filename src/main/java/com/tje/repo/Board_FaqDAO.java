@@ -29,15 +29,16 @@ private JdbcTemplate jdbcTemplate;
 					rs.getInt(1),
 					rs.getInt(2),
 					rs.getInt(3),
-					rs.getString(4),
-					rs.getString(5));
+					rs.getInt(4),
+					rs.getString(5),
+					rs.getString(6));
 			return board_qna;
 		}
 	}
 	
 	public Board_Faq selectOne(Board_Notice model) {
 		String sql = "select * from board_qna where board_id=?";
-		return this.jdbcTemplate.queryForObject(sql, 
+		return this.jdbcTemplate.queryForObject(sql,
 				new Board_FAQRowMapper(), 
 				model.getBoard_id());
 	}
@@ -65,11 +66,20 @@ private JdbcTemplate jdbcTemplate;
 	
 	
 	public int insert(Board_Faq model) {
-		return this.jdbcTemplate.update("insert into board_qna values(0,5,?,?,?)",
+		return this.jdbcTemplate.update("insert into board_qna values(0,5,?,?,?,?)",
+				model.getHead(),
 				model.getCategory(),
 				model.getTitle(),
 				model.getContent()
 				);
+	}
+	
+	public int update(Board_Faq model) throws Exception{
+		return this.jdbcTemplate.update("update board_qna set Title = ?, Content = ? where board_id = ?",
+				model.getTitle(),
+				model.getContent(),
+				model.getBoard_id()
+		);
 	}
 
 }

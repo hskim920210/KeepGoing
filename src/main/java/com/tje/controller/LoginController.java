@@ -42,7 +42,7 @@ import com.tje.api.AuthInfo;
 import com.tje.api.NaverLoginBO;
 import com.tje.api.Kakao_restapi;
 import com.tje.model.Member;
-import com.tje.service.MemberIDCheckService;
+import com.tje.service.member.MemberIDCheckService;
 
 @Controller
 public class LoginController {

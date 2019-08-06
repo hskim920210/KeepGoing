@@ -36,20 +36,29 @@
 	<div class="site-section block-13">
 
     	<form action="<%=request.getContextPath() %>/qna/write" id="add_qna_form" method="post">
-    		<input type="hidden" name="category" value="0">
+    		<div class="form-group">
+	    		<label for="title">카테고리</label><br>
+	    		<select name="category">
+					<option value="1">회원관련</option>
+					<option value="2">리뷰</option>
+					<option value="3">게시판</option>
+					<option value="4">상품</option>
+					<option value="5">기타</option>
+				</select>
+    		</div>
 			<div class="form-group">
 				<label for="title">제목</label>
 				<input type="text" class="form-control" name="title" placeholder="Title" required>
 			</div>
 			<div class="form-group">
 				<label for="title">글쓴이</label>
-				<input type="text" class="form-control" name="member_id" placeholder="Nickname" required>
+				<input type="text" class="form-control" name="member_id" placeholder="Nickname" value="${ login_member.member_id }" readonly="readonly">
 			</div>
 			<div class="form-group">
 				<label for="content">내용</label>
 				<textarea rows="20" cols="" class="form-control" name="content" placeholder="Content" required></textarea>
 			</div>
-		
+			
 			<button type="submit" class="btn btn-info" id="add_qna_insert">글 등록</button>
 		</form>
 

@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tje.model.Comment;
-import com.tje.service.CommentAddService;
-import com.tje.service.CommentDeleteService;
+import com.tje.service.common.CommentAddService;
+import com.tje.service.common.CommentDeleteService;
 
 @Controller
 public class CommentController {
