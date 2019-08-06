@@ -3,6 +3,7 @@ package com.tje.model;
 public class Board_Faq {
 	private int board_id;
 	private int topic;
+	private int head;
 	private int category;
 	private String title;
 	private String content;
@@ -10,13 +11,28 @@ public class Board_Faq {
 	public Board_Faq() {
 	}
 
-	public Board_Faq(int board_id, int topic, int category, String title, String content) {
+
+	public Board_Faq(int board_id, int topic, int head, int category, String title, String content) {
+		super();
 		this.board_id = board_id;
 		this.topic = topic;
+		this.head = head;
 		this.category = category;
 		this.title = title;
 		this.content = content;
 	}
+
+
+
+	public int getHead() {
+		return head;
+	}
+
+
+	public void setHead(int head) {
+		this.head = head;
+	}
+
 
 	public int getBoard_id() {
 		return board_id;
