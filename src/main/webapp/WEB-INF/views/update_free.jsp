@@ -68,7 +68,7 @@
 			</div>
 			
 			
-			
+			<c:if	test="${ login_member.member_id eq 'admin' or login_member.member_id eq searchedFree.member_id }">
 
 			<button type="submit" class="btn btn-info" >수정</button>
 

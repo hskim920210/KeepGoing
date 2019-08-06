@@ -263,14 +263,37 @@ public class BroadCastController extends TextWebSocketHandler {
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 		System.out.println(session.getId() + "가 연결 종료됨");
-		// 연결이 종료된 클라이언트를 세션 목록에서 제거하고 그 정보를 받아온다. (remove 리턴값)
-		WebSocketClientInfo closedClient = sessionMap.remove(session.getId());
-		/*
-		String strClosedClient = String.format("closed:%s (%s)", closedClient.getNickname(), session.getId());
+		// 나간 사람의 정보는 모두 지운다.
+		String sessionId = session.getId();
+		if( sessionMap.get(sessionId).chatMember.getClass().equals(Admin.class) ) { // 나간 사람의 ChatMember 타입이 Admin이면
+			System.out.println("admin의 커넥션 종료");
+			// sessionMap에서 현재 종료된 session의 id로 admin을 가져온다.
+			Admin admin = (Admin)sessionMap.get(sessionId).chatMember;
+			sessionMap.remove(sessionId);
+			adminMap.remove(admin);
+			// 클라이언트의 웹소켓 세션을 가져오기
+			WebSocketSession clientSession = chatMatch.get(session);
+			// chatMap에서 둘의 session을 지운다. ( 그 전에 각각 상대가 연결을 종료했다는 메세지를 보낸다. )
+			clientSession.sendMessage(new TextMessage("상대가 연결을 종료했습니다.\n"));
+			chatMatch.remove(session); // admin, client의 쌍
+			chatMatch.remove(clientSession); // client, admin의 쌍
+			// 클라이언트의 isConn을 false로 바꾼다. 그러기위해 Client를 찾는다.
+			sessionMap.get(clientSession.getId()).chatMember.setConn(false);
+		} else {
+			System.out.println("client의 커넥션 종료");
+			// sessionMap에서 현재 종료된 session의 id로 client을 가져온다.
+			Client client = (Client)sessionMap.get(sessionId).chatMember;
+			sessionMap.remove(sessionId);
+			clientMap.remove(client);
+			// 어드민의 웹소켓 세션을 가져오기
+			WebSocketSession adminSession = chatMatch.get(session);
+			// chatMap에서 둘의 session을 지운다.
+			adminSession.sendMessage(new TextMessage("상대가 연결을 종료했습니다.\n"));
+			chatMatch.remove(session); // client, admin의 쌍
+			chatMatch.remove(adminSession); // admin, client의 쌍
+			// 어드민의 isConn을 false로 바꾼다. 그러기위해 Admin를 찾는다.
+			sessionMap.get(adminSession.getId()).chatMember.setConn(false);
+		};
 		
-		for( String key : sessionMap.keySet() ) {
-			sessionMap.get(key).getSession().sendMessage(new TextMessage(strClosedClient));
-		}
-		*/
 	}
 }
