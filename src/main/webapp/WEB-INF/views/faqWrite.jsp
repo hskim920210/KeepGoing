@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
 <head>
-<title>Q&A 작성</title>
+<title>FAQ 등록</title>
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -25,7 +25,7 @@
 
 				<div class="col-md-8" data-aos="fade-up" data-aos-delay="400">
 					<h1
-						class="text-white font-weight-light text-uppercase font-weight-bold">Q&A</h1>
+						class="text-white font-weight-light text-uppercase font-weight-bold">자주 묻는 질문(FAQ)</h1>
 				</div>
 			</div>
 		</div>
@@ -35,31 +35,30 @@
 	<div class="container">
 	<div class="site-section block-13">
 
-    	<form action="<%=request.getContextPath() %>/qna/write" id="add_qna_form" method="post">
-    		<div class="form-group">
-	    		<label for="title">카테고리</label><br>
-	    		<select name="category">
-					<option value="1">회원관련</option>
-					<option value="2">리뷰</option>
-					<option value="3">게시판</option>
-					<option value="4">상품</option>
-					<option value="5">기타</option>
+    	<form id="add_faq"  method="post" action="<%=request.getContextPath() %>/faq/write">
+			<div class="form-group">
+				<label>분류</label>
+				<select name="head">
+					<option value="1">분류 1</option>
+					<option value="2">분류 2</option>
+					<option value="3">분류 3</option>
 				</select>
-    		</div>
+				<select name="category">
+					<option value="1">회원가입</option>
+					<option value="2">상품</option>
+					<option value="3">기타</option>
+				</select>
+			</div>
 			<div class="form-group">
 				<label for="title">제목</label>
 				<input type="text" class="form-control" name="title" placeholder="Title" required>
 			</div>
 			<div class="form-group">
-				<label for="title">글쓴이</label>
-				<input type="text" class="form-control" name="member_id" placeholder="Nickname" value="${ login_member.member_id }" readonly="readonly">
-			</div>
-			<div class="form-group">
 				<label for="content">내용</label>
 				<textarea rows="20" cols="" class="form-control" name="content" placeholder="Content" required></textarea>
 			</div>
-			
-			<button type="submit" class="btn btn-info" id="add_qna_insert">글 등록</button>
+
+			<button type="submit" class="btn btn-info" id="add_faq_insert">등록</button>
 		</form>
 
     </div>
