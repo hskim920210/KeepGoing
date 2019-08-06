@@ -3,6 +3,8 @@ package com.tje.controller;
 
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -75,6 +77,12 @@ public class Free_BoardController {
 	private FreeViewService fvService;
 	@Autowired
 	private FreeViewCntUpdateService fvcuSErvice;
+	@Autowired
+	private Board_NoticeSelectHeadService b_nshService; //상단 공지 사항
+	@Autowired
+	private SimpleBoardFree_ViewSearchService sbf_vsService; // 게시글 검색 서비스
+	
+	
 	
 	
 	////////////////////// 게시글 등록////////////////////  <글쓰기 버튼에 주소값 입력  게시판 안에서 공통적으로 사용 
@@ -180,27 +188,7 @@ public class Free_BoardController {
 			return "update_free_view_err";
 		}
 		
-		
-//		@GetMapping("/update_free/{board_id}")
-//		public String Update_free(Model model, @PathVariable(value = "board_id") Integer board_id) {
-//			DetailBoardFree_View free=new DetailBoardFree_View();
-//			free.setBoard_id(board_id);
-//			System.out.println(free.getBoard_id());
-//			
-//			model.addAttribute("searchedFree", (DetailBoardFree_View)dbf_vService.service(free));
-//			return "update_free";
-//		}
-//		
-//		@PostMapping("/update_free/{board_id}")
-//		public String Update_freePost(DetailBoardFree_View detailBoardFreeView, Model model, @PathVariable(value = "board_id") Integer board_id) {
-//			Integer result = (Integer)dbfv_uService.service(detailBoardFreeView);
-//			if (result != null) {
-//				model.addAttribute("resultMsg", "수정 완료");
-//				return "update_free_view";
-//			}
-//			model.addAttribute("resultMsg", "수정 실패");
-//			return "update_free_view";
-//		}
+
 	////////////////////// 게시글 수정////////////////////
 //	
 //	
@@ -229,6 +217,11 @@ public class Free_BoardController {
 	public String free(Model model,Criteria criteria, DetailBoardFree_View detailBoardFreeView,
 			@PathVariable(value="category_num", required = false) Integer category_num,
 			@PathVariable(value="curPageNo", required = false) Integer curPageNo) {
+		
+		// 상단 공지 사항
+		List<Board_Notice> board_noticeheadList = (List<Board_Notice>)b_nshService.service();
+		model.addAttribute("board_noticeheadList", board_noticeheadList);
+		
 		if(curPageNo==null) {
 			curPageNo=1;
 		}
@@ -351,10 +344,68 @@ public class Free_BoardController {
 		
 		return "free_view";
 	}
-	///////////////////// 자유게시판 조회 ////////////////	
-
-
+///////////////////// 자유게시판 조회 ////////////////	
+//	
+//	
+//			
+///////////////////// 게시글 검색 ////////////////	
+	@PostMapping(value= {"/free/search","/free/search/{curPageNo}"})
+	public String searchFree(Model model, HttpServletRequest req, Criteria criteria,
+			@PathVariable(value="curPageNo", required = false) Integer curPageNo) {
+		if(curPageNo==null) {
+			curPageNo=1;
+		}
+		// 현재 페이지
+		criteria.setPage(curPageNo);
+		// 페이지 당 게시물 갯수
+		criteria.setPerPageNum(3);
+		PageMaker pageMaker=new PageMaker();
+		pageMaker.setCri(criteria);
+		
+		int category_Num = Integer.parseInt(req.getParameter("category_Num"));
+		int search_Type = Integer.parseInt(req.getParameter("search_Type"));
+		String keyword = req.getParameter("keyword");
+		System.out.println(category_Num + "" + search_Type + keyword);
+		
+		HashMap<String, Object> result = (HashMap<String, Object>)sbf_vsService.service(search_Type, category_Num, keyword, criteria);
+		model.addAttribute("simpleBoardReviewViewList", (List<SimpleBoardReviewView>)result.get("list"));
+		int count = (Integer)result.get("count") == null ? 0 : (Integer)result.get("count");
+		pageMaker.setTotalCount(count);
+		
+		model.addAttribute("curPageNo", curPageNo);
+		model.addAttribute("pageMaker", pageMaker);  // 게시판 하단의 페이징 관련, 이전페이지, 페이지 링크 , 다음 페이지
+		model.addAttribute("strCategory", Borad_Free_Info.getCategoryName(category_Num));
+		model.addAttribute("category_Num", category_Num);
+		return "free";
+	}
 	
 
 
+	
+///////////////////// 게시글 검색 ////////////////	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

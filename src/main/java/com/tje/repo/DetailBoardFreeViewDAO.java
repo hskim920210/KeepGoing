@@ -95,10 +95,11 @@ private JdbcTemplate jdbcTemplate;
 	// 게시판 수정
 	public int update(DetailBoardFree_View model) {
 		
-				return this.jdbcTemplate.update("update board_free set Content = ? , Title = ? , image=? where board_id = ? " ,
+				return this.jdbcTemplate.update("update board_free set Content = ? , Title = ? , image=?, category=? where board_id = ? " ,
 				model.getContent(),
 				model.getTitle(),
 				model.getImage(),
+				model.getCategory(),
 				model.getBoard_id()
 				
 				);
