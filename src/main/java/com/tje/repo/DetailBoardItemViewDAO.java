@@ -1,11 +1,13 @@
 package com.tje.repo;
 
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -70,6 +72,24 @@ private JdbcTemplate jdbcTemplate;
 				model.getPrice(),
 				model.getImage(),
 				model.getBoard_id());
+	}
+	
+	public int[] batchNumberUpdate(List<DetailBoardItemView> items) {
+		return jdbcTemplate.batchUpdate("update board_item set number=number-? where board_id=?",
+				new BatchPreparedStatementSetter() {
+					
+					@Override
+					public void setValues(PreparedStatement ps, int i) throws SQLException {
+						// TODO Auto-generated method stub
+						ps.setInt(1, items.get(i).getNumber());
+						ps.setInt(2, items.get(i).getBoard_id());
+					}
+					
+					@Override
+					public int getBatchSize() {
+						return items.size();
+					}
+			});
 	}
 	
 	public int update_view_cnt(DetailBoardItemView model) {

@@ -77,7 +77,7 @@ public class CartDAO {
 	}
 	
 	public int[] batchDelete(List<Cart> carts) {
-		return jdbcTemplate.batchUpdate("delete from cart1 where cart_id=?",
+		return jdbcTemplate.batchUpdate("delete from cart where cart_id=?",
 				new BatchPreparedStatementSetter() {
 					
 					@Override
