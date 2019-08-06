@@ -76,9 +76,6 @@ public class HomeController {
 		List<SimpleBoardReviewView> review_list = (List<SimpleBoardReviewView>)hrService.service();
 		model.addAttribute("reviewList", review_list);
 		
-		List<SimpleBoardFreeView> simple_list = (List<SimpleBoardFreeView>)hfService.service();
-		model.addAttribute("simpleList", simple_list);
-		
 		return "home";
 	}
 	

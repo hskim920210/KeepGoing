@@ -19,7 +19,7 @@
 	<beans:bean id="broadCastController" class="com.tje.websocket.BroadCastController" />
 	<websocket:handlers>
 		<websocket:mapping handler="broadCastController" path="/chat_admin"/>
-		<!-- 아래는 웹소켓 세션에서 HttpSession을 사용하기 위한것 -->
+		<!-- 아래는 웹소켓 세션에서 HttpSession을 사용하기 위한것 --> 
 		<websocket:handshake-interceptors>
 			<beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor" />
 		</websocket:handshake-interceptors>
