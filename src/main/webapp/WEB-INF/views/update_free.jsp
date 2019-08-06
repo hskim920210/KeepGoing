@@ -34,29 +34,44 @@
 	
 	<div class="container">
 
-    	<form id="update_free"  method="post" action="<%=request.getContextPath() %>/update_free/${searchedFree.board_id}">
-    		<input type="hidden" name="member_id"  value="${ login_member.member_id }">
-    		<input type="hidden" name="board_id"  value="${ searchedFree.board_id }">
+	<!-- enctype="multipart/form-data" 파일을 업로드 할때 필수입력사항 -->
+    	<form id="update_free" enctype="multipart/form-data" method="post" action="<%=request.getContextPath() %>/update_free/${searchedFree.board_id}">
+
+    		
 			<div class="form-group">
 				<label for="title">제목</label>
 				<input type="text" class="form-control" name="title" value="${ searchedFree.title }" maxlength="30" required >
 						
 			</div>
+	
+			<div class="form-group">
+				<label for="image">이미지 업로드</label>
+				<input type="file" name="image">
+				<p>*미 입력시 이전의 이미지 사용</p>
+			</div>
+					
 			<div class="form-group">
 				<label for="content">내용</label>
 				<textarea rows="20" cols="" class="form-control" name="content" placeholder="Content" required >${ searchedFree.content }</textarea>
 				
 			</div>
 			<div class="form-group">
-				<label for="category">카테고리 </label>
-				<input type="text" class="form-control" name="category" value="${ searchedFree.category }" readonly >
-				 
+				<label for="category">카테고리</label>
+				<select name="category">
+					<option value="1" ${ searchedFree.category==1 ? 'selected' : '' }>전체</option>
+					<option value="2" ${ searchedFree.category==2 ? 'selected' : '' }>우리동네 운동부</option>
+					<option value="3" ${ searchedFree.category==3 ? 'selected' : '' }>건강한 식생활	</option>
+					<option value="4" ${ searchedFree.category==4 ? 'selected' : '' }>나만의 운동법</option>
+					<option value="5" ${ searchedFree.category==5 ? 'selected' : '' }>초보자를 위한 운동</option>
+					<option value="6" ${ searchedFree.category==6 ? 'selected' : '' }>컴플랙스 극복</option>
+				</select>
 			</div>
 			
 			
 			
-			<c:if	test="${ login_member.member_id eq 'admin' or login_member.member_id eq searchedFree.member_id }">
-			<button type="submit" class="btn btn-info" id="add_free_insert">수정</button>
+
+			<button type="submit" class="btn btn-info" >수정</button>
+
 			</c:if>
 		</form>
 

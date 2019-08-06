@@ -56,7 +56,7 @@
 								class="btn btn-outline-info waves-effect ml-auto">연결</button>
 								<button type="button" id="closeBtn" name="closeBtn" style="visibility: hidden;"
 								class="btn btn-outline-info waves-effect ml-auto">연결해제</button>
-								<textarea rows="4" cols="45" id="message" name="message" style="resize: none;"></textarea>
+								<textarea rows="4" cols="45" id="message" name="message" onkeyup="enterkey();" style="resize: none;"></textarea>
 							</div>
 							<button type="button" id="sendBtn" name="sendBtn" style="visibility: hidden;"
 								class="btn btn-outline-info waves-effect ml-auto">전송</button>
@@ -71,11 +71,29 @@
 </div>
 <script type="text/javascript" src="<%= request.getContextPath() %>/resources/js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript">
+function enterkey() {
+    if (window.event.keyCode == 13) {
+         // 엔터키가 눌렸을 때 실행할 내용
+         sendMessage();
+    }
+}
+
+
 	// 웹 소켓 변수
 	var wsocket = null;
 	
 	// 메세지를 보내고자 하는 대상을 저장하고 있는 전역변수
 	var messageTarget = "admin";
+	if( '${ login_member.member_id }' == 'admin' ){
+		messageTarget = "client";
+	}
+	
+	var receiver = "admin";
+	if( '${login_member.member_id}' == 'admin' ){
+		receiver = "client";
+	}
+	
+	var sender = "${login_member.member_id}";
 	
 	$(document).ready(function() {
 		$('#connBtn').click(function() { sockConnect(); });
@@ -87,19 +105,22 @@
 		var nickname = $("#nickname").val().trim();
 		if( wsocket != null )
 			return;
+		if( nickname.length == 0 ) {
+			alert("로그인이 필요합니다.\n");	
+			return;
+		};
 		wsocket = 
 			new WebSocket("ws://localhost:8080/webapp/chat_admin");
+		// wsocket.onopen = function() {wsocket.getConn();};
 		wsocket.onmessage = onMessage;
 		wsocket.onclose = onClose;
-		wsocket.onopen = function() {
-			wsocket.send(nickname);
-		};
+
 		$("#sendBtn").css('visibility', 'visible');
 		$("#connBtn").css('visibility', 'hidden');
 		$("#closeBtn").css('visibility', 'visible');
-		alert(nickname);
-		var message = $("#chatArea").html("관리자와 연결되었습니다.")	
+		var message = $("#chatArea").html("서버와 연결되었습니다.\n");	
 	}
+
 	
 	function sockClose() {
 		if( wsocket == null )
@@ -109,11 +130,12 @@
 		$("#closeBtn").css('visibility', 'hidden');
 		wsocket.close();
 		wsocket = null;
+		var message = $("#chatArea").html("관리자와 연결이 해제되었습니다.\n");	
 	}
 	
 	function sendMessage() {
 		if( wsocket == null ) {
-			alert("웹 소켓이 연결되지 않았습니다.")
+			alert("웹 소켓이 연결되지 않았습니다.\n")
 			return;
 		}
 		/*//
@@ -123,49 +145,26 @@
 		}
 		//
 		*/
-		
-		wsocket.send("to:" + messageTarget + "@" + $("#message").val() );
+		//var msg = "to:" + messageTarget + "@" + $("#message").val() + "\n";
+		var msg = sender + " : " + $("#message").val() + "\n";
+		var viewMsg = $("#chatArea").html();
+		wsocket.send(msg);
+		viewMsg += msg;
+		$("#chatArea").html(viewMsg);	
+		$("#message").val('');
 	}
 	
 	function onMessage(evt) {
 		var data = evt.data;
-		var target_new = "newClient:";
-		var target_close = "closed:";
-		if( data.indexOf(target_new) == 0 ) {
-			// alert(data);
-			list_nickname = data.substring(target_new.length, data.length);
-			split_nickname = list_nickname.split(",");
-			// alert(split_nickname);
-			
-			cur_clients = "";
-			for( var i = 0 ; i < split_nickname.length ; i++ ){
-				// 비어있는 문자열이라면 건너뛰라
-				if( !split_nickname[i].length ){
-					continue;
-				}
-				cur_clients += "<p><label><input type='radio' class='client' name='client' value='" + split_nickname[i] + "'>" + split_nickname[i] + "</label></p>";
-			}
-			$("#client-list").append(cur_clients);
-			return;
-		} else if( data.indexOf(target_close) == 0 ){
-				close_nickname = data.substring(target_close.length, data.length);
-				// alert(close_nickname);
-				
-				// 가장 가까운 부모 p를 찾는다. 그래서 remove
-				$("input[value='" + close_nickname + "']").closest("p").remove();
-				
-				return;
-		}
-		
-		var message = $("#chat-window").html()
-		message += "<p>" + data + "</p>"
-		$("#chat-window").html(message)		
+		var message = $("#chatArea").html()
+		message += data + "\n";
+		$("#chatArea").html(message);	
 	}
 		
 	function onClose(evt) {
-		var message = $("#chat-window").html()
-		message += "<p>연결종료</p>"
-		$("#chat-window").html(message)		
+		var message = $("#chatArea").html()
+		message += "--연결종료--" + "\n";
+		$("#chatArea").html(message);	
 	}
 </script>
 

@@ -1,10 +1,9 @@
-﻿package com.tje.repo;
+package com.tje.repo;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
 
 import javax.sql.DataSource;
 
@@ -21,11 +20,11 @@ import com.tje.model.*;
 
 
 @Repository
-public class Board_freeDAO {
+public class Board_qnaDAO {
 private JdbcTemplate jdbcTemplate;
 	
 	@Autowired
-	public Board_freeDAO(DataSource dataSource) {
+	public Board_qnaDAO(DataSource dataSource) {
 		this.jdbcTemplate=new JdbcTemplate(dataSource);
 	}
 	
@@ -49,6 +48,36 @@ private JdbcTemplate jdbcTemplate;
 		
 	}
 	
+	public Board_Free selectOne(Board_Free model) {
+		String sql = "select * from board_free where board_id=?";
+		return this.jdbcTemplate.queryForObject(sql, 
+				new Board_FreeRowMapper(), 
+				model.getBoard_id());
+	}
+	
+	public Board_Free upQna(Board_Free model) {
+		String sql = "select * from board_free set category = 6 where board_id > ? order by board_id limit 1";
+		try {
+			return this.jdbcTemplate.queryForObject(sql,
+					new Board_FreeRowMapper(), 
+					model.getBoard_id());
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	
+	public Board_Free downQna(Board_Free model) {
+		String sql = "select * from board_free set category = 6 where board_id < ? order by board_id desc limit 1";
+		try {
+			return this.jdbcTemplate.queryForObject(sql,
+					new Board_FreeRowMapper(), 
+					model.getBoard_id());
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	
+	
 	public int insert(Board_Free model) {
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		
@@ -58,12 +87,13 @@ private JdbcTemplate jdbcTemplate;
 	
 				PreparedStatement pstmt = 
 					con.prepareStatement(
-							"insert into board_free values(0,2,?,?,?,?,?,null,now())", 
+							"insert into board_free values(0,6,?,?,?,?,?,0,now())", 
 						 new String[]{"board_id"});			
 				pstmt.setInt(1, model.getCategory());
 				pstmt.setString(2, model.getTitle());
 				pstmt.setString(3, model.getContent());
 				pstmt.setString(4, model.getMember_id());
+				pstmt.setString(5, model.getImage());
 				return pstmt;
 			}
 		}, keyHolder);

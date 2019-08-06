@@ -60,8 +60,12 @@
     
 			
 			
-			
+			<div class="form-group">
+				<label for="image">이미지 업로드</label>
+				<input type="file" name="image">
+			</div>
 			<button type="submit" class="btn btn-info" id="add_free_insert">글 등록</button>
+			
 		</form>
 
     </div>

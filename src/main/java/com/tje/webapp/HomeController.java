@@ -90,7 +90,7 @@ public class HomeController {
 		
 		 List<DetailBoardFree_View> free_list = (List<DetailBoardFree_View>)hfService.service();
 		model.addAttribute("freeList", free_list);
-		
+
 		return "home";
 	}
 	

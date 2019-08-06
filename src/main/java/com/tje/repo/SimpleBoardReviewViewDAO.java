@@ -49,6 +49,7 @@ private JdbcTemplate jdbcTemplate;
 		return this.jdbcTemplate.query(sql, new SimpleBoardReviewViewRowMapper());
 	}
 	
+	// 검색 창 sql 검색식
 	public int searchReviewWriterCount(int category_Num, String keyword) {
 		String sql;
 		if(category_Num == 1) {
@@ -145,6 +146,7 @@ private JdbcTemplate jdbcTemplate;
 		return results.isEmpty() ? null : results;
 	}
 	
+	//
 	public int searchReviewAllCount(int category_Num, String keyword) {
 		String sql;
 		if(category_Num == 1) {
@@ -155,7 +157,7 @@ private JdbcTemplate jdbcTemplate;
 			return this.jdbcTemplate.queryForObject(sql, Integer.class, category_Num, "%"+keyword+"%", "%"+keyword+"%", "%"+keyword+"%");
 		}
 	}
-	
+	//
 	public List<SimpleBoardReviewView> searchReviewAll(int category_Num, String keyword, int pageStart, int perPageNum) {
 		String sql;
 		List<SimpleBoardReviewView> results;
@@ -168,7 +170,8 @@ private JdbcTemplate jdbcTemplate;
 		}
 		return results.isEmpty() ? null : results;
 	}
-	
+	//
+	//
 	public List<SimpleBoardReviewView> recipelistCriteria(int pageStart, int perPageNum) {
 		String sql = "select * from simpleboardreviewview where board_id>0 and category=7 order by board_id desc limit ?,?";
 		List<SimpleBoardReviewView> results=this.jdbcTemplate.query(sql,
