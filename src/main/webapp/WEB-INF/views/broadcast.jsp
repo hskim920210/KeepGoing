@@ -28,8 +28,8 @@
 	});
 	
 	function sockConnect() {
-		var alias = $("#alias").val().trim();
-		if( !alias ) {
+		var nickname = $("#nickname").val().trim();
+		if( !nickname ) {
 			alert("별칭을 입력해야 연결할 수 있습니다.")
 			return;
 		}
@@ -42,7 +42,7 @@
 		wsocket.onmessage = onMessage;
 		wsocket.onclose = onClose;
 		wsocket.onopen = function() {
-			wsocket.send(alias);
+			wsocket.send(nickname);
 		};
 		
 		var message = $("#chat-window").html("<p>서버와 연결되었습니다.</p>")	
@@ -77,26 +77,26 @@
 		var target_close = "closed:";
 		if( data.indexOf(target_new) == 0 ) {
 			// alert(data);
-			list_alias = data.substring(target_new.length, data.length);
-			split_alias = list_alias.split(",");
-			// alert(split_alias);
+			list_nickname = data.substring(target_new.length, data.length);
+			split_nickname = list_nickname.split(",");
+			// alert(split_nickname);
 			
 			cur_clients = "";
-			for( var i = 0 ; i < split_alias.length ; i++ ){
+			for( var i = 0 ; i < split_nickname.length ; i++ ){
 				// 비어있는 문자열이라면 건너뛰라
-				if( !split_alias[i].length ){
+				if( !split_nickname[i].length ){
 					continue;
 				}
-				cur_clients += "<p><label><input type='radio' class='client' name='client' value='" + split_alias[i] + "'>" + split_alias[i] + "</label></p>";
+				cur_clients += "<p><label><input type='radio' class='client' name='client' value='" + split_nickname[i] + "'>" + split_nickname[i] + "</label></p>";
 			}
 			$("#client-list").append(cur_clients);
 			return;
 		} else if( data.indexOf(target_close) == 0 ){
-				close_alias = data.substring(target_close.length, data.length);
-				// alert(close_alias);
+				close_nickname = data.substring(target_close.length, data.length);
+				// alert(close_nickname);
 				
 				// 가장 가까운 부모 p를 찾는다. 그래서 remove
-				$("input[value='" + close_alias + "']").closest("p").remove();
+				$("input[value='" + close_nickname + "']").closest("p").remove();
 				
 				return;
 		}
@@ -115,7 +115,7 @@
 
 </head>
 <body>
-	<p>별칭 : <input type="text" id="alias">
+	<p>별칭 : <input type="text" id="nickname">
     <input type="button" id="connBtn" value="연결"></p>
 
 	<div id='client-list'>

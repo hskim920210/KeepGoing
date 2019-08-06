@@ -45,6 +45,7 @@ public class Board_ReviewDAO {
 		
 	}
 	
+	
 	public int insert(Board_Review model) throws Exception{
 		return this.jdbcTemplate.update("insert into Board_Review values(0,1,?,?,?,?,?,0,now())",
 				model.getCategory(),

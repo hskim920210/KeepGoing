@@ -27,6 +27,7 @@ import com.tje.service.common.CommentAddService;
 import com.tje.service.common.CommentDeleteService;
 import com.tje.service.common.CommentSelectService;
 import com.tje.service.common.LikeAndDislikeService;
+import com.tje.homeservice.*;
 
 
 @Controller
@@ -55,6 +56,8 @@ public class HomeController {
 
 	@Autowired
 	private LikeAndDislikeService ladService;
+	@Autowired
+	private HomeReviewService hrService;
 
 	@RequestMapping("/")
 	public String home(HttpServletResponse res, HttpServletRequest req) {
@@ -68,7 +71,11 @@ public class HomeController {
 	
 	
 	@RequestMapping("/home")
-	public String index() {
+	public String index(Model model) {
+		////////////////////////////////////////////////////////////////////////////////////////////
+		List<SimpleBoardReviewView> review_list = (List<SimpleBoardReviewView>)hrService.service();
+		model.addAttribute("reviewList", review_list);
+		
 		return "home";
 	}
 	
