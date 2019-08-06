@@ -83,6 +83,7 @@
 								<td style="vertical-align: middle;">${ result.price }</td>
 								<td style="vertical-align: middle;"><input style="border: 1px solid; text-align: center;" type="number"
 									name="number" min="1" max="100" value="1"></td>
+								<td style="display: none;">${ result.cart_id }</td>
 							</tr>
 						</c:forEach>
 					</c:if>
@@ -209,6 +210,9 @@
 					return;
 				}
 				
+				var jsonArray=new Array();
+				var json;
+				
 				checkbox.each(function(index){
 					var tr=checkbox.parent().parent().eq(index);
 					var td=tr.children();
@@ -216,30 +220,41 @@
 					var board_id=td.eq(0).children().val();
 					var category=td.eq(2).children().val();
 					var title=td.eq(5).text();
-					var price=parseInt( td.eq(6).text() );
-					var number=parseInt( td.eq(7).children().val() );
+					var price=td.eq(6).text();
+					var number=td.eq(7).children().val();
+					var cart_id=td.eq(8).text();
 					
-					var json={"board_id":board_id, "category":category,
+					json={"board_id":board_id, "category":category,
 							"member_id":member_id, "name":name,
 							"address_post":address_post, "address_basic":address_basic,
 							"address_detail":address_detail, "title":title,
-							"number":number, "price":price};
+							"number":number, "price":price, "cart_id":cart_id};
 					
-					$.ajax({
-						type : "POST",
-						url : "<%=request.getContextPath()%>/item_buy",
-						dataType : "text",
-						contentType : "application/json; charset=utf-8",
-						data : JSON.stringify(json),
-						success : function(data) {
-							alert('hi');
-							console.log(data);
-						},
-						error : function() {
-							alert("error");
-						}
-					});
+					jsonArray.push(json);
 				})
+				
+				$.ajax({
+					type : "POST",
+					url : "<%=request.getContextPath()%>/item_buy",
+					dataType : "text",
+					contentType : "application/json; charset=utf-8",
+					data : JSON.stringify(jsonArray),
+					success : function(data) {
+						
+						if(data=="success"){
+							alert(data);
+							
+							location.reload();
+							return;
+						}
+						
+						alert(data);
+						
+					},
+					error : function() {
+						alert("error");
+					}
+				});
 			})
 		})
 	</script>

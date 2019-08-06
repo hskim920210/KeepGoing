@@ -33,8 +33,10 @@
 	<jsp:include page="right_sidebar.jsp" flush="false"></jsp:include>
 	
 	<div class="container">
+
 	<!-- enctype="multipart/form-data" 파일을 업로드 할때 필수입력사항 -->
     	<form id="update_free" enctype="multipart/form-data" method="post" action="<%=request.getContextPath() %>/update_free/${searchedFree.board_id}">
+
     		
 			<div class="form-group">
 				<label for="title">제목</label>
@@ -67,8 +69,9 @@
 			
 			
 			
-			<c:if	test="${ login_member.member_id eq 'admin' or login_member.member_id eq searchedFree.member_id }">
+
 			<button type="submit" class="btn btn-info" >수정</button>
+
 			</c:if>
 		</form>
 

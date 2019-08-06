@@ -190,7 +190,38 @@ public class Free_BoardController {
 			
 			return "update_free_view_err";
 		}
+
+	////////////////////// 게시글 등록////////////////////
+//		
+//		
+//		
+	////////////////////// 게시글 수정//////////////////// <수정 버튼에 주소값 입력  게시판 안에서 공통적으로 사용 
+	
+	// 수정 하기전에 기존의 작성한 값을 불러온다.
+	@GetMapping("/update_free/{board_id}")
+	public String Update_free(Model model, @PathVariable(value = "board_id") Integer board_id) {
+		DetailBoardFree_View free=new DetailBoardFree_View();
+		free.setBoard_id(board_id);
+		System.out.println(board_id);
+		System.out.println("get");
 		
+		model.addAttribute("searchedFree", (DetailBoardFree_View)dbf_vService.service(free));
+		return "update_free";
+	}
+	
+	@PostMapping("/update_free/{board_id}")
+	public String Update_freePost(DetailBoardFree_View detailBoardFreeView, Model model,
+			@PathVariable(value = "board_id") Integer board_id) {
+			Integer result = (Integer)dbfv_uService.service(detailBoardFreeView);
+		if (result != null) {
+			model.addAttribute("resultMsg", "수정 완료");
+			System.out.println(board_id);
+			System.out.println("post");
+			return "update_free_view";
+		}
+		model.addAttribute("resultMsg", "수정 실패");
+		return "update_free_view";
+	}
 
 	////////////////////// 게시글 수정////////////////////
 //	
