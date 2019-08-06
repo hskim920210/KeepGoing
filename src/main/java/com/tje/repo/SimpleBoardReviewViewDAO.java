@@ -43,6 +43,11 @@ private JdbcTemplate jdbcTemplate;
 		}
 	}
 	
+	public List<SimpleBoardReviewView> selectOrderByLikeCount() throws Exception{
+		String sql = "select * from simpleboardreviewview where like_cnt = 1 order by like_cnt desc limit 5";
+		return this.jdbcTemplate.query(sql, new SimpleBoardReviewViewRowMapper());
+	}
+	
 	public int searchReviewWriterCount(int category_Num, String keyword) {
 		String sql;
 		if(category_Num == 1) {
