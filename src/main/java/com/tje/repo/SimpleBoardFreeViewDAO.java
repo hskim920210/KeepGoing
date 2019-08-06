@@ -42,6 +42,7 @@ private JdbcTemplate jdbcTemplate;
 			return simpleBoardFreeView;
 		}
 	}
+
 	
 	public SimpleBoardFreeView selectOne(SimpleBoardFreeView model) {
 		String sql = "select * from SimpleBoardFreeView where board_id=?";

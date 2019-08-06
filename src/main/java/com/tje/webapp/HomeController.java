@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.tje.homeservice.*;
 import com.tje.model.*;
 import com.tje.service.*;
 import com.tje.service.board_item.AllItemListService;
@@ -27,7 +28,6 @@ import com.tje.service.common.CommentAddService;
 import com.tje.service.common.CommentDeleteService;
 import com.tje.service.common.CommentSelectService;
 import com.tje.service.common.LikeAndDislikeService;
-import com.tje.homeservice.*;
 
 
 @Controller
@@ -58,6 +58,11 @@ public class HomeController {
 	private LikeAndDislikeService ladService;
 	@Autowired
 	private HomeReviewService hrService;
+	@Autowired
+	private HomeItemService hiService;
+	@Autowired
+	private HomeFreeService hfService;
+
 
 	@RequestMapping("/")
 	public String home(HttpServletResponse res, HttpServletRequest req) {
@@ -74,8 +79,18 @@ public class HomeController {
 	public String index(Model model) {
 		////////////////////////////////////////////////////////////////////////////////////////////
 		List<SimpleBoardReviewView> review_list = (List<SimpleBoardReviewView>)hrService.service();
+		for(SimpleBoardReviewView b : review_list) {
+			System.out.println("test : " + b.getImage());
+		}
+		System.out.println(review_list.size());
 		model.addAttribute("reviewList", review_list);
 		
+		List<SimpleBoardItemView> item_list = (List<SimpleBoardItemView>)hiService.service();
+		model.addAttribute("itemList", item_list);
+		
+		 List<DetailBoardFree_View> free_list = (List<DetailBoardFree_View>)hfService.service();
+		model.addAttribute("freeList", free_list);
+
 		return "home";
 	}
 	

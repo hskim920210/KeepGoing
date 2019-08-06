@@ -50,7 +50,7 @@ public class SimpleBoardReviewView {
 
 	public void setCategory(int category) {
 		this.category = category;
-	}
+	}   
 
 	public String getTitle() {
 		return title;
