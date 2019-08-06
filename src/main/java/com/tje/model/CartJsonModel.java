@@ -14,6 +14,7 @@ public class CartJsonModel {
 	private int number;
 	private String price;
 	private int cart_id;
+	private int index;
 
 	public CartJsonModel() {
 		// TODO Auto-generated constructor stub
@@ -33,6 +34,24 @@ public class CartJsonModel {
 		this.number = number;
 		this.price = price;
 		this.cart_id = cart_id;
+	}
+
+	public CartJsonModel(int board_id, int category, String member_id, String name, String address_post,
+			String address_basic, String address_detail, String title, int number, String price, int cart_id,
+			int index) {
+		super();
+		this.board_id = board_id;
+		this.category = category;
+		this.member_id = member_id;
+		this.name = name;
+		this.address_post = address_post;
+		this.address_basic = address_basic;
+		this.address_detail = address_detail;
+		this.title = title;
+		this.number = number;
+		this.price = price;
+		this.cart_id = cart_id;
+		this.index = index;
 	}
 
 	public int getBoard_id() {
@@ -123,4 +142,13 @@ public class CartJsonModel {
 		this.cart_id = cart_id;
 	}
 
+	public int getIndex() {
+		return index;
+	}
+
+	public void setIndex(int index) {
+		this.index = index;
+	}
+
+	
 }

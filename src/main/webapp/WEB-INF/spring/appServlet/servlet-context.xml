@@ -20,6 +20,12 @@
 	<!-- 어노테이션을 사용하여 트랜잭션을 적용하기 위한 설정 태그 -->
 	<tx:annotation-driven transaction-manager="transactionManager"/>
 	
+	<beans:bean id="transactionManager" 
+	class="org.springframework.jdbc.datasource.DataSourceTransactionManager" 
+	p:dataSource-ref="dataSource"/>
+	
+	
+	
 	<beans:bean id="broadCastController" class="com.tje.websocket.BroadCastController" />
 	<websocket:handlers>
 		<websocket:mapping handler="broadCastController" path="/chat_admin"/>
@@ -72,8 +78,6 @@
 		</interceptor>
 	</interceptors>
 	
-	<beans:bean id="transactionManager" 
-	class="org.springframework.jdbc.datasource.DataSourceTransactionManager" 
-	p:dataSource-ref="dataSource"/>
+	
 
 </beans:beans>
