@@ -11,6 +11,8 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.tje.model.*;
+import com.tje.repo.DetailBoardFreeViewDAO.DetailBoardFreeViewRowMapper;
+
 import java.util.*;
 
 @Repository
@@ -45,6 +47,12 @@ private JdbcTemplate jdbcTemplate;
 			return detailBoardFreeView;
 		}
 	}
+	
+///////////////////////////////////////////////////////////////////////////////////////////////
+public List<DetailBoardFree_View> selectOrderByLikeCount() throws Exception{
+String sql = "select * from detailboardfreeview where like_cnt =0 order by like_cnt desc limit 5";
+return this.jdbcTemplate.query(sql, new DetailBoardFreeViewRowMapper());
+}
 	
 	
 	// 게시글 조회 전체 조회
@@ -93,12 +101,15 @@ private JdbcTemplate jdbcTemplate;
 	
 	
 	// 게시판 수정
-	public int update(DetailBoardFree_View model) throws Exception{
+	public int update(DetailBoardFree_View model) {
 		
-				return this.jdbcTemplate.update("update board_free set Content = ? , Title = ? where board_id = ?",
+				return this.jdbcTemplate.update("update board_free set Content = ? , Title = ? , image=?, category=? where board_id = ? " ,
 				model.getContent(),
 				model.getTitle(),
+				model.getImage(),
+				model.getCategory(),
 				model.getBoard_id()
+				
 				);
 				
 				

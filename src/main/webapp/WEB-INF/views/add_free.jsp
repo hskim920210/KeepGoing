@@ -17,7 +17,7 @@
 	<jsp:include page="modalLogin.jsp" flush="false"></jsp:include>
 	
 	<div class="site-blocks-cover inner-page-cover overlay"
-		style="background-image: url(<%=request.getContextPath()%>/resources/images/hero_bg_1.jpg);"
+		style="background-image: url(<%=request.getContextPath()%>/resources/images/top.jpg);"
 		data-aos="fade" data-stellar-background-ratio="0.5">
 		<div class="container">
 			<div
@@ -60,8 +60,12 @@
     
 			
 			
-			
+			<div class="form-group">
+				<label for="image">이미지 업로드</label>
+				<input type="file" name="image">
+			</div>
 			<button type="submit" class="btn btn-info" id="add_free_insert">글 등록</button>
+			
 		</form>
 
     </div>

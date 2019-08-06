@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
     
 <div class="site-wrap" style="z-index: 3;">
-
+<jsp:include page="chattingModal.jsp" flush="false"></jsp:include>
     <div class="site-mobile-menu">
       <div class="site-mobile-menu-header">
         <div class="site-mobile-menu-close mt-3">
@@ -19,7 +19,7 @@
         <div class="row align-items-center">
           
           <div class="col-11 col-xl-2">
-            <h1 class="mb-0"><a href="<%= request.getContextPath() %>/home" class="text-white h2 mb-0">The Glasses  -피트니스의 모든 것
+            <h1 class="mb-0"><a href="<%= request.getContextPath() %>/home" class="text-white h2 mb-0">KeepGoing
             
             </a></h1>
           </div>
@@ -27,7 +27,7 @@
             <nav class="site-navigation position-relative text-right" role="navigation">
 
               <ul class="site-menu js-clone-nav mx-auto d-none d-lg-block">
-
+				<li><a href="" data-toggle="modal" data-target="#chattingModal">채팅</a></li>
                 <li><a href="<%= request.getContextPath() %>/review/1">리뷰</a></li>
                 <li><a href="<%= request.getContextPath() %>/free/1">자유 게시판</a></li>
 

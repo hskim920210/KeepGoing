@@ -28,7 +28,11 @@
 	
 	<beans:bean id="broadCastController" class="com.tje.websocket.BroadCastController" />
 	<websocket:handlers>
-		<websocket:mapping handler="broadCastController" path="/bc"/>
+		<websocket:mapping handler="broadCastController" path="/chat_admin"/>
+		<!-- 아래는 웹소켓 세션에서 HttpSession을 사용하기 위한것 --> 
+		<websocket:handshake-interceptors>
+			<beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor" />
+		</websocket:handshake-interceptors>
 	</websocket:handlers>
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
@@ -49,6 +53,7 @@
 	<context:component-scan base-package="com.tje.page" />
 	<context:component-scan base-package="com.tje.api" />
 	<context:component-scan base-package="com.tje.BoardService" />	
+	<context:component-scan base-package="com.tje.homeservice" />	
 	
 	
 	<!-- naver 로그인  -->

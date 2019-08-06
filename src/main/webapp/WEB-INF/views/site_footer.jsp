@@ -33,7 +33,7 @@ right: 0;
 <footer>
 
 <div align="center"><br>
-				(주)The Glasses 주소서울시 서대문구 신촌로119 신영스카이텔 3층 304호   대표이사:박종두,이주환,하승원,김승헌,김태한 <br>
+				(주)The Glasses 주소서울시 서대문구 신촌로119 신영스카이텔 3층 304호   대표이사:박종두,이주환,하승원,김헌승,김태한 <br>
 				사업자번호:000-00-00000 통신판매업 : 제0000-서울서대문-00000호 부가통신사업 : 제000000호<a href="<%=request.getContextPath()%>/site_footer/company_info">사업자정보 확인</a>
 
 		<div >

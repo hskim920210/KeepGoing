@@ -17,7 +17,7 @@
 	<jsp:include page="modalLogin.jsp" flush="false"></jsp:include>
 	
 	<div class="site-blocks-cover inner-page-cover overlay"
-		style="background-image: url(<%=request.getContextPath()%>/resources/images/hero_bg_1.jpg);"
+		style="background-image: url(<%=request.getContextPath()%>/resources/images/top.jpg);"
 		data-aos="fade" data-stellar-background-ratio="0.5">
 		<div class="container">
 			<div
@@ -45,12 +45,16 @@
 		
           <table class="table">
           	<tr align="center">
-          	<td colspan="3"><b style="color: black; font-size: 30px; ">게시글 제목  : ${ searchedFree.title }</b></td>
+          		<td colspan="3"><b style="color: black; font-size: 30px; ">게시글 제목  : ${ searchedFree.title }</b></td>
           	</tr>
-          	
-	          	<tr align="center">
+          	<tr>
+          		<td>
+          			<img src="<%=request.getContextPath() %>/resources/images/${ searchedFree.image }" alt="Image" >
+				</td>
+			</tr>
+	        <tr align="center">
 	          	<td colspan="3"><div class="jumbotron"><a style="color: black; font-size: 15px; ">${ searchedFree.content }</a></div></td>
-	          	</tr><!-- /${ searchedFree.image } -->
+	        </tr><!-- /${ searchedFree.image } -->
           	
 			<tr>
 			<td><b style="color: black; font-size: 15px; ">작성 시간 : ${ searchedFree.write_date }</b></td>
@@ -70,6 +74,8 @@
 	          <c:if	test="${ login_member.member_id eq 'admin' or login_member.member_id eq searchedFree.member_id }">
 	          	<a class="btn btn-default" type="submit" href="<%=request.getContextPath()%>/update_free/${ searchedFree.board_id}"	id = "update_free" >수정</a>
 	          	<a class="btn btn-default" type="submit" href="<%=request.getContextPath()%>/delete_free/${ searchedFree.board_id}"	id = "delete_free" >삭제</a>
+	        	<button type="button" name="like_and_dislike" id="like" class="${ btn_status==1 ? 'btn btn-info' : 'btn btn-light'}">좋아요[<span>${searchedItem.like_cnt}</span>]</button>
+				<button type="button" name="like_and_dislike" id="dislike" class="${ btn_status==2 ? 'btn btn-danger' : 'btn btn-light'}">싫어요[<span>${searchedItem.dislike_cnt}</span>]</button>
 	          </c:if>
 	         <p align="right"><a class="btn btn-default" style="color : black;" type="submit" href="<%=request.getContextPath()%>/free/1">자유게시판으로 이동</a></p>
 	         <p align="right"><a class="btn btn-default" style="color : black;" type="submit" href="<%=request.getContextPath()%>/home">홈페이지로 이동</a></p>
@@ -88,9 +94,7 @@
 				<li role="presentation" class=""><a href="#home" id="home-tab"
 					role="tab" data-toggle="tab" aria-controls="home"
 					aria-expanded="true">댓글[${ searchedFree.comment_cnt }]</a></li>
-				<li role="presentation" class=""><a href="#profile" role="tab"
-					id="profile-tab" data-toggle="tab" aria-controls="profile"
-					aria-expanded="false">리뷰</a></li>
+				
 			</ul>
 			<div id="myTabContent" class="tab-content">
 				<div role="tabpanel" class="tab-pane fade active in" id="home"

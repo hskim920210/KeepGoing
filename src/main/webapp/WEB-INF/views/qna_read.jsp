@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
 <head>
-<title>공지 등록</title>
+<title>QnA</title>
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -17,7 +17,7 @@
 	<jsp:include page="modalLogin.jsp" flush="false"></jsp:include>
 	
 	<div class="site-blocks-cover inner-page-cover overlay"
-		style="background-image: url(<%=request.getContextPath()%>/resources/images/top.jpg);"
+		style="background-image: url(<%=request.getContextPath()%>/resources/images/hero_bg_1.jpg);"
 		data-aos="fade" data-stellar-background-ratio="0.5">
 		<div class="container">
 			<div
@@ -25,7 +25,7 @@
 
 				<div class="col-md-8" data-aos="fade-up" data-aos-delay="400">
 					<h1
-						class="text-white font-weight-light text-uppercase font-weight-bold">공지사항</h1>
+						class="text-white font-weight-light text-uppercase font-weight-bold">Q&A</h1>
 				</div>
 			</div>
 		</div>
@@ -35,19 +35,19 @@
 	<div class="container">
 	<div class="site-section block-13">
 		<div style="border-bottom: 1px solid;">
-		<h4>${ noticeRead.title }</h4>
+		<h4>${ qnaRead.title }</h4>
 		</div>
 		<br>
 		<div style="border-bottom: 1px solid;">
-		<textarea rows="20" class="form-control" name="content" placeholder="Content" style="border: none; background-color: white;" readonly>${ noticeRead.content }</textarea>
+		<textarea rows="20" class="form-control" name="content" placeholder="Content" style="border: none; background-color: white;" readonly>${ qnaRead.content }</textarea>
 		</div>
 		<br>
 		<p align="right">
-			<c:if test="${ login_member.auth >= 3 }">
-			<a href="<%=request.getContextPath()%>/notice" class="btn btn-info btn-xs" type="button">수정</a>
-			<a href="<%=request.getContextPath()%>/notice" class="btn btn-info btn-xs" type="button">삭제</a>
+			<c:if test="${ login_member.auth >= 0 }">
+			<a href="<%=request.getContextPath()%>/qna" class="btn btn-info btn-xs" type="button">수정</a>
+			<a href="<%=request.getContextPath()%>/qna" class="btn btn-info btn-xs" type="button">삭제</a>
 			</c:if>
-			<a href="<%=request.getContextPath()%>/notice" class="btn btn-info btn-xs" type="button">목록</a>
+			<a href="<%=request.getContextPath()%>/qna" class="btn btn-info btn-xs" type="button">목록</a>
 		</p>
 		
 	<!-- 윗글 아랫글 -->
@@ -55,20 +55,20 @@
 		<table class="table">
 			<tr>
 				<td style="width: 200px;">윗글</td>
-				<c:if test="${  noticeReadUp == null }" var="nr">
+				<c:if test="${  qnaReadUp == null }" var="nr">
 					<td>윗글이 없습니다.</td>
 				</c:if>
 				<c:if test="${  nr != null }">
-					<td><a href="<%=request.getContextPath()%>/notice/${ noticeReadUp.board_id }">${ noticeReadUp.title }</a></td>
+					<td><a href="<%=request.getContextPath()%>/qna/${ qnaReadUp.board_id }">${ qnaReadUp.title }</a></td>
 				</c:if>
 			</tr>
 			<tr>
 				<td style="width: 200px;">아랫글</td>
-				<c:if test="${  noticeReadDown == null }" var="nr">
+				<c:if test="${  qnaReadDown == null }" var="nr">
 					<td>아랫글이 없습니다.</td>
 				</c:if>
 				<c:if test="${  nr != null }">
-					<td><a href="<%=request.getContextPath()%>/notice/${ noticeReadDown.board_id }">${ noticeReadDown.title }</a></td>
+					<td><a href="<%=request.getContextPath()%>/qna/${ qnaReadDown.board_id }">${ qnaReadDown.title }</a></td>
 				</c:if>
 			</tr>
 		</table>    
