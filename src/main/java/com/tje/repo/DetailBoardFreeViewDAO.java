@@ -93,12 +93,14 @@ private JdbcTemplate jdbcTemplate;
 	
 	
 	// 게시판 수정
-	public int update(DetailBoardFree_View model) throws Exception{
+	public int update(DetailBoardFree_View model) {
 		
-				return this.jdbcTemplate.update("update board_free set Content = ? , Title = ? where board_id = ?",
+				return this.jdbcTemplate.update("update board_free set Content = ? , Title = ? , image=? where board_id = ? " ,
 				model.getContent(),
 				model.getTitle(),
+				model.getImage(),
 				model.getBoard_id()
+				
 				);
 				
 				
