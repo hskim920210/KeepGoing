@@ -19,7 +19,7 @@
         <div class="row align-items-center">
           
           <div class="col-11 col-xl-2">
-            <h1 class="mb-0"><a href="<%= request.getContextPath() %>/home" class="text-white h2 mb-0">The Glasses  -피트니스의 모든 것
+            <h1 class="mb-0"><a href="<%= request.getContextPath() %>/home" class="text-white h2 mb-0">KeepGoing
             
             </a></h1>
           </div>
