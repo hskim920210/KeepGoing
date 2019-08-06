@@ -11,6 +11,8 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.tje.model.*;
+import com.tje.repo.DetailBoardFreeViewDAO.DetailBoardFreeViewRowMapper;
+
 import java.util.*;
 
 @Repository
@@ -45,6 +47,12 @@ private JdbcTemplate jdbcTemplate;
 			return detailBoardFreeView;
 		}
 	}
+	
+///////////////////////////////////////////////////////////////////////////////////////////////
+public List<DetailBoardFree_View> selectOrderByLikeCount() throws Exception{
+String sql = "select * from detailboardfreeview where like_cnt =0 order by like_cnt desc limit 5";
+return this.jdbcTemplate.query(sql, new DetailBoardFreeViewRowMapper());
+}
 	
 	
 	// 게시글 조회 전체 조회

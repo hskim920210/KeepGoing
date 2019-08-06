@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import com.tje.model.*;
 import com.tje.repo.DetailBoardFreeViewDAO.DetailBoardFreeViewRowMapper;
+import com.tje.repo.SimpleBoardReviewViewDAO.SimpleBoardReviewViewRowMapper;
 
 import java.util.*;
 
@@ -41,6 +42,7 @@ private JdbcTemplate jdbcTemplate;
 			return simpleBoardFreeView;
 		}
 	}
+
 	
 	public SimpleBoardFreeView selectOne(SimpleBoardFreeView model) {
 		String sql = "select * from SimpleBoardFreeView where board_id=?";

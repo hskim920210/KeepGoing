@@ -11,6 +11,8 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.tje.model.*;
+import com.tje.repo.SimpleBoardReviewViewDAO.SimpleBoardReviewViewRowMapper;
+
 import java.util.*;
 
 @Repository
@@ -42,6 +44,11 @@ private JdbcTemplate jdbcTemplate;
 			return simpleBoardItemView;
 		}
 	}
+///////////////////////////////////////////////////////////////////////////////////////////////
+public List<SimpleBoardItemView> selectOrderByLikeCount() throws Exception{
+String sql = "select * from simpleboarditemview where like_cnt >= 1 order by like_cnt desc limit 10";
+return this.jdbcTemplate.query(sql, new SimpleBoardItemViewRowMapper());
+}
 	
 	public SimpleBoardItemView selectOne(SimpleBoardItemView model) {
 		String sql = "select * from simpleboarditemview where board_id=?";

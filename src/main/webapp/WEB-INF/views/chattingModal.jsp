@@ -69,7 +69,7 @@
 		<!--/.Content-->
 	</div>
 </div>
-<script type="text/javascript" src="<%= request.getContextPath() %>/resources/js/jquery.js"></script>
+<script type="text/javascript" src="<%= request.getContextPath() %>/resources/js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript">
 	// 웹 소켓 변수
 	var wsocket = null;
