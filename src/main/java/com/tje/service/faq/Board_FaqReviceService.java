@@ -1,22 +1,25 @@
-package com.tje.service;
+package com.tje.service.faq;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.tje.model.Board_Notice;
 import com.tje.model.Board_Faq;
 import com.tje.repo.Board_FaqDAO;
-import com.tje.repo.Board_NoticeDAO;
 
 
 @Service
-public class Board_FaqWriteService {
+public class Board_FaqReviceService {
 	@Autowired
 	private Board_FaqDAO board_faqDAO;
 	
 	public Object service(Object args) {
 		Object result=null;
-		result=board_faqDAO.insert((Board_Faq)args);
+		
+		try {
+			result=board_faqDAO.update((Board_Faq)args);
+		} catch (Exception e) {
+			result=null;
+		}
 		return result;
 	}
 

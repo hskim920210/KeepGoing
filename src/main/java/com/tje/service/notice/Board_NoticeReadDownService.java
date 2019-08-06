@@ -1,4 +1,4 @@
-package com.tje.service;
+package com.tje.service.notice;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,7 +9,7 @@ import com.tje.repo.Board_NoticeDAO;
 import com.tje.repo.SimpleBoardFreeViewDAO;
 
 @Service
-public class Board_NoticeReadUpService {
+public class Board_NoticeReadDownService {
 
 	@Autowired
 	private Board_NoticeDAO board_NoticeDAO;
@@ -17,7 +17,7 @@ public class Board_NoticeReadUpService {
 	public Object service(Object args) {
 		Object result = null;
 
-		result = board_NoticeDAO.upNotice((Board_Notice) args);
+		result = board_NoticeDAO.downNotice((Board_Notice) args);
 
 		return result;
 	}

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.tje.model.*;
-import com.tje.service.*;
+import com.tje.service.notice.*;
 
 @Controller
 public class NoticeController {

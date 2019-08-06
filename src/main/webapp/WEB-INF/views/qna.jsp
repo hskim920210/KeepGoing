@@ -34,7 +34,9 @@
 	
 	<div class="site-section block-13">
 		<div align="center"  style="margin-left: 15%; margin-right: 15%;">
-		<p align="right"><a href="<%=request.getContextPath()%>/qna/write" class="btn btn-info btn-xs" type="button">글 등록</a></p>
+		<c:if test="${ login_member.auth >= 0 }">
+			<p align="right"><a href="<%=request.getContextPath()%>/qna/write" class="btn btn-info btn-xs" type="button">글 등록</a></p>
+		</c:if>	
 		<table class="table">
 			<tr style="text-align: center;">
 				<th>카테고리</th>
@@ -48,7 +50,7 @@
 			<c:forEach items="${ board_noticeheadList }" var="head">
 				<tr class="table-active" style="text-align: center;">
 					<th>중요공지</th>
-					<td><b><a href="">${ head.title }</a></b></td>
+					<td><b><a href="<%= request.getContextPath() %>/notice/${ head.board_id }">${ head.title }</a></b></td>
 					<td>관리자</td>
 					<td>${ head.write_date }</td>
 				</tr>
@@ -59,7 +61,7 @@
 			<c:forEach items="${ simpleBoardFreeViewList }" var="item">
 				<tr style="text-align: center;">
 					<td>${ item.category }</td>
-					<td><a href="<%= request.getContextPath() %>/free/${ item.board_id} ">${ item.title }</a></td>
+					<td><a href="<%= request.getContextPath() %>/qna/${ item.board_id }">${ item.title }</a></td>
 					<td>${ item.nickname }</td>
 					<td>${ item.write_date }</td>
 				</tr>
