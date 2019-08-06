@@ -1,6 +1,7 @@
 package com.tje.websocket;
 
 import java.util.*;
+import com.tje.model.*;
 
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -61,6 +62,11 @@ public class BroadCastController extends TextWebSocketHandler {
 	// 웹 소켓 클라이언트가 서버측으로 데이터를 전송할 때 실행되는 메소드
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+		Map<String, Object> map = session.getAttributes();
+		Member login_member = (Member)map.get("login_member");
+		String nickname = login_member.getNickname();
+		System.out.println(nickname);
+		
 		// 각 세션의 첫번째 메세지 전달 코드는 닉네임
 		String id = session.getId();
 		// 연결 되자마자 닉네임이 바로 전달되어 닉네임 설정

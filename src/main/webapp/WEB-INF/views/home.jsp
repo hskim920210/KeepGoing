@@ -117,15 +117,23 @@
               <div class="unit-4-icon mr-4"><span class="text-primary flaticon-travel"></span></div>
              -->
               <div>
+              <c:forEach items="${ reviewList }" var="review_article">
+              
+              <h3>${ review_article.title }</h3>
+              <p>${ review_article.content }</p>
+              <p><a href="#">더 보기</a></p>
+             
+              
+              </c:forEach>
+              <!-- 
                 <h3>오늘의 최다 클릭 리뷰</h3>
-                <p>안녕하세요. 트레이너 김동현입니다. 오늘은 막간의 자투리 시간을 이용한 맨손 운동을 소개해 드리겠습니다.</p>
-                <p><a href="#">더 보기</a></p>
                 <h3>오늘의 최다 좋아요 게시글</h3>
                 <p>제가 그동안 운동을 하면서 느낀 운동팁을 회원님들과 공유하려고 합니다. 먼저, 웜업에 관한 건데요.</p>
                 <p><a href="#">더 보기</a></p>
                 <h3>최대 리뷰 헬스장</h3>
                 <p>신촌의 더좋은 짐에 등록했는데요. 운동 기구들도 많고, 트레이너도 좋고, 샤워실도 깨끗해서 맘에 듭니다.</p>
                 <p><a href="#">더 보기</a></p>
+              -->
               </div>
             </div>
           </div>
