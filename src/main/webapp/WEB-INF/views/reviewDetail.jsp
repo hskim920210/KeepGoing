@@ -95,6 +95,10 @@
 					<tr>
 						<td>
 						<div>
+						<c:if test="${ login_member.member_id eq 'admin' or login_member.member_id eq detailReview.member_id }">
+	          				<a class="btn btn-default" type="submit" href="<%=request.getContextPath()%>/update_review/${ detailReview.board_id}"	id = "update_free" >수정</a>
+	          				<a class="btn btn-default" type="submit" href="<%=request.getContextPath()%>/delete_review/${ detailReview.board_id}"	id = "delete_free" >삭제</a>
+	          			</c:if>
 							<!-- 좋아요, 싫어요 -->
 							<button type="button" name="like_and_dislike" id="like" class="${ btn_status==1 ? 'btn btn-info' : 'btn btn-light'}">좋아요[<span>${detailReview.like_cnt}</span>]</button>
 							<button type="button" name="like_and_dislike" id="dislike" class="${ btn_status==2 ? 'btn btn-danger' : 'btn btn-light'}">싫어요[<span>${detailReview.dislike_cnt}</span>]</button>

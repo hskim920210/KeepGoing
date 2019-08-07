@@ -35,6 +35,11 @@ private JdbcTemplate jdbcTemplate;
 		}
 	}
 	
+	public int delete(Review_Map model) throws Exception {
+		return this.jdbcTemplate.update("delete from review_map where board_id = ?",
+				model.getBoard_id());
+	}
+	
 	public Review_Map selectOne(Review_Map model) {
 		String sql = "select * from Review_Map where board_id = ?";
 		return this.jdbcTemplate.queryForObject(sql, new Review_MapRowMapper(), model.getBoard_id());

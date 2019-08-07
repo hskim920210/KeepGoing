@@ -107,7 +107,7 @@ function enterkey() {
 			return;
 		};
 		wsocket = 
-			new WebSocket("ws://localhost:8080/webapp/chat_admin");
+			new WebSocket("ws://192.168.0.18:8080/webapp/chat_admin");
 		// wsocket.onopen = function() {wsocket.getConn();};
 		wsocket.onmessage = onMessage;
 		wsocket.onclose = onClose;
@@ -128,6 +128,7 @@ function enterkey() {
 		wsocket.close();
 		wsocket = null;
 		var message = $("#chatArea").html("연결이 해제되었습니다.\n");	
+
 	}
 	
 	function sendMessage() {
