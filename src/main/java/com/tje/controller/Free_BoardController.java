@@ -348,8 +348,8 @@ public class Free_BoardController {
 //	
 //	
 //			
-///////////////////// 게시글 검색 ////////////////	
-	@PostMapping(value= {"/free/search","/free/search/{curPageNo}"})
+///////////////////// 게시글 검색 ////////////////	수정 해야할 구간... 위 free 조회에서 어떻게 합칠지
+	@PostMapping(value= {"/free/search","/free/search/{curPageNo"})
 	public String searchFree(Model model, HttpServletRequest req, Criteria criteria,
 			@PathVariable(value="curPageNo", required = false) Integer curPageNo) {
 		if(curPageNo==null) {
@@ -368,7 +368,7 @@ public class Free_BoardController {
 		System.out.println(category_Num + "" + search_Type + keyword);
 		
 		HashMap<String, Object> result = (HashMap<String, Object>)sbf_vsService.service(search_Type, category_Num, keyword, criteria);
-		model.addAttribute("simpleBoardReviewViewList", (List<SimpleBoardReviewView>)result.get("list"));
+		model.addAttribute("simpleBoardFreeViewList", (List<SimpleBoardFreeView>)result.get("list"));
 		int count = (Integer)result.get("count") == null ? 0 : (Integer)result.get("count");
 		pageMaker.setTotalCount(count);
 		
@@ -378,34 +378,11 @@ public class Free_BoardController {
 		model.addAttribute("category_Num", category_Num);
 		return "free";
 	}
-	
 
 
 	
 ///////////////////// 게시글 검색 ////////////////	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

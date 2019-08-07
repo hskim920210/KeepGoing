@@ -16,6 +16,7 @@
 	<jsp:include page="menu.jsp" flush="false"></jsp:include>
  
 	<jsp:include page="modalLogin.jsp" flush="false"></jsp:include>
+	<jsp:include page="freeSearchModal.jsp" flush="false"></jsp:include>
 
 	<div class="site-blocks-cover inner-page-cover overlay"
 		style="background-image: url(<%=request.getContextPath()%>/resources/images/top.jpg);"
@@ -34,7 +35,7 @@
 	<jsp:include page="right_sidebar.jsp" flush="false"></jsp:include>
 	
 	<div class="site-section block-13"> 
-		<div align="center"  style="margin-left: 15%; margin-right: 15%; margin-top: 130;">
+		<div align="center"  style="margin-left: 15%; margin-right: 15%;">
 		<table>
 			
 			
@@ -87,8 +88,11 @@
 				<td colspan="2" style="text-align:center"><b><a href="<%= request.getContextPath() %>/notice/${ head.board_id }">${ head.title }</a></b></td>
 				<td colspan="2" style="text-align:center">${ head.write_date }</td>
 			</tr>
-			</c:forEach>
 			
+			</c:forEach>
+			<c:if test="${ pageMaker.totalCount == 0 }" var="r">
+					<h1>게시글이 존재하지 않습니다.</h1>
+			</c:if>
 		
 			
 			<!-- 반복처리하여 값을 불러온다. getCategoryString() -->
@@ -111,7 +115,7 @@
 	<!--  게시글 조회 처리       -->
 
 	<!-- 검색   -->
-	<p align="center"><a href="" data-toggle="modal" data-target="#reviewSearchModal" class="btn btn-info "  type="button">게시글 검색</a></p>
+	<p align="center"><a href="" data-toggle="modal" data-target="#freeSearchModal" class="btn btn-info "  type="button">게시글 검색</a></p>
 	<!-- 검색 -->
 	
 	

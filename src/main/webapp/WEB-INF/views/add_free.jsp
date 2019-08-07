@@ -32,10 +32,11 @@
 	<jsp:include page="right_sidebar.jsp" flush="false"></jsp:include>
 	
 	<div class="container">
-
+	<div class="site-section block-13"> 
     	<form id="add_free"  method="post" action="<%=request.getContextPath() %>/add_free">
     		<input type="hidden" name="member_id" value="${ login_member.member_id }">
 			<div class="form-group">
+	
 				<label for="title">제목 </label>
 				<input type="text" class="form-control" name="title" placeholder="Title" maxlength="30" required>
 			</div>
@@ -55,7 +56,7 @@
 									
 				</select>
 			</div>
-			
+				
   
     
 			
@@ -68,6 +69,7 @@
 			
 		</form>
 
+    </div>
     </div>
 	
 	<jsp:include page="javascriptInclude.jsp" flush="false"></jsp:include>

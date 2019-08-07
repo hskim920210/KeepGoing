@@ -17,28 +17,28 @@ public class SimpleBoardFree_ViewSearchService {
 		if(search_Type == 1) {
 			// 전체에서 검색 서비스
 			if(category_Num == 1) {
-				result.put("list", simpleBoardFreeViewDAO.searchReviewAll(category_Num, keyword, criteria.getPageStart(), criteria.getPerPageNum()));
-				result.put("count", simpleBoardFreeViewDAO.searchReviewAllCount(category_Num, keyword));
+				result.put("list", simpleBoardFreeViewDAO.searchFreeAll(category_Num, keyword, criteria.getPageStart(), criteria.getPerPageNum()));
+				result.put("count", simpleBoardFreeViewDAO.searchFreeAllCount(category_Num, keyword));
 			} else {
 				
 			}
 		} else if(search_Type == 2) {
 			// 제목 검색 서비스
-			result.put("list", simpleBoardFreeViewDAO.searchReviewTitle(category_Num, keyword, criteria.getPageStart(), criteria.getPerPageNum()));
-			result.put("count", simpleBoardFreeViewDAO.searchReviewTitleCount(category_Num, keyword));
+			result.put("list", simpleBoardFreeViewDAO.searchFreeTitle(category_Num, keyword, criteria.getPageStart(), criteria.getPerPageNum()));
+			result.put("count", simpleBoardFreeViewDAO.searchFreeTitleCount(category_Num, keyword));
 		} else if(search_Type == 3) {
 			// 내용 검색 서비스
-			result.put("list", simpleBoardFreeViewDAO.searchReviewContent(category_Num, keyword, criteria.getPageStart(), criteria.getPerPageNum()));
-			result.put("count", simpleBoardFreeViewDAO.searchReviewContentCount(category_Num, keyword));
+			result.put("list", simpleBoardFreeViewDAO.searchFreeContent(category_Num, keyword, criteria.getPageStart(), criteria.getPerPageNum()));
+			result.put("count", simpleBoardFreeViewDAO.searchFreeContentCount(category_Num, keyword));
 			//;
 		} else if(search_Type == 4) {
 			// 제목+내용 검색 서비스
-			result.put("list", simpleBoardFreeViewDAO.searchReviewTitleAndContent(category_Num, keyword, criteria.getPageStart(), criteria.getPerPageNum()));
-			result.put("count", simpleBoardFreeViewDAO.searchReviewTitleAndContentCount(category_Num, keyword));
+			result.put("list", simpleBoardFreeViewDAO.searchFreeTitleAndContent(category_Num, keyword, criteria.getPageStart(), criteria.getPerPageNum()));
+			result.put("count", simpleBoardFreeViewDAO.searchFreeTitleAndContentCount(category_Num, keyword));
 		} else if(search_Type == 5) {
 			// 글쓴이 검색 서비스
-			result.put("list", simpleBoardFreeViewDAO.searchReviewWriter(category_Num, keyword, criteria.getPageStart(), criteria.getPerPageNum()));
-			result.put("count", simpleBoardFreeViewDAO.searchReviewWriterCount(category_Num, keyword));
+			result.put("list", simpleBoardFreeViewDAO.searchFreeWriter(category_Num, keyword, criteria.getPageStart(), criteria.getPerPageNum()));
+			result.put("count", simpleBoardFreeViewDAO.searchFreeWriterCount(category_Num, keyword));
 		}
 		return result;
 	}
