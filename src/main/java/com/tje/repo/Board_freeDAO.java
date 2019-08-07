@@ -58,13 +58,12 @@ private JdbcTemplate jdbcTemplate;
 	
 				PreparedStatement pstmt = 
 					con.prepareStatement(
-							"insert into board_free values(0,2,?,?,?,?,?,0,now())", 
+							"insert into board_free values(0,2,?,?,?,?,?,null,now())", 
 						 new String[]{"board_id"});			
 				pstmt.setInt(1, model.getCategory());
 				pstmt.setString(2, model.getTitle());
 				pstmt.setString(3, model.getContent());
 				pstmt.setString(4, model.getMember_id());
-				pstmt.setString(5, model.getImage());
 				return pstmt;
 			}
 		}, keyHolder);
