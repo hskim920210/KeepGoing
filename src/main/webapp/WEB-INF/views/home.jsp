@@ -139,14 +139,19 @@
 	<div class="site-section">
       <div class="container">
         <div class="row">
+                <c:forEach items="${ itemList }" var="item_article">
           <div class="col-md-6 col-lg-4 mb-4 mb-lg-4">
+           
+              
             <div class="h-entry">
               <img src="/webapp/resources/images/equipment1.jpg" alt="Image" class="img-fluid">
-              <h2 class="font-size-regular"><a href="#">칼라풀 케틀벨 </a></h2>
+             <a href="<%= request.getContextPath() %>/item_view/${item_article.board_id}">${item_article.title}</a>
               <div class="meta mb-4">박지성 <span class="mx-2">•</span> Jan 18, 2019<span class="mx-2">•</span> </div>
               <p>최고의 상품입니다. 배송도 빠르고요. 처음 구매할 땐 많이 망설였는데 막상 구입해 보니  너무 좋아서 재구입하게 됐습니다. 가성비 좋구요. 여러면에서 마음에 쏙 들어요.</p>
             </div> 
-          </div>
+            </div>
+            </c:forEach>
+          
           <div class="col-md-6 col-lg-4 mb-4 mb-lg-4">
             <div class="h-entry">
               <img src="/webapp/resources/images/equipment2.jpg" alt="Image" class="img-fluid">
