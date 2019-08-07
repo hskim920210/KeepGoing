@@ -26,16 +26,7 @@ public class SimpleBoardFree_ViewSearchService {
 			// 제목 검색 서비스
 			result.put("list", simpleBoardFreeViewDAO.searchFreeTitle(category_Num, keyword, criteria.getPageStart(), criteria.getPerPageNum()));
 			result.put("count", simpleBoardFreeViewDAO.searchFreeTitleCount(category_Num, keyword));
-		} else if(search_Type == 3) {
-			// 내용 검색 서비스
-			result.put("list", simpleBoardFreeViewDAO.searchFreeContent(category_Num, keyword, criteria.getPageStart(), criteria.getPerPageNum()));
-			result.put("count", simpleBoardFreeViewDAO.searchFreeContentCount(category_Num, keyword));
-			//;
-		} else if(search_Type == 4) {
-			// 제목+내용 검색 서비스
-			result.put("list", simpleBoardFreeViewDAO.searchFreeTitleAndContent(category_Num, keyword, criteria.getPageStart(), criteria.getPerPageNum()));
-			result.put("count", simpleBoardFreeViewDAO.searchFreeTitleAndContentCount(category_Num, keyword));
-		} else if(search_Type == 5) {
+		}  else if(search_Type == 5) {
 			// 글쓴이 검색 서비스
 			result.put("list", simpleBoardFreeViewDAO.searchFreeWriter(category_Num, keyword, criteria.getPageStart(), criteria.getPerPageNum()));
 			result.put("count", simpleBoardFreeViewDAO.searchFreeWriterCount(category_Num, keyword));

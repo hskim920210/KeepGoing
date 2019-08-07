@@ -41,8 +41,7 @@
 										<select name="search_Type">
 											<option value="1" selected="selected">전체</option>
 											<option value="2">제목</option>
-											<option value="3">내용</option>
-											<option value="4">제목+내용</option>
+											
 											<option value="5">글쓴이</option>
 										</select>
 								</div>

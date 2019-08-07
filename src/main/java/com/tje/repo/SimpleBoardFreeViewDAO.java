@@ -276,53 +276,8 @@ private JdbcTemplate jdbcTemplate;
 			return results.isEmpty() ? null : results;
 		}
 		
-		public int searchFreeTitleAndContentCount(int category_Num, String keyword) {
-			String sql;
-			if(category_Num == 1) {
-				sql = "select count(*) from SimpleBoardFreeView where (board_id>0) and (title like ? or content like ?)";
-				return this.jdbcTemplate.queryForObject(sql, Integer.class, "%"+keyword+"%", "%"+keyword+"%");
-			} else {
-				sql = "select count(*) from SimpleBoardFreeView where (board_id>0 and category=?) and (title like ? or content like ?)";
-				return this.jdbcTemplate.queryForObject(sql, Integer.class, category_Num, "%"+keyword+"%", "%"+keyword+"%");
-			}
-		}
-		
-		public List<SimpleBoardFreeView> searchFreeTitleAndContent(int category_Num, String keyword, int pageStart, int perPageNum) {
-			String sql;
-			List<SimpleBoardFreeView> results;
-			if(category_Num == 1) {
-				sql = "select * from SimpleBoardFreeView where (board_id>0) and (title like ? or content like ?) order by board_id desc limit ?,?";
-				results=this.jdbcTemplate.query(sql, new SimpleBoardFreeViewRowMapper(), "%"+keyword+"%", "%"+keyword+"%", pageStart, perPageNum);
-			} else {
-				sql = "select * from SimpleBoardFreeView where (board_id>0 and category=?) and (title like ? or content like ?) order by board_id desc limit ?,?";
-				results=this.jdbcTemplate.query(sql, new SimpleBoardFreeViewRowMapper(), category_Num, "%"+keyword+"%", "%"+keyword+"%", pageStart, perPageNum);
-			}
-			return results.isEmpty() ? null : results;
-		}
-		
-		public int searchFreeContentCount(int category_Num, String keyword) {
-			String sql;
-			if(category_Num == 1) {
-				sql = "select count(*) from SimpleBoardFreeView where board_id>0 and content like ?";
-				return this.jdbcTemplate.queryForObject(sql, Integer.class, "%"+keyword+"%");
-			} else {
-				sql = "select count(*) from SimpleBoardFreeView where board_id>0 and category=? and content like ?";
-				return this.jdbcTemplate.queryForObject(sql, Integer.class, category_Num, "%"+keyword+"%");
-			}
-		}
-		
-		public List<SimpleBoardFreeView> searchFreeContent(int category_Num, String keyword, int pageStart, int perPageNum) {
-			String sql;
-			List<SimpleBoardFreeView> results;
-			if(category_Num == 1) {
-				sql = "select * from SimpleBoardFreeView where board_id>0 and category=? and content like ? order by board_id desc limit ?,?";
-				results=this.jdbcTemplate.query(sql, new SimpleBoardFreeViewRowMapper(), "%"+keyword+"%", pageStart, perPageNum);
-			} else {
-				sql = "select * from SimpleBoardFreeView where board_id>0 and category=? and content like ? order by board_id desc limit ?,?";
-				results=this.jdbcTemplate.query(sql, new SimpleBoardFreeViewRowMapper(), category_Num, "%"+keyword+"%", pageStart, perPageNum);
-			}
-			return results.isEmpty() ? null : results;
-		}
+	
+	
 		
 		public int searchFreeTitleCount(int category_Num, String keyword) {
 			String sql;

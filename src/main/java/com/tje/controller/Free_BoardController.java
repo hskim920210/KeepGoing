@@ -363,12 +363,13 @@ public class Free_BoardController {
 		pageMaker.setCri(criteria);
 		
 		int category_Num = Integer.parseInt(req.getParameter("category_Num"));
+		System.out.println(category_Num);
 		int search_Type = Integer.parseInt(req.getParameter("search_Type"));
 		String keyword = req.getParameter("keyword");
 		System.out.println(category_Num + "" + search_Type + keyword);
 		
 		HashMap<String, Object> result = (HashMap<String, Object>)sbf_vsService.service(search_Type, category_Num, keyword, criteria);
-		model.addAttribute("simpleBoardFreeViewList", (List<SimpleBoardFreeView>)result.get("list"));
+		model.addAttribute("free_list", (List<SimpleBoardFreeView>)result.get("list"));
 		int count = (Integer)result.get("count") == null ? 0 : (Integer)result.get("count");
 		pageMaker.setTotalCount(count);
 		
