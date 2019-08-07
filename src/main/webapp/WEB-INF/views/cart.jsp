@@ -54,7 +54,7 @@
 							varStatus="status">
 							<tr>
 								<td style="vertical-align: middle;"><input type="checkbox" name="checkbox"
-									value="${ result.price }"></td>
+									value="${ result.board_id }"></td>
 								<td style="vertical-align: middle;">${ status.count }</td>
 								<td style="display: none;"><input type="hidden" value="${ result.category }"></td>
 								<td style="vertical-align: middle;">${ result.getCategoryString() }</td>
@@ -64,6 +64,7 @@
 								<td style="vertical-align: middle;">${ result.price }</td>
 								<td style="vertical-align: middle;"><input style="border: 1px solid; text-align: center;" type="number"
 									name="number" min="1" max="100" value="1"></td>
+								<td style="display: none;">${ result.cart_id }</td>
 							</tr>
 						</c:forEach>
 					</c:if>
@@ -83,6 +84,7 @@
 								<td style="vertical-align: middle;">${ result.price }</td>
 								<td style="vertical-align: middle;"><input style="border: 1px solid; text-align: center;" type="number"
 									name="number" min="1" max="100" value="1"></td>
+								<td style="display: none;">${ result.cart_id }</td>
 							</tr>
 						</c:forEach>
 					</c:if>
@@ -140,8 +142,17 @@
 				if( $("#all_check").prop("checked") ){
 					$("input[name=checkbox]").prop("checked", true);
 					
-					$('input[name=checkbox]:checked').each(function(i, c){
-						total += isNaN(parseInt($(this).val())) ? 0 : parseInt($(this).val()) * parseInt( $("input[name=number]").eq(i).val() );
+					var checkbox=$("input[name=checkbox]:checked");
+					
+					checkbox.each(function(index){
+						var tr=checkbox.parent().parent().eq(index);
+						var td=tr.children();
+						
+						var price=parseInt( td.eq(6).text() );
+						var number=parseInt( td.eq(7).children().val() );
+						
+						total+=price*number;
+
 					});
 					
 					$("#total").text(total);
@@ -209,6 +220,9 @@
 					return;
 				}
 				
+				var jsonArray=new Array();
+				var json;
+				
 				checkbox.each(function(index){
 					var tr=checkbox.parent().parent().eq(index);
 					var td=tr.children();
@@ -216,34 +230,97 @@
 					var board_id=td.eq(0).children().val();
 					var category=td.eq(2).children().val();
 					var title=td.eq(5).text();
-					var price=parseInt( td.eq(6).text() );
-					var number=parseInt( td.eq(7).children().val() );
+					var price=td.eq(6).text();
+					var number=td.eq(7).children().val();
+					var cart_id=td.eq(8).text();
 					
-					var json={"board_id":board_id, "category":category,
+					json={"board_id":board_id, "category":category,
 							"member_id":member_id, "name":name,
 							"address_post":address_post, "address_basic":address_basic,
 							"address_detail":address_detail, "title":title,
-							"number":number, "price":price};
+							"number":number, "price":price, "cart_id":cart_id};
 					
-					$.ajax({
-						type : "POST",
-						url : "<%=request.getContextPath()%>/item_buy",
-						dataType : "text",
-						contentType : "application/json; charset=utf-8",
-						data : JSON.stringify(json),
-						success : function(data) {
-							alert('hi');
-							console.log(data);
-						},
-						error : function() {
-							alert("error");
-						}
-					});
+					jsonArray.push(json);
 				})
+				
+				$.ajax({
+					type : "POST",
+					url : "<%=request.getContextPath()%>/item_buy",
+					dataType : "text",
+					contentType : "application/json; charset=utf-8",
+					data : JSON.stringify(jsonArray),
+					success : function(data) {
+						
+						if(data=="success"){
+							alert(data);
+							
+							location.reload();
+							return;
+						}
+						
+						alert(data);
+						
+					},
+					error : function() {
+						alert("error");
+					}
+				});
 			})
 		})
 	</script>
-
+	
+	<!-- 선택 상품 삭제 -->
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$("#checked_item_delete").on("click", function() {
+				var checkbox=$("input[name=checkbox]:checked");
+				
+				if(checkbox.length == 0){
+					alert("선택된 상품이 없습니다.");
+					return;
+				}
+				
+				var jsonArray=new Array();
+				var json;
+				
+				checkbox.each(function(index){
+					var tr=checkbox.parent().parent().eq(index);
+					var td=tr.children();
+					
+					var index=td.eq(1).text();
+					var cart_id=td.eq(8).text();
+					
+					json={"index":index, "cart_id":cart_id};
+					
+					jsonArray.push(json);
+				})
+				
+				$.ajax({
+					type : "POST",
+					url : "<%=request.getContextPath()%>/cart_delete",
+					dataType : "text",
+					contentType : "application/json; charset=utf-8",
+					data : JSON.stringify(jsonArray),
+					success : function(data) {
+						
+						if(data=="success"){
+							alert(data);
+							
+							location.reload();
+							return;
+						}
+						
+						alert(data);
+						
+					},
+					error : function() {
+						alert("error");
+					}
+				});
+			})
+		})
+	</script>
+	
 	<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 	<script>
 		function sample6_execDaumPostcode() {

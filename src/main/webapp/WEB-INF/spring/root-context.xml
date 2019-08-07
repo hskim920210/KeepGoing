@@ -8,8 +8,7 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 	
-	<!-- 어노테이션을 사용하여 트랜잭션을 적용하기 위한 설정 태그 -->
-	<tx:annotation-driven />
+	
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	<bean id="dataSource" 
@@ -52,8 +51,6 @@
 		<constructor-arg value="1q1HsXuho6Anz8jDrO--RM9a" />
 	</bean>
 	
-	<bean id="transactionManager" 
-	class="org.springframework.jdbc.datasource.DataSourceTransactionManager" 
-	p:dataSource-ref="dataSource"/>
+	
 	
 </beans>

@@ -1,25 +1,23 @@
-package com.tje.service;
+package com.tje.service.faq;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.tje.model.*;
 import com.tje.repo.*;
 
 @Service
-public class Board_NoticeSelectHeadService {
+public class Board_FaqSelectAllByBoardIdDescService {
 	@Autowired
-	private Board_NoticeDAO board_noticeDAO;
+	private Board_FaqDAO board_faqDAO;
 	
 	public Object service() {
 		Object result=null;
 		
 		try {
-			result=board_noticeDAO.selectAll_Head();
+			result=board_faqDAO.selectAllOrdByBoard_IdDesc();
 		} catch (Exception e) {
 			result=null;
 		}
-		
 		return result;
 	}
 }

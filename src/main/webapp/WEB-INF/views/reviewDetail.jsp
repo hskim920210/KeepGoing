@@ -189,7 +189,6 @@
 		var selectedAddress = '${ detailReview.selectedAddress }';
 		var selectedLat = ${ detailReview.selectedLat };
 		var selectedLng = ${ detailReview.selectedLng };
-		alert(selectedAddress);
 		if (selectedAddress == '') {
 			$("#sample6_address").val("위지 정보를 첨부하지 않은 리뷰입니다.");
 		} else {

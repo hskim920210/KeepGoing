@@ -38,8 +38,10 @@
 		<table>
 			
 			
+			
 			<c:if test="${ login_member.auth >= 2 }">
       		<p align="right"><a href="<%=request.getContextPath()%>/add_free" class="btn btn-info "  type="button">글쓰기</a></p>
+      		
       		<!-- <p><button class="btn btn-info" type="button" id="add_item">상품 추가</button></p> -->
       		</c:if>
 			
@@ -61,6 +63,7 @@
 				<!-- Complex -->
 				<td><a href="<%= request.getContextPath() %>/free/6">컴플랙스 극복</a></td>
 			</tr>
+			
 		</table>
 		
 		</div>
@@ -78,6 +81,13 @@
 				<th>좋아요/싫어요</th>
 				<th>작성일</th>
 			</tr>
+			<c:forEach items="${ board_noticeheadList }" var="head">
+			<tr>
+				<th colspan="2" style="text-align:center">중요공지</th>
+				<td colspan="2" style="text-align:center"><b><a href="<%= request.getContextPath() %>/notice/${ head.board_id }">${ head.title }</a></b></td>
+				<td colspan="2" style="text-align:center">${ head.write_date }</td>
+			</tr>
+			</c:forEach>
 			
 		
 			
@@ -100,6 +110,10 @@
 	</div>
 	<!--  게시글 조회 처리       -->
 
+	<!-- 검색   -->
+	<p align="center"><a href="" data-toggle="modal" data-target="#reviewSearchModal" class="btn btn-info "  type="button">게시글 검색</a></p>
+	<!-- 검색 -->
+	
 	
 	<!--  페이징 처리       -->
 	<div class="container text-center pb-5">

@@ -62,7 +62,7 @@
 							<span class="text-muted">가격 : ${ searchedItem.price }</span>
 						</h4>
 						<h4>
-							<span class="text-muted">개수 : ${ searchedItem.number }</span>
+							<span class="text-muted">개수 : <span id="number">${ searchedItem.number }</span></span>
 						</h4>
 						<p>${ searchedItem.content }</p>
 
@@ -141,7 +141,7 @@
 
 				</div>
 				<!-- 리뷰 -->
-				<div role="tabpanel" class="tab-pane fade" id="profile"
+				<!-- <div role="tabpanel" class="tab-pane fade" id="profile"
 					aria-labelledby="profile-tab">
 					<p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla
 						single-origin coffee squid. Exercitation +1 labore velit, blog
@@ -154,7 +154,7 @@
 						anderson 8-bit, sustainable jean shorts beard ut DIY ethical culpa
 						terry richardson biodiesel. Art party scenester stumptown, tumblr
 						butcher vero sint qui sapiente accusamus tattooed echo park.</p>
-				</div>
+				</div> -->
 			</div>
 		</div>
 	</div>
@@ -393,6 +393,13 @@
 		$(document).ready(function() {
 			$("#item_buy").on("click", function() {
 				
+				var number=parseInt( $("#number").text() );
+				
+				if(number<=0){
+					alert("품절된 상품 입니다.");
+					return;
+				}
+				
 				var board_id=${searchedItem.board_id};
 				
 				$.ajax({
@@ -415,6 +422,13 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			$("#add_cart").on("click", function() {
+				
+				var number=parseInt( $("#number").text() );
+				
+				if(number<=0){
+					alert("품절된 상품 입니다.");
+					return;
+				}
 				
 				var board_id=${searchedItem.board_id};
 				

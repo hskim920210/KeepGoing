@@ -80,9 +80,7 @@ public class HomeController {
 		////////////////////////////////////////////////////////////////////////////////////////////
 		List<SimpleBoardReviewView> review_list = (List<SimpleBoardReviewView>)hrService.service();
 		for(SimpleBoardReviewView b : review_list) {
-			System.out.println("test : " + b.getImage());
 		}
-		System.out.println(review_list.size());
 		model.addAttribute("reviewList", review_list);
 		
 		List<SimpleBoardItemView> item_list = (List<SimpleBoardItemView>)hiService.service();
@@ -90,7 +88,7 @@ public class HomeController {
 		
 		 List<DetailBoardFree_View> free_list = (List<DetailBoardFree_View>)hfService.service();
 		model.addAttribute("freeList", free_list);
-		
+
 		return "home";
 	}
 	
@@ -157,5 +155,10 @@ public class HomeController {
 	@GetMapping("/site_footer/privacy_policy")
 	public String privacy_policy() {
 		return "/terms/privacy_policy";
+	}
+	
+	@GetMapping("/homePopup")
+	public String homePopup() {
+		return "homePopup";
 	}
 }

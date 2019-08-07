@@ -11,6 +11,7 @@
 <jsp:include page="cssInclude.jsp" flush="false"></jsp:include>
 
 
+
 </head>
 <body>
 
@@ -90,6 +91,7 @@
              
               
               </c:forEach>
+
               </div>
             </div>
           </div>
@@ -259,30 +261,11 @@
 	</footer>
 	--%>
 	
-	
-
-	<script type="text/javascript">
-		$(document).ready(function() {
-			$("#member_login").on("click", function() {
-				var params=$("#login_form").serialize();
-				console.log(params);
-				
-				$.ajax({
-		            url: "<%=request.getContextPath()%>/login",
-		            type: "POST",
-		            data: params,
-		            success: function(data){
-		                console.log(data);
-		                alert(data);
-		                location.reload();
-		            },
-		            error: function(){
-		                alert("err");
-		            }
-		        });
-			})
-		})
-	</script>
 	<jsp:include page="javascriptInclude.jsp" flush="false"></jsp:include>
+	<script type="text/javascript">
+		window.onload = function(){ 
+			window.open("<%= request.getContextPath() %>/homePopup", "pop", "width=400,height=500,history=no,resizable=no,status=no,scrollbars=yes,menubar=no");	
+		}
+	</script>
 </body>
 </html>

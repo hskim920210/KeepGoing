@@ -6,20 +6,30 @@
 	xmlns:c="http://www.springframework.org/schema/c"
 	xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:websocket="http://www.springframework.org/schema/websocket"
+	xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket-4.3.xsd
 		http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<annotation-driven />
+	<!-- 어노테이션을 사용하여 트랜잭션을 적용하기 위한 설정 태그 -->
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+	
+	<beans:bean id="transactionManager" 
+	class="org.springframework.jdbc.datasource.DataSourceTransactionManager" 
+	p:dataSource-ref="dataSource"/>
+	
+	
 	
 	<beans:bean id="broadCastController" class="com.tje.websocket.BroadCastController" />
 	<websocket:handlers>
 		<websocket:mapping handler="broadCastController" path="/chat_admin"/>
-		<!-- 아래는 웹소켓 세션에서 HttpSession을 사용하기 위한것 -->
+		<!-- 아래는 웹소켓 세션에서 HttpSession을 사용하기 위한것 --> 
 		<websocket:handshake-interceptors>
 			<beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor" />
 		</websocket:handshake-interceptors>
@@ -67,5 +77,7 @@
 			<beans:ref bean="AuthInterceptor"/>
 		</interceptor>
 	</interceptors>
+	
+	
 
 </beans:beans>
