@@ -44,6 +44,19 @@ public class Board_ReviewDAO {
 		}
 		
 	}
+	public int delete(Board_Review model) throws Exception{
+		return this.jdbcTemplate.update("delete from board_review where board_id = ?",
+				model.getBoard_id());
+	}
+	
+	public int update(Board_Review model) throws Exception{
+		return this.jdbcTemplate.update("update board_review set category = ?, title = ?, content = ?, image = ? where board_id = ?",
+				model.getCategory(),
+				model.getTitle(),
+				model.getContent(),
+				model.getImage(),
+				model.getBoard_id());
+	}
 	
 	
 	public int insert(Board_Review model) throws Exception{

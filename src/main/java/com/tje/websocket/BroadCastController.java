@@ -8,8 +8,6 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
-// 보낸 사람 제외하고 나머지에게 모두 메세지를 보내는 기능
-// 키 값은 웹 소켓의 세션 ID 값, 밸류는 해당 웹소켓 객체를 저장 => 모든 회원들의 정보를 갖는다.
 public class BroadCastController extends TextWebSocketHandler {
 	
 	class WebSocketClientInfo {
@@ -127,7 +125,7 @@ public class BroadCastController extends TextWebSocketHandler {
 	
 	
 	
-	// 현제 웹 서버에 접속중인 클라이언트들의 웹소켓을 저장하는 MAP 객체 (동기화 지원)
+	// 세션 아이디와 소켓정보를 저장하는 MAP 객체
 	private LinkedHashMap<String, WebSocketClientInfo> sessionMap = new LinkedHashMap<>();
 	// Admin 상태를 저장하는 MAP 객체. 순서를 유지하기 위해 LinkedHashMap을 사용한다
 	private LinkedHashMap<Admin, WebSocketClientInfo> adminMap = new LinkedHashMap<BroadCastController.Admin, WebSocketClientInfo>();
@@ -140,8 +138,10 @@ public class BroadCastController extends TextWebSocketHandler {
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		boolean noAdmin = true;
 		boolean noClient = true;
+		//
 		Map<String, Object> map = session.getAttributes();
 		Member login_member = (Member)map.get("login_member");
+		//
 		String member_id = login_member.getMember_id(); // 잘 받아와짐
 		String nickname = login_member.getNickname(); // 잘 받아와짐
 		
@@ -269,17 +269,23 @@ public class BroadCastController extends TextWebSocketHandler {
 			System.out.println("admin의 커넥션 종료");
 			// sessionMap에서 현재 종료된 session의 id로 admin을 가져온다.
 			Admin admin = (Admin)sessionMap.get(sessionId).chatMember;
+			System.out.println("admin close 부분의 Admin 객체 생성 후 admin.nickname : " + admin.getNickname());
+			// sessionMap에서 admin을 지운다.
 			sessionMap.remove(sessionId);
+			// adminMap에서 admin을 지운다.
 			adminMap.remove(admin);
 			// 클라이언트의 웹소켓 세션을 가져오기
 			WebSocketSession clientSession = chatMatch.get(session);
 			// chatMap에서 둘의 session을 지운다. ( 그 전에 각각 상대가 연결을 종료했다는 메세지를 보낸다. )
-			clientSession.sendMessage(new TextMessage("상대가 연결을 종료했습니다.\n"));
+			clientSession.sendMessage(new TextMessage("상대가 연결을 종료했습니다.\n새로운 상담을 원하면 다시 연결해주세요.\n"));
 			chatMatch.remove(session); // admin, client의 쌍
 			chatMatch.remove(clientSession); // client, admin의 쌍
-			// 클라이언트의 isConn을 false로 바꾼다. 그러기위해 Client를 찾는다.
-			sessionMap.get(clientSession.getId()).chatMember.setConn(false);
-		} else {
+			// sessionMap과 clientMap 에서 클라이언트를 지운다.
+			Client cl = (Client)sessionMap.get(clientSession.getId()).chatMember;
+			sessionMap.remove(clientSession.getId());
+			clientMap.remove(cl);
+			
+		} else { // 나간 사람이 Client
 			System.out.println("client의 커넥션 종료");
 			// sessionMap에서 현재 종료된 session의 id로 client을 가져온다.
 			Client client = (Client)sessionMap.get(sessionId).chatMember;
@@ -293,7 +299,41 @@ public class BroadCastController extends TextWebSocketHandler {
 			chatMatch.remove(adminSession); // admin, client의 쌍
 			// 어드민의 isConn을 false로 바꾼다. 그러기위해 Admin를 찾는다.
 			sessionMap.get(adminSession.getId()).chatMember.setConn(false);
+			
+			
+			// 클라이언트가 나갔으면 다시 false가 된 admin을 대기중인 클라이언트가 있는지 찾아 연결해준다.
+			//
+			Admin admin = (Admin)sessionMap.get(adminSession.getId()).chatMember;
+			boolean noClient = true;
+			for( Client c : clientMap.keySet() ) {
+				if( c.isConn() == false ) {
+					admin.setConn(true);
+					c.setConn(true);
+					sessionMap.put(admin.getSessionId(), adminMap.get(admin));
+					sessionMap.put(c.getSessionId(), clientMap.get(c));
+					chatMatch.put(adminMap.get(admin).getSession(), clientMap.get(c).getSession());
+					chatMatch.put(clientMap.get(c).getSession(), adminMap.get(admin).getSession());
+					adminMap.get(admin).getSession().sendMessage(new TextMessage("클라이언트와 연결되었습니다.\n"));
+					clientMap.get(c).getSession().sendMessage(new TextMessage("관리자와 연결되었습니다.\n"));
+					noClient = false;
+					break;
+				}
+			}
+			if( noClient ) {
+				adminMap.get(admin).getSession().sendMessage(new TextMessage("상담 가능한 클라이언트가 없습니다.\n"));
+			}
+			System.out.println("admin.nickName : " + admin.getNickname() +
+					", admin.isConn : " + admin.isConn() + 
+					", admin.sessionId : " + admin.getSessionId() + 
+					", wscInfo.session : " + sessionMap.get(adminSession) + 
+					", wscInfo.chatMember : " + sessionMap.get(adminSession).getChatMember().getClass());
+			for( String s : sessionMap.keySet() ) {
+				System.out.println("key : " + s +
+						", val.session" + sessionMap.get(s).getSession() +
+						", val.chatMember.nick" + sessionMap.get(s).getChatMember().getNickname() + 
+						", val.chatMember.isConn" + sessionMap.get(s).getChatMember().isConn());
+				
+			}
 		};
-		
 	}
 }
