@@ -182,8 +182,23 @@ public class Board_itemController {
 		if((int)ivcuService.service(item)!=1)
 			return "redirect:error/item_view";
 		
-		model.addAttribute("searchedItem", ivService.service(item));
+		DetailBoardItemView searchedItem=(DetailBoardItemView) ivService.service(item);
+		model.addAttribute("searchedItem", searchedItem);
 		model.addAttribute("commentList", csSercie.service(comment));
+		
+		ArrayList<DetailBoardItemView> r_s_list=(ArrayList<DetailBoardItemView>) session.getAttribute("r_s_list");
+		if(r_s_list==null) {
+			r_s_list=new ArrayList<DetailBoardItemView>();
+			
+			r_s_list.add(searchedItem);
+		}else {
+			if(r_s_list.size()>=10)
+				r_s_list.remove(0);
+			
+			r_s_list.add(searchedItem);
+		}
+		
+		session.setAttribute("r_s_list", r_s_list);
 		
 		return "item_view";
 	}
