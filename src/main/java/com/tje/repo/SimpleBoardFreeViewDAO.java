@@ -253,7 +253,7 @@ private JdbcTemplate jdbcTemplate;
 //
 //////////////// 검색창 (전체,제목,내용,제목+내용,글쓴이) //////////
 	// 검색 창 sql 검색식
-		public int searchReviewWriterCount(int category_Num, String keyword) {
+		public int searchFreeWriterCount(int category_Num, String keyword) {
 			String sql;
 			if(category_Num == 1) {
 				sql = "select count(*) from SimpleBoardFreeView where board_id>0 and nickname like ?";
@@ -263,8 +263,8 @@ private JdbcTemplate jdbcTemplate;
 				return this.jdbcTemplate.queryForObject(sql, Integer.class, category_Num, "%"+keyword+"%");
 			}
 		}
-		
-		public List<SimpleBoardFreeView> searchReviewWriter(int category_Num, String keyword, int pageStart, int perPageNum) {
+		//
+		public List<SimpleBoardFreeView> searchFreeWriter(int category_Num, String keyword, int pageStart, int perPageNum) {
 			String sql;
 			List<SimpleBoardFreeView> results;
 			if(category_Num == 1) {
@@ -277,55 +277,10 @@ private JdbcTemplate jdbcTemplate;
 			return results.isEmpty() ? null : results;
 		}
 		
-		public int searchReviewTitleAndContentCount(int category_Num, String keyword) {
-			String sql;
-			if(category_Num == 1) {
-				sql = "select count(*) from SimpleBoardFreeView where (board_id>0) and (title like ? or content like ?)";
-				return this.jdbcTemplate.queryForObject(sql, Integer.class, "%"+keyword+"%", "%"+keyword+"%");
-			} else {
-				sql = "select count(*) from SimpleBoardFreeView where (board_id>0 and category=?) and (title like ? or content like ?)";
-				return this.jdbcTemplate.queryForObject(sql, Integer.class, category_Num, "%"+keyword+"%", "%"+keyword+"%");
-			}
-		}
+	
+	
 		
-		public List<SimpleBoardFreeView> searchReviewTitleAndContent(int category_Num, String keyword, int pageStart, int perPageNum) {
-			String sql;
-			List<SimpleBoardFreeView> results;
-			if(category_Num == 1) {
-				sql = "select * from SimpleBoardFreeView where (board_id>0) and (title like ? or content like ?) order by board_id desc limit ?,?";
-				results=this.jdbcTemplate.query(sql, new SimpleBoardFreeViewRowMapper(), "%"+keyword+"%", "%"+keyword+"%", pageStart, perPageNum);
-			} else {
-				sql = "select * from SimpleBoardFreeView where (board_id>0 and category=?) and (title like ? or content like ?) order by board_id desc limit ?,?";
-				results=this.jdbcTemplate.query(sql, new SimpleBoardFreeViewRowMapper(), category_Num, "%"+keyword+"%", "%"+keyword+"%", pageStart, perPageNum);
-			}
-			return results.isEmpty() ? null : results;
-		}
-		
-		public int searchReviewContentCount(int category_Num, String keyword) {
-			String sql;
-			if(category_Num == 1) {
-				sql = "select count(*) from SimpleBoardFreeView where board_id>0 and content like ?";
-				return this.jdbcTemplate.queryForObject(sql, Integer.class, "%"+keyword+"%");
-			} else {
-				sql = "select count(*) from SimpleBoardFreeView where board_id>0 and category=? and content like ?";
-				return this.jdbcTemplate.queryForObject(sql, Integer.class, category_Num, "%"+keyword+"%");
-			}
-		}
-		
-		public List<SimpleBoardFreeView> searchReviewContent(int category_Num, String keyword, int pageStart, int perPageNum) {
-			String sql;
-			List<SimpleBoardFreeView> results;
-			if(category_Num == 1) {
-				sql = "select * from SimpleBoardFreeView where board_id>0 and category=? and content like ? order by board_id desc limit ?,?";
-				results=this.jdbcTemplate.query(sql, new SimpleBoardFreeViewRowMapper(), "%"+keyword+"%", pageStart, perPageNum);
-			} else {
-				sql = "select * from SimpleBoardFreeView where board_id>0 and category=? and content like ? order by board_id desc limit ?,?";
-				results=this.jdbcTemplate.query(sql, new SimpleBoardFreeViewRowMapper(), category_Num, "%"+keyword+"%", pageStart, perPageNum);
-			}
-			return results.isEmpty() ? null : results;
-		}
-		
-		public int searchReviewTitleCount(int category_Num, String keyword) {
+		public int searchFreeTitleCount(int category_Num, String keyword) {
 			String sql;
 			if(category_Num == 1) {
 				sql = "select count(*) from SimpleBoardFreeView where board_id>0 and title like ?";
@@ -336,7 +291,7 @@ private JdbcTemplate jdbcTemplate;
 			}
 		}
 		
-		public List<SimpleBoardFreeView> searchReviewTitle(int category_Num, String keyword, int pageStart, int perPageNum) {
+		public List<SimpleBoardFreeView> searchFreeTitle(int category_Num, String keyword, int pageStart, int perPageNum) {
 			String sql;
 			List<SimpleBoardFreeView> results;
 			if(category_Num == 1) {
@@ -349,27 +304,27 @@ private JdbcTemplate jdbcTemplate;
 			return results.isEmpty() ? null : results;
 		}
 		
-		//
-		public int searchReviewAllCount(int category_Num, String keyword) {
+		//e//
+		public int searchFreeAllCount(int category_Num, String keyword) {
 			String sql;
 			if(category_Num == 1) {
-				sql = "select count(*) from SimpleBoardFreeView where board_id>0 and (content like ? or title like ? or nickname like ?)";
-				return this.jdbcTemplate.queryForObject(sql, Integer.class, "%"+keyword+"%", "%"+keyword+"%", "%"+keyword+"%");
+				sql = "select count(*) from SimpleBoardFreeView where board_id>0 and ( title like ? or nickname like ?)";
+				return this.jdbcTemplate.queryForObject(sql, Integer.class,  "%"+keyword+"%", "%"+keyword+"%");
 			} else {
-				sql = "select count(*) from SimpleBoardFreeView where board_id>0 and category = ? and (content like ? or title like ? or nickname like ?)";
-				return this.jdbcTemplate.queryForObject(sql, Integer.class, category_Num, "%"+keyword+"%", "%"+keyword+"%", "%"+keyword+"%");
+				sql = "select count(*) from SimpleBoardFreeView where board_id>0 and category = ? and ( title like ? or nickname like ?)";
+				return this.jdbcTemplate.queryForObject(sql, Integer.class, category_Num,  "%"+keyword+"%", "%"+keyword+"%");
 			}
 		}
-		//
-		public List<SimpleBoardFreeView> searchReviewAll(int category_Num, String keyword, int pageStart, int perPageNum) {
+		//e//
+		public List<SimpleBoardFreeView> searchFreeAll(int category_Num, String keyword, int pageStart, int perPageNum) {
 			String sql;
 			List<SimpleBoardFreeView> results;
 			if(category_Num == 1) {
-				sql = "select * from SimpleBoardFreeView where board_id>0 and (content like ? or title like ? or nickname like ?) order by board_id desc limit ?,?";
-				results=this.jdbcTemplate.query(sql, new SimpleBoardFreeViewRowMapper(), "%"+keyword+"%", "%"+keyword+"%", "%"+keyword+"%", pageStart, perPageNum);
+				sql = "select * from SimpleBoardFreeView where board_id>0 and (title like ? or nickname like ?) order by board_id desc limit ?,?";
+				results=this.jdbcTemplate.query(sql, new SimpleBoardFreeViewRowMapper(), "%"+keyword+"%", "%"+keyword+"%", pageStart, perPageNum);
 			} else {
-				sql = "select * from SimpleBoardFreeView where (board_id>0 and category = ?) and (content like ? or title like ? or nickname like ?) order by board_id desc limit ?,?";
-				results=this.jdbcTemplate.query(sql, new SimpleBoardFreeViewRowMapper(), category_Num, "%"+keyword+"%", "%"+keyword+"%", "%"+keyword+"%", pageStart, perPageNum);
+				sql = "select * from SimpleBoardFreeView where (board_id>0 and category = ?) and ( title like ? or nickname like ?) order by board_id desc limit ?,?";
+				results=this.jdbcTemplate.query(sql, new SimpleBoardFreeViewRowMapper(), category_Num,  "%"+keyword+"%", "%"+keyword+"%", pageStart, perPageNum);
 			}
 			return results.isEmpty() ? null : results;
 		}
