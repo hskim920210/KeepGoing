@@ -73,7 +73,8 @@
 			<mapping path="/review/write"/>
 			<mapping path="/add_free"/>
 			<mapping path="/free_update/*"/>
-			<mapping path="/free_delete/*"/>			
+			<mapping path="/free_delete/*"/>
+			<mapping path="/mypage"/>		
 			<beans:ref bean="AuthInterceptor"/>
 		</interceptor>
 	</interceptors>

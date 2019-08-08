@@ -47,7 +47,7 @@
                 <c:if test="${ not r }">
                 	<li class="has-children"><a href="#">${ login_member.nickname }</a>
                 		<ul class="dropdown">
-		                    <li><a href="#">마이페이지</a></li>
+		                    <li><a href="<%=request.getContextPath()%>/mypage">마이페이지</a></li>
 		                    <li><a href="<%=request.getContextPath()%>/logout">로그아웃</a></li>
 	                	</ul>
                 	</li>

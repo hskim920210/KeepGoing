@@ -90,7 +90,7 @@ public class DetailBoardItemView {
 			return s;
 		}
 
-		return content;
+		return title;
 	}
 
 	public void setTitle(String title) {
