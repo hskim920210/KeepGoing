@@ -110,7 +110,7 @@
 			return;
 		};
 		wsocket = 
-			new WebSocket("ws://localhost:8080/webapp/chat_admin");
+			new WebSocket("ws://localhost:8080/webapp/chat_group");
 		// wsocket.onopen = function() {wsocket.getConn();};
 		wsocket.onmessage = onMessage;
 		wsocket.onclose = onClose;

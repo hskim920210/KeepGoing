@@ -27,7 +27,8 @@
             <nav class="site-navigation position-relative text-right" role="navigation">
 
               <ul class="site-menu js-clone-nav mx-auto d-none d-lg-block">
-				<li><a href="" data-toggle="modal" data-target="#chattingModal">채팅</a></li>
+				<li><a href="" data-toggle="modal" data-target="#chattingInterestModal">관심사 그룹채팅</a></li>
+				<li><a href="" data-toggle="modal" data-target="#chattingModal">관리자와 채팅</a></li>
                 <li><a href="<%= request.getContextPath() %>/review/1">리뷰</a></li>
                 <li><a href="<%= request.getContextPath() %>/free/1">자유 게시판</a></li>
 

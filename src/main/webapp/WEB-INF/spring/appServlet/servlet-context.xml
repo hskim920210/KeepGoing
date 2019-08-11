@@ -34,6 +34,14 @@
 			<beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor" />
 		</websocket:handshake-interceptors>
 	</websocket:handlers>
+	<beans:bean id="groupBroadCastController" class="com.tje.websocket.GroupBroadCastController" />
+	<websocket:handlers>
+		<websocket:mapping handler="groupBroadCastController" path="/chat_group"/>
+		<!-- 아래는 웹소켓 세션에서 HttpSession을 사용하기 위한것 --> 
+		<websocket:handshake-interceptors>
+			<beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor" />
+		</websocket:handshake-interceptors>
+	</websocket:handlers>
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
