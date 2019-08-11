@@ -16,7 +16,7 @@
 	p:driverClassName="com.mysql.cj.jdbc.Driver"
 	p:url="jdbc:mysql://localhost:3306/pjt_spring_1?serverTimezone=Asia/Seoul"
 	p:username="root"
-	p:password="786459"
+	p:password="SystemManager304"
 	p:initialSize="2"
 	p:maxActive="10"
 	p:maxIdle="10"
