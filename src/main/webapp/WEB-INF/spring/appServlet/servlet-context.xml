@@ -63,6 +63,7 @@
 
 
 	<beans:bean id="AuthInterceptor" class="com.tje.interceptor.AuthInterceptor"/>
+	<beans:bean id="AdminInterceptor" class="com.tje.interceptor.AdminInterceptor"/>
 	
 	<interceptors>
 		<interceptor>
@@ -79,6 +80,11 @@
 		</interceptor>
 	</interceptors>
 	
-	
+	<interceptors>
+		<interceptor>
+			<mapping path="/mypage/member_management"/>
+			<beans:ref bean="AdminInterceptor"/>
+		</interceptor>
+	</interceptors>
 
 </beans:beans>

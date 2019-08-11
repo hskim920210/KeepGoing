@@ -1,5 +1,6 @@
 package com.tje.repo;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -7,10 +8,12 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import com.tje.model.Cart;
 import com.tje.model.Member;
 
 @Repository
@@ -83,5 +86,22 @@ public class MemberDAO {
 				model.getLatitude(),
 				model.getLongitude(),
 				model.getMember_type());
+	}
+	
+	public int[] batchDelete(List<Member> members) {
+		return jdbcTemplate.batchUpdate("delete from member where nickname=?",
+				new BatchPreparedStatementSetter() {
+					
+					@Override
+					public void setValues(PreparedStatement ps, int i) throws SQLException {
+						// TODO Auto-generated method stub
+						ps.setString(1, members.get(i).getNickname());
+					}
+					
+					@Override
+					public int getBatchSize() {
+						return members.size();
+					}
+			});
 	}
 }

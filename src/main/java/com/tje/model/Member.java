@@ -111,6 +111,19 @@ public class Member {
 	public int getAuth() {
 		return auth;
 	}
+	
+	public String getAuthString() {
+		if(auth==0) 
+			return "일반회원";
+		else if(auth==1)
+			return "리뷰어";
+		else if(auth==2)
+			return "판매자";
+		else if(auth==3)
+			return "매니저";
+		else
+			return "관리자";		
+	}
 
 	public void setAuth(int auth) {
 		this.auth = auth;
@@ -134,6 +147,17 @@ public class Member {
 
 	public int getMember_type() {
 		return member_type;
+	}
+	
+	public String getMember_typeString() {
+		if(auth==0) 
+			return "일반";
+		else if(auth==1)
+			return "네이버";
+		else if(auth==2)
+			return "구글";
+		else
+			return "카카오";
 	}
 
 	public void setMember_type(int member_type) {
