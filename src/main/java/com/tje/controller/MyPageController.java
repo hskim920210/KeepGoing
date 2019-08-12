@@ -71,4 +71,10 @@ public class MyPageController {
 		
 		return "success";
 	}
+	
+	@GetMapping(value = "/mypage/permission_setting")
+	public String permission_setting() {
+		
+		return "/permission_setting";
+	}
 }

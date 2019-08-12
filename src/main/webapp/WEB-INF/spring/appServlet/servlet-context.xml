@@ -83,6 +83,7 @@
 	<interceptors>
 		<interceptor>
 			<mapping path="/mypage/member_management"/>
+			<mapping path="/mypage/permission_setting"/>
 			<beans:ref bean="AdminInterceptor"/>
 		</interceptor>
 	</interceptors>
