@@ -4,6 +4,7 @@
     
 <div class="site-wrap" style="z-index: 3;">
 <jsp:include page="chattingModal.jsp" flush="false"></jsp:include>
+<jsp:include page="chattingInterestModal.jsp" flush="false"></jsp:include>
     <div class="site-mobile-menu">
       <div class="site-mobile-menu-header">
         <div class="site-mobile-menu-close mt-3">

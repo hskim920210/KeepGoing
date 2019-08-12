@@ -136,6 +136,7 @@ public class BroadCastController extends TextWebSocketHandler {
 	
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+		System.out.println("Admin");
 		boolean noAdmin = true;
 		boolean noClient = true;
 		//

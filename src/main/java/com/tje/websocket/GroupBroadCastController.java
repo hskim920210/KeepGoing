@@ -68,9 +68,13 @@ public class GroupBroadCastController extends TextWebSocketHandler {
 	private LinkedHashMap<String, WebSocketClientInfo> sessionMap = new LinkedHashMap<>();
 	// ChatMember 상태를 저장하는 MAP 객체 
 	private LinkedHashMap<ChatMember, WebSocketClientInfo> chatMemberMap = new LinkedHashMap<ChatMember, WebSocketClientInfo>();
+	// 관심사별 채팅멤버를 저장하는 MAP 객체
+	private LinkedHashMap<Integer, WebSocketClientInfo> chatRoomMap = new LinkedHashMap<Integer, WebSocketClientInfo>();
 	
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+		
+		System.out.println("Group");
 		boolean noChatMember = true;
 		//
 		Map<String, Object> map = session.getAttributes();
@@ -79,15 +83,18 @@ public class GroupBroadCastController extends TextWebSocketHandler {
 		String member_id = login_member.getMember_id(); // 잘 받아와짐
 		String nickname = login_member.getNickname(); // 잘 받아와짐
 		
-			// ChatMember이 접속할 시 clientMap에서 isConn이 false인 상태인 클라이언트와 같이 sessionMap에 저장한다.
-			ChatMember chatMember = new ChatMember(nickname, false, session.getId());
-			WebSocketClientInfo wscInfo = new WebSocketClientInfo(session, chatMember);
-			chatMemberMap.put(chatMember, wscInfo);
-			
-			chatMember.setConn(true);
-			sessionMap.put(chatMember.getSessionId(), chatMemberMap.get(chatMember));
-			chatMemberMap.get(chatMember).getSession().sendMessage(new TextMessage("대화시작"));
+		// ChatMember이 접속할 시 clientMap에서 isConn이 false인 상태인 클라이언트와 같이 sessionMap에 저장한다.
+		ChatMember chatMember = new ChatMember(nickname, false, session.getId());
+		WebSocketClientInfo wscInfo = new WebSocketClientInfo(session, chatMember);
+		chatMemberMap.put(chatMember, wscInfo);
+		
+		chatMember.setConn(true);
+		sessionMap.put(chatMember.getSessionId(), chatMemberMap.get(chatMember));
+		chatMemberMap.get(chatMember).getSession().sendMessage(new TextMessage("원하는 관심사의 번호를 입력후 전송해주세요.\n1.운동\n2.식이요법\n3.요가\n4.blah\n5.blah\n6.blah"));
+		
+		
 			noChatMember = false;
+			/*
 			if( noClient ) {
 				adminMap.get(admin).getSession().sendMessage(new TextMessage("상담 가능한 클라이언트가 없습니다.\n"));
 			}
@@ -141,6 +148,8 @@ public class GroupBroadCastController extends TextWebSocketHandler {
 				
 			}
 		}
+			 */
+		
 	}
 	
 	// 웹 소켓 클라이언트가 서버측으로 데이터를 전송할 때 실행되는 메소드
@@ -161,6 +170,10 @@ public class GroupBroadCastController extends TextWebSocketHandler {
 		// 클라이언트가 전송한 데이터 출력
 		 * */
 		// System.out.printf("%s로부터 [%s]를 받음\n", client.getNickname(), message.getPayload());
+		
+		
+		
+		/*
 		WebSocketSession receiverSession = chatMatch.get(session);
 		//StringTokenizer st = new StringTokenizer(message.getPayload(), ": @");
 		StringTokenizer st = new StringTokenizer(message.getPayload(), ": ");
@@ -172,6 +185,11 @@ public class GroupBroadCastController extends TextWebSocketHandler {
 		String msg = st.nextToken(); // 메세지
 		System.out.println(msg);
 		receiverSession.sendMessage(new TextMessage(sender + " : " + msg));
+		*/
+		
+		
+		
+		
 		/*
 		if( !target.equals("all") ) {
 			sessionMap.get(target).getSession().sendMessage(
@@ -187,6 +205,8 @@ public class GroupBroadCastController extends TextWebSocketHandler {
 	
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+		
+		/*
 		System.out.println(session.getId() + "가 연결 종료됨");
 		// 나간 사람의 정보는 모두 지운다.
 		String sessionId = session.getId();
@@ -264,5 +284,6 @@ public class GroupBroadCastController extends TextWebSocketHandler {
 				
 			}
 		};
+		*/
 	}
 }

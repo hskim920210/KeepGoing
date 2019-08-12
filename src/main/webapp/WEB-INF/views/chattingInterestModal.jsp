@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<div class="modal fade" id="chattingModal" tabindex="-1" role="dialog"
+<div class="modal fade" id="chattingInterestModal" tabindex="-1" role="dialog"
 	aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog cascading-modal" role="document">
 		<!--Content-->
@@ -15,8 +15,8 @@
 				<ul class="nav nav-tabs md-tabs tabs-2 light-blue darken-3"
 					role="tablist">
 					<li class="nav-item"><a class="nav-link active"
-						data-toggle="tab" href="#panel6" role="tab"><i
-							class="fas fa-user mr-1"></i> 관리자와 QnA</a></li>
+						data-toggle="tab" href="#panel7" role="tab"><i
+							class="fas fa-user mr-1"></i> 그룹채팅</a></li>
 					<%--
 					<li class="nav-item"><a class="nav-link active"
 						data-toggle="tab" href="#panel7" role="tab"><i
@@ -30,7 +30,7 @@
 				<!-- Tab panels -->
 				<div class="tab-content">
 					<!--Panel 6-->
-					<div class="tab-pane fade in show active" id="panel6"
+					<div class="tab-pane fade in show active" id="panel7"
 						role="tabpanel">
 						<!--Body-->
 						<div class="modal-body">
@@ -39,7 +39,7 @@
 							</div>
 
 							<div class="text-center mt-2">
-								<textarea rows="20" cols="42" id="chatArea" name="chatArea" readonly="readonly" style="resize: none; overflow-x:hidden; overflow-y:auto;"><c:if test="${ empty login_member }">로그인이 필요합니다.</c:if>
+								<textarea rows="20" cols="42" id="chatArea_Group" name="chatArea_Group" readonly="readonly" style="resize: none; overflow-x:hidden; overflow-y:auto;"><c:if test="${ empty login_member }">로그인이 필요합니다.</c:if>
 								</textarea>
 							</div>
 
@@ -48,14 +48,14 @@
 						<div class="modal-footer">
 							<div class="options text-center text-md-right mt-1"
 								style="width: 90%;">
-								<input type="text" id="nickname" name="nickname" readonly="readonly" value="${ login_member.nickname }">님의 문의
-								<button type="button" id="connBtn" name="connBtn" style="visibility: visible;"
+								<input type="text" id="nicknameGroup" name="nicknameGroup" readonly="readonly" value="${ login_member.nickname }">님의 문의
+								<button type="button" id="connGroupBtn" name="connGroupBtn" style="visibility: visible;"
 								class="btn btn-outline-info waves-effect ml-auto">연결</button>
-								<button type="button" id="closeBtn" name="closeBtn" style="visibility: hidden;"
+								<button type="button" id="closeGroupBtn" name="closeGroupBtn" style="visibility: hidden;"
 								class="btn btn-outline-info waves-effect ml-auto">연결해제</button>
-								<textarea rows="4" cols="45" id="message" name="message" onkeyup="enterkey();" style="resize: none;"></textarea>
+								<textarea rows="4" cols="45" id="messageGroup" name="messageGroup" onkeyup="enterkeyGroup();" style="resize: none;"></textarea>
 							</div>
-							<button type="button" id="sendBtn" name="sendBtn" style="visibility: hidden;"
+							<button type="button" id="sendGroupBtn" name="sendGroupBtn" style="visibility: hidden;"
 								class="btn btn-outline-info waves-effect ml-auto">전송</button>
 						</div>
 					</div>
@@ -68,11 +68,11 @@
 </div>
 <script type="text/javascript" src="<%= request.getContextPath() %>/resources/js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript">
-	function enterkey() {
+	function enterkeyGroup() {
 	    if (window.event.keyCode == 13) {
 	         // 엔터키가 눌렸을 때 실행할 내용
-	         if( $("#sendBtn").css('visibility') == 'visible' ){
-		         sendMessage();
+	         if( $("#sendGroupBtn").css('visibility') == 'visible' ){
+		         sendGroupMessage();
 	         } else {
 	        	 return;
 	         }
@@ -80,102 +80,89 @@
 	}
 
 	// 웹 소켓 변수
-	var wsocket = null;
+	var wsocket_Group = null;
 	
 	// 메세지를 보내고자 하는 대상을 저장하고 있는 전역변수
-	var messageTarget = "admin";
-	if( '${ login_member.member_id }' == 'admin' ){
-		messageTarget = "client";
-	}
-	
-	var receiver = "admin";
-	if( '${login_member.member_id}' == 'admin' ){
-		receiver = "client";
-	}
-	
-	var sender = "${login_member.member_id}";
+	var sender_Group = "${login_member.member_id}";
 	
 	$(document).ready(function() {
-		$('#connBtn').click(function() { sockConnect(); });
-		$('#sendBtn').click(function() { sendMessage(); });
-		$('#closeBtn').click(function() { sockClose(); });
+		$('#connGroupBtn').click(function() { sockGroupConnect(); });
+		$('#sendGroupBtn').click(function() { sendGroupMessage(); });
+		$('#closeGroupBtn').click(function() { sockGroupClose(); });
 	});
 	
-	function sockConnect() {
-		var nickname = $("#nickname").val().trim();
-		if( wsocket != null )
+	function sockGroupConnect() {
+		var nickname_Group = $("#nicknameGroup").val().trim();
+		if( wsocket_Group != null ){
+			alert("웹소켓이 not null입니다. 이미 연결되었습니다.");
 			return;
-		if( nickname.length == 0 ) {
+		};
+		if( nickname_Group.length == 0 ) {
 			alert("로그인이 필요합니다.\n");	
 			return;
 		};
-		wsocket = 
+		wsocket_Group = 
 			new WebSocket("ws://localhost:8080/webapp/chat_group");
-		// wsocket.onopen = function() {wsocket.getConn();};
-		wsocket.onmessage = onMessage;
-		wsocket.onclose = onClose;
+		wsocket_Group.onmessage = onGroupMessage;
+		wsocket_Group.onclose = onGroupClose;
 
-		$("#connBtn").css('visibility', 'hidden');
-		$("#closeBtn").css('visibility', 'visible');
-		var message = $("#chatArea").html("서버와 연결되었습니다.\n");	
-		$("#chatArea").scrollTop($(document).height());
+		$("#sendGroupBtn").css('visibility', 'visible');
+		$("#connGroupBtn").css('visibility', 'hidden');
+		$("#closeGroupBtn").css('visibility', 'visible');
+		var message_Group = $("#chatArea_Group").html("서버와 연결되었습니다.\n");	
+		$("#chatArea_Group").scrollTop($(document).height());
 	}
 
 	
-	function sockClose() {
-		if( wsocket == null )
+	function sockGroupClose() {
+		if( wsocket_Group == null )
 			return;
-		$("#sendBtn").css('visibility', 'hidden');
-		$("#connBtn").css('visibility', 'visible');
-		$("#closeBtn").css('visibility', 'hidden');
-		wsocket.close();
-		wsocket = null;
-		var message = $("#chatArea").html("연결이 해제되었습니다.\n");	
-		$("#chatArea").scrollTop($(document).height());
+		$("#sendGroupBtn").css('visibility', 'hidden');
+		$("#connGroupBtn").css('visibility', 'visible');
+		$("#closeGroupBtn").css('visibility', 'hidden');
+		wsocket_Group.close();
+		wsocket_Group = null;
+		var message_Group = $("#chatArea_Group").html("연결이 해제되었습니다.\n");	
+		$("#chatArea_Group").scrollTop($(document).height());
 
 	}
 	
-	function sendMessage() {
-		if( wsocket == null ) {
+	function sendGroupMessage() {
+		if( wsocket_Group == null ) {
 			alert("웹 소켓이 연결되지 않았습니다.\n")
 			return;
 		}
-		/*//
-		var selected = $("input[name=client]").is(':checked');
-		if( selected ){
-			var receiver = $("input[name=client]").val();
-		}
-		//
-		*/
-		//var msg = "to:" + messageTarget + "@" + $("#message").val() + "\n";
-		var msg = sender + " : " + $("#message").val() + "\n";
-		var viewMsg = $("#chatArea").html();
-		wsocket.send(msg);
-		viewMsg += msg;
-		$("#chatArea").html(viewMsg);	
-		$("#chatArea").scrollTop($(document).height());
-		$("#message").val('');
+		
+		var msg_Group = sender_Group + " : " + $("#messageGroup").val() + "\n";
+		var viewMsg_Group = $("#chatArea_Group").html();
+		wsocket_Group.send(msg_Group);
+		viewMsg_Group += msg_Group;
+		$("#chatArea_Group").html(viewMsg_Group);	
+		$("#chatArea_Group").scrollTop($(document).height());
+		$("#messageGroup").val('');
 	}
 	
-	function onMessage(evt) {
-		var data = evt.data;
-		if(data == '대화시작'){
-			$("#sendBtn").css('visibility', 'visible');
+	function onGroupMessage(evt) {
+		var data_Group = evt.data;
+		/*
+		if(data_Group == '대화시작'){
+			$("#sendGroupBtn").css('visibility', 'visible');
 		}
-		if(data == '대화종료'){
-			$("#sendBtn").css('visibility', 'hidden');
+		if(data_Group == '대화종료'){
+			$("#sendGroupBtn").css('visibility', 'hidden');
 		}
-		var message = $("#chatArea").html()
-		message += data + "\n";
-		$("#chatArea").html(message);	
-		$("#chatArea").scrollTop($(document).height());
+		*/
+		var message_Group = $("#chatArea_Group").html()
+		message_Group += data_Group + "\n";
+		$("#chatArea_Group").html(message_Group);	
+		$("#chatArea_Group").scrollTop($(document).height());
 
 	}
 		
-	function onClose(evt) {
-		var message = $("#chatArea").html()
-		message += "--연결종료--" + "\n";
-		$("#chatArea").html(message);	
-		$("#chatArea").scrollTop($(document).height());
+	function onGroupClose(evt) {
+		var message_Group = $("#chatArea_Group").html()
+		message_Group += "--연결종료--" + "\n";
+		$("#chatArea_Group").html(message_Group);	
+		$("#chatArea_Group").scrollTop($(document).height());
 	}
 </script>
