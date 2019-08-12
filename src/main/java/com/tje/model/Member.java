@@ -150,11 +150,11 @@ public class Member {
 	}
 	
 	public String getMember_typeString() {
-		if(auth==0) 
+		if(member_type==0) 
 			return "일반";
-		else if(auth==1)
+		else if(member_type==1)
 			return "네이버";
-		else if(auth==2)
+		else if(member_type==2)
 			return "구글";
 		else
 			return "카카오";

@@ -14,7 +14,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tje.model.Member;
+import com.tje.model.Member_Auth;
 import com.tje.service.member.AllMemberService;
+import com.tje.service.mypage.AllMemberAuthService;
+import com.tje.service.mypage.MembersAuthDeleteService;
+import com.tje.service.mypage.MembersAuthUpdateAndDeleteService;
 import com.tje.service.mypage.MembersDeleteService;
 
 @Controller
@@ -24,6 +28,12 @@ public class MyPageController {
 	private AllMemberService amService;
 	@Autowired
 	private MembersDeleteService mdsService;
+	@Autowired
+	private MembersAuthUpdateAndDeleteService mauadService;
+	@Autowired
+	private AllMemberAuthService amaService;
+	@Autowired
+	private MembersAuthDeleteService madService;
 	
 	@RequestMapping(value = "/notAdminLogin")
 	public ModelAndView notAdminLogin() {
@@ -73,8 +83,50 @@ public class MyPageController {
 	}
 	
 	@GetMapping(value = "/mypage/permission_setting")
-	public String permission_setting() {
+	public String permission_setting(Model model) {
+		
+		model.addAttribute("member_auth", amaService.service());
 		
 		return "/permission_setting";
+	}
+	
+	@PostMapping(value = "/mypage/members_auth_update", produces = "application/text;charset=utf-8")
+	@ResponseBody
+	public String members_auth_update(
+			@RequestBody List<Member_Auth> list) {
+		
+		List<Member> memberList=new ArrayList<Member>();
+		
+		for (Member_Auth model : list) {
+			Member member=new Member();
+			member.setNickname(model.getNickname());
+			member.setAuth(model.getReq_auth());
+			
+			memberList.add(member);
+		}
+		
+		try {
+			mauadService.service(memberList, list);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "fail";
+		}
+		
+		return "success";
+	}
+	
+	@PostMapping(value = "/mypage/members_auth_delete", produces = "application/text;charset=utf-8")
+	@ResponseBody
+	public String members_auth_delete(
+			@RequestBody List<Member_Auth> list) {
+		
+		try {
+			madService.service(list);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "fail";
+		}
+		
+		return "success";
 	}
 }

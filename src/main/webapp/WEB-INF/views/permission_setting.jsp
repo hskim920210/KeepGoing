@@ -63,6 +63,7 @@
 										<td style="vertical-align: middle;">${ result.name }</td>
 										<td style="vertical-align: middle;">${ result.nickname }</td>
 										<td style="vertical-align: middle;">${ result.getCur_authString() }</td>
+										<td style="display: none;"><input type="hidden" name="req_auth" value="${ result.req_auth }"></td>
 										<td style="vertical-align: middle;">${ result.getReq_authString() }</td>
 										<td style="vertical-align: middle;">${ result.getMember_typeString() }</td>
 									</tr>
@@ -70,11 +71,132 @@
 							</tr>
 						</tbody>						
 					</table>
+					
+					<button class="btn btn-primary" type="button" id="checked_member_auth_update">선택 회원 권한 변경</button>
+					<button class="btn btn-primary" type="button" id="checked_member_auth_delete">선택 회원 삭제</button>
 				</div>
 			</div>
 		</div>
 	</div>
 
 	<jsp:include page="javascriptInclude.jsp" flush="false"></jsp:include>
+	
+	<!-- 전체선택 -->
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$("#all_check").on("click", function() {
+				
+				if( $("#all_check").prop("checked") ){
+					$("input[name=checkbox]").prop("checked", true);
+				}
+				else{
+					$("input[name=checkbox]").prop("checked", false);
+				}
+			})
+		});
+	</script>
+	
+	<!-- 선택 회원 권한 변경 -->
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$("#checked_member_auth_update").on("click", function() {
+				var checkbox=$("input[name=checkbox]:checked");
+				
+				if(checkbox.length == 0){
+					alert("선택된 회원이 없습니다.");
+					return;
+				}
+				
+				var jsonArray=new Array();
+				var json;
+				
+				checkbox.each(function(index){
+					var tr=checkbox.parent().parent().eq(index);
+					var td=tr.children();
+					
+					var nickname=td.eq(0).children().val();
+					var req_auth=td.eq(6).children().val();
+					
+					json={"nickname":nickname, "req_auth":req_auth};
+					
+					jsonArray.push(json);
+				})
+				
+				$.ajax({
+					type : "POST",
+					url : "<%=request.getContextPath()%>/mypage/members_auth_update",
+					dataType : "text",
+					contentType : "application/json; charset=utf-8",
+					data : JSON.stringify(jsonArray),
+					success : function(data) {
+						
+						if(data=="success"){
+							alert(data);
+							
+							location.reload();
+							return;
+						}
+						
+						alert(data);
+						
+					},
+					error : function() {
+						alert("error");
+					}
+				});
+			})
+		})
+	</script>
+	
+	<!-- 선택 회원 삭제 -->
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$("#checked_member_auth_delete").on("click", function() {
+				var checkbox=$("input[name=checkbox]:checked");
+				
+				if(checkbox.length == 0){
+					alert("선택된 회원이 없습니다.");
+					return;
+				}
+				
+				var jsonArray=new Array();
+				var json;
+				
+				checkbox.each(function(index){
+					var tr=checkbox.parent().parent().eq(index);
+					var td=tr.children();
+					
+					var nickname=td.eq(0).children().val();
+					
+					json={"nickname":nickname};
+					
+					jsonArray.push(json);
+				})
+				
+				$.ajax({
+					type : "POST",
+					url : "<%=request.getContextPath()%>/mypage/members_auth_delete",
+					dataType : "text",
+					contentType : "application/json; charset=utf-8",
+					data : JSON.stringify(jsonArray),
+					success : function(data) {
+						
+						if(data=="success"){
+							alert(data);
+							
+							location.reload();
+							return;
+						}
+						
+						alert(data);
+						
+					},
+					error : function() {
+						alert("error");
+					}
+				});
+			})
+		})
+	</script>
 </body>
 </html>

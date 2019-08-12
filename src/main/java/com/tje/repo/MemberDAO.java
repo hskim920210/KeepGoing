@@ -104,4 +104,22 @@ public class MemberDAO {
 					}
 			});
 	}
+	
+	public int[] batchUpdate(List<Member> members) {
+		return jdbcTemplate.batchUpdate("update member set auth=? where nickname=?",
+				new BatchPreparedStatementSetter() {
+					
+					@Override
+					public void setValues(PreparedStatement ps, int i) throws SQLException {
+						// TODO Auto-generated method stub
+						ps.setInt(1, members.get(i).getAuth());
+						ps.setString(2, members.get(i).getNickname());
+					}
+					
+					@Override
+					public int getBatchSize() {
+						return members.size();
+					}
+			});
+	}
 }
