@@ -129,4 +129,12 @@ public class MyPageController {
 		
 		return "success";
 	}
+	
+	@GetMapping(value = "/mypage/board_management")
+	public String board_management(Model model) {
+		
+		model.addAttribute("member_auth", amaService.service());
+		
+		return "/board_management";
+	}
 }

@@ -13,7 +13,7 @@
 				href="<%=request.getContextPath()%>/mypage/member_management">회원
 				관리</a>
 				<a class="dropdown-item" href="<%=request.getContextPath()%>/mypage/permission_setting">권한 설정</a>
-				<a class="dropdown-item" href="#">게시물 관리</a>
+				<a class="dropdown-item" href="<%=request.getContextPath()%>/mypage/board_management">게시물 관리</a>
 		</div>
 	</div>
 </div>
