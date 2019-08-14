@@ -1,4 +1,4 @@
-package com.tje.service.faq;
+package com.tje.service.faqQna;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

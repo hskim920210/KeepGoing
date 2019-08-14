@@ -92,4 +92,5 @@ public class CommentDAO {
 		
 		return keyHolder.getKey().intValue();
 	}
+
 }

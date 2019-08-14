@@ -47,7 +47,7 @@
 			<c:forEach items="${ board_noticeheadList }" var="head">
 				<tr class="table-active" style="text-align: center;">
 					<th>중요공지</th>
-					<td><b><a href="<%= request.getContextPath() %>/notice/${ head.board_id }">${ head.title }</a></b></td>
+					<td><b><a href="<%= request.getContextPath() %>/notice/read/${ head.board_id }">${ head.title }</a></b></td>
 					<td>${ head.write_date }</td>
 				</tr>
 			</c:forEach>
@@ -58,7 +58,7 @@
 			<c:forEach items="${ board_noticeList }" var="notice">
 				<tr style="text-align: center;">
 					<td>${ notice.board_id }</td>
-					<td style="text-align: left;"><a href="<%= request.getContextPath() %>/notice/${ notice.board_id }">${ notice.title }</a></td>
+					<td style="text-align: left;"><a href="<%= request.getContextPath() %>/notice/read/${ notice.board_id }">${ notice.title }</a></td>
 					<td>${ notice.write_date }</td>
 				</tr>
 			</c:forEach>
@@ -69,6 +69,36 @@
       	</c:if>
 		</div>
 	</div>
+	
+	
+<!-- 페이지  -->
+	<div class="container text-center pb-5">
+		<div class="row">
+			<div class="col-12">
+
+				<p class="custom-pagination">
+					<c:if test="${pageMaker.prev == true }">
+						<a
+							href="<%=request.getContextPath()%>/notice/${pageMaker.startPage-1}">&laquo;</a>
+					</c:if>
+					<c:forEach var="pageNo" begin="${ pageMaker.startPage }"
+						end="${ pageMaker.endPage }">
+						<c:if test="${curPageNo == pageNo}" var="r">
+							<span>${curPageNo}</span>
+						</c:if>
+						<c:if test="${ not r }">
+							<a href="<%=request.getContextPath()%>/notice/${pageNo}">${ pageNo }</a>
+						</c:if>
+					</c:forEach>
+					<c:if test="${pageMaker.next == true and pageMaker.endPage > 0}">
+						<a
+							href="<%=request.getContextPath()%>/notice/${pageMaker.endPage+1}">&raquo;</a>
+					</c:if>
+				</p>
+			</div>
+		</div>
+	</div>
+<!-- /페이지  -->
 	
 	<jsp:include page="javascriptInclude.jsp" flush="false"></jsp:include>
 	

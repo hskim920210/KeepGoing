@@ -70,10 +70,12 @@
 			<mapping path="/item_update/*"/>
 			<mapping path="/item_delete/*"/>
 			<mapping path="/faq/write"/>
+			<mapping path="/qna/write"/>
+			<mapping path="/notice/write"/>
 			<mapping path="/review/write"/>
 			<mapping path="/add_free"/>
 			<mapping path="/free_update/*"/>
-			<mapping path="/free_delete/*"/>			
+			<mapping path="/free_delete/*"/>
 			<beans:ref bean="AuthInterceptor"/>
 		</interceptor>
 	</interceptors>
