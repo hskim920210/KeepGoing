@@ -5,6 +5,7 @@
 <div class="site-wrap" style="z-index: 3;">
 <jsp:include page="chattingModal.jsp" flush="false"></jsp:include>
 <jsp:include page="chattingInterestModal.jsp" flush="false"></jsp:include>
+<jsp:include page="chattingGroupSelectModal.jsp" flush="false"></jsp:include>
     <div class="site-mobile-menu">
       <div class="site-mobile-menu-header">
         <div class="site-mobile-menu-close mt-3">
@@ -28,7 +29,7 @@
             <nav class="site-navigation position-relative text-right" role="navigation">
 
               <ul class="site-menu js-clone-nav mx-auto d-none d-lg-block">
-				<li><a href="" data-toggle="modal" data-target="#chattingInterestModal">관심사 그룹채팅</a></li>
+				<li><a href="" data-toggle="modal" data-target="#chattingGroupSelectModal">관심사 채팅 입장하기</a></li>
 				<li><a href="" data-toggle="modal" data-target="#chattingModal">관리자와 채팅</a></li>
                 <li><a href="<%= request.getContextPath() %>/review/1">리뷰</a></li>
                 <li><a href="<%= request.getContextPath() %>/free/1">자유 게시판</a></li>
