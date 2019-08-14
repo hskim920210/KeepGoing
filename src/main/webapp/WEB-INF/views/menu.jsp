@@ -19,7 +19,7 @@
         <div class="row align-items-center">
           
           <div class="col-11 col-xl-2">
-            <h1 class="mb-0"><a href="<%= request.getContextPath() %>/home" class="text-white h2 mb-0">KeepGoing
+            <h1 class="mb-0"><a href="<%= request.getContextPath() %>/home" class="text-white h2 mb-0">TheGlasses
             
             </a></h1>
           </div>

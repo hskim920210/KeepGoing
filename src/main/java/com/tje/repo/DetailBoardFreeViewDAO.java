@@ -50,7 +50,7 @@ private JdbcTemplate jdbcTemplate;
 	
 ///////////////////////////////////////////////////////////////////////////////////////////////
 public List<DetailBoardFree_View> selectOrderByLikeCount() throws Exception{
-String sql = "select * from detailboardfreeview where like_cnt =0 order by like_cnt desc limit 5";
+String sql = "select * from detailboardfreeview where like_cnt >=1 order by like_cnt desc limit 10";
 return this.jdbcTemplate.query(sql, new DetailBoardFreeViewRowMapper());
 }
 	

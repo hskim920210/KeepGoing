@@ -10,6 +10,18 @@
 
 <jsp:include page="cssInclude.jsp" flush="false"></jsp:include>
 
+<style type="text/css">
+.px-6 .target p { /* 한 줄 자르기 */
+ /*display: inline-block;*/
+ width: 200px; 
+ /*white-space: nowrap;*/
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+  /* 여러 줄 자르기 추가 스타일 */ 
+  white-space: normal; 
+  line-height: 1.2; 
+  height: 2.4em; }
+</style>
 
 
 </head>
@@ -28,7 +40,7 @@
 
 				<div class="col-md-8" data-aos="fade-up" data-aos-delay="400">
 					<h1 
-						class="text-white font-weight-light text-uppercase font-weight-bold">KeepGoing</h1>
+						class="text-white font-weight-light text-uppercase font-weight-bold">KEEPGOING</h1>
 				</div>
 			</div>
 		</div>
@@ -64,7 +76,7 @@
             <img src="<%=request.getContextPath() %>/resources/images/${review_article.image}" alt="Image" class="img-fluid">
             <div class="unit-1-text">
               <h1 class="unit-1-heading">${ review_article.title }</h1>
-              <p class="px-6">${review_article.content }</p>
+              <p class="px-6 target p">${review_article.abstractContent }</p>
             </div>
           </a>
         </div>
@@ -83,13 +95,14 @@
               <div class="unit-4-icon mr-4"><span class="text-primary flaticon-travel"></span></div>
              -->
               <div>
-                <c:forEach items="${ reviewList }" var="review_article">
-              <a href="<%= request.getContextPath() %>/review/detail/${review_article.category}_${review_article.board_id}">${ review_article.title }</a>
-              <h3></h3>
-              <p></p>
-              <p><a href="#"></a></p>
-             
-              
+              <c:forEach items="${ reviewList }" var="review_article">
+	              <a href="<%= request.getContextPath() %>/review/detail/${review_article.category}_${review_article.board_id}">${ review_article.title }</a>
+	              <h3 class="px-5" style="overflow: hidden; width: 400px; text-overflow: ellipsis; white-space: normal;line-height: 1.2; height: 1.2em;">
+	 				<a href="<%=request.getContextPath() %>/review/detail/${review_article.category}_${review_article.board_id}">${ review_article.content }</a></h3>
+	              <p></p>
+	              <p><a href="<%=request.getContextPath() %>/review/detail/${review_article.category}_${review_article.board_id}">더보기</a></p>
+	             
+	              
               </c:forEach>
 
               </div>
@@ -103,10 +116,10 @@
                <div> 
                 <c:forEach items="${ freeList }" var="free_article">
               
-              <h3>${ free_article.title }</h3>
-              <p>${ free_article.content }</p>
-              <p><a href="<%=request.getContextPath() %>/free_view/${ free_article.board_id }">더 보기</a></p>
               
+              <a href="<%=request.getContextPath() %>/free_view/${ free_article.board_id }">${ free_article.title }</a>
+              <h3><a href="<%=request.getContextPath() %>/free_view/${ free_article.board_id }">${ free_article.content }</a></h3>
+              <p></p>
              
               
               </c:forEach>
@@ -122,9 +135,9 @@
                 <c:forEach items="${ itemList }" var="item_article">
               
 				<a href="<%= request.getContextPath() %>/item_view/${item_article.board_id}">${item_article.title}</a>
-              <h3></h3>
-              <p></p>
-              <p><a href="#"></a></p>
+              <h3>${item_article.title }</h3>
+              <p class="px-5" style="overflow: hidden; width: 200px; text-overflow: ellipsis; white-space: normal;${item_article.content }</p>
+              <p><a href="#"></a>${item_article.nickname }</p>
               </c:forEach>
               </div>
             </div>
@@ -139,35 +152,16 @@
 	<div class="site-section">
       <div class="container">
         <div class="row">
-                <c:forEach items="${ itemList }" var="item_article">
-          <div class="col-md-6 col-lg-4 mb-4 mb-lg-4">
-           
-              
-            <div class="h-entry">
-              <img src="/webapp/resources/images/equipment1.jpg" alt="Image" class="img-fluid">
-             <a href="<%= request.getContextPath() %>/item_view/${item_article.board_id}">${item_article.title}</a>
-              <div class="meta mb-4">박지성 <span class="mx-2">•</span> Jan 18, 2019<span class="mx-2">•</span> </div>
-              <p>최고의 상품입니다. 배송도 빠르고요. 처음 구매할 땐 많이 망설였는데 막상 구입해 보니  너무 좋아서 재구입하게 됐습니다. 가성비 좋구요. 여러면에서 마음에 쏙 들어요.</p>
-            </div> 
-            </div>
-            </c:forEach>
-          
+         <c:forEach items="${ itemList }" var="item_article">
           <div class="col-md-6 col-lg-4 mb-4 mb-lg-4">
             <div class="h-entry">
-              <img src="/webapp/resources/images/equipment2.jpg" alt="Image" class="img-fluid">
-              <h2 class="font-size-regular"><a href="#">닭가슴살 허브 1KG</a></h2>
-              <div class="meta mb-4">김연아 <span class="mx-2">•</span> Jan 18, 2019<span class="mx-2">•</span> </div>
-              <p>최고의 상품입니다. 배송도 빠르고요. 처음 구매할 땐 많이 망설였는데 막상 구입해 보니  너무 좋아서 재구입하게 됐습니다. 가성비 좋구요. 여러면에서 마음에 쏙 들어요. </p>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-4 mb-4 mb-lg-4">
-            <div class="h-entry">
-              <img src="/webapp/resources/images/equipment3.jpg" alt="Image" class="img-fluid">
-              <h2 class="font-size-regular"><a href="#">휴대용 홈 피트니스 용품 세트 </a></h2>
-              <div class="meta mb-4">최태용 <span class="mx-2">•</span> Jan 18, 2019<span class="mx-2">•</span> </div>
-              <p>최고의 상품입니다. 배송도 빠르고요. 처음 구매할 땐 많이 망설였는데 막상 구입해 보니  너무 좋아서 재구입하게 됐습니다. 가성비 좋구요. 여러면에서 마음에 쏙 들어요.</p>
+              <img src="<%= request.getContextPath() %>/resources/images/${ item_article.image }" alt="Image" class="img-fluid">
+              <h2 class="font-size-regular"><a href="<%= request.getContextPath() %>/item_view/${item_article.board_id}"">${ item_article.title } </a></h2>
+              <div class="meta mb-4">${item_article.nickname }<span class="mx-2">•</span>${item_article.write_date }<span class="mx-2">•</span> </div>
+              <p>${item_article.content }</p>
             </div> 
           </div>
+          </c:forEach>
         </div>
       </div>
     </div>
@@ -263,9 +257,18 @@
 	
 	<jsp:include page="javascriptInclude.jsp" flush="false"></jsp:include>
 	<script type="text/javascript">
-		window.onload = function(){ 
-			window.open("<%= request.getContextPath() %>/homePopup", "pop", "width=400,height=500,history=no,resizable=no,status=no,scrollbars=yes,menubar=no");	
+	<%--
+	window.onload = function(){ 
+			window.open("<%= request.getContextPath() %>/homePopup", "pop", "width=400,height=500,history=no,resizable=no,status=no,scrollbars=yes,menubar=no");
+			
 		}
+		$('document').ready(function () {
+			$(".target p").css({"width" : "200px", "over-flow" : "hidden", "text-overflow" : "ellipsis",
+				"white-space" : "normal", "line-height" : "1.2"});
+		});
+	--%>
 	</script>
+	
+	
 </body>
 </html>
