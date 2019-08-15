@@ -340,4 +340,11 @@ private JdbcTemplate jdbcTemplate;
 				new SimpleBoardReviewViewRowMapper(), 
 				model.getBoard_id());
 	}
+	
+	public List<SimpleBoardReviewView> selectAll() {
+		String sql = "select * from SimpleBoardReviewView";
+		List<SimpleBoardReviewView> results=this.jdbcTemplate.query(sql,
+				new SimpleBoardReviewViewRowMapper());
+		return results.isEmpty() ? null : results;
+	}
 }

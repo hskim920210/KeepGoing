@@ -1,11 +1,13 @@
 package com.tje.repo;
 
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -41,6 +43,14 @@ private JdbcTemplate jdbcTemplate;
 		return this.jdbcTemplate.queryForObject(sql, 
 				new Board_noticeRowMapper(), 
 				model.getBoard_id());
+	}
+	
+	public List<Board_Notice> selectAll() {
+		String sql = "select * from board_notice";
+		List<Board_Notice> results=this.jdbcTemplate.query(sql,
+				new Board_noticeRowMapper());
+		return results.isEmpty() ? null : results;		
+		
 	}
 	
 	public List<Board_Notice> selectAllOrdByDateDesc() {
@@ -101,5 +111,20 @@ private JdbcTemplate jdbcTemplate;
 		}
 	}
 	
-	
+	public int[] batchDelete(List<BoardsJosnModel> model) {
+		return jdbcTemplate.batchUpdate("delete from board_notice where board_id=?",
+				new BatchPreparedStatementSetter() {
+					
+					@Override
+					public void setValues(PreparedStatement ps, int i) throws SQLException {
+						// TODO Auto-generated method stub
+						ps.setInt(1, model.get(i).getBoard_id());
+					}
+					
+					@Override
+					public int getBatchSize() {
+						return model.size();
+					}
+			});
+	}
 }

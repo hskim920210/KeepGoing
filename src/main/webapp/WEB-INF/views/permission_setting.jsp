@@ -124,7 +124,7 @@
 				
 				$.ajax({
 					type : "POST",
-					url : "<%=request.getContextPath()%>/mypage/members_auth_update",
+					url : "<%=request.getContextPath()%>/mypage/admin/members_auth_update",
 					dataType : "text",
 					contentType : "application/json; charset=utf-8",
 					data : JSON.stringify(jsonArray),
@@ -175,7 +175,7 @@
 				
 				$.ajax({
 					type : "POST",
-					url : "<%=request.getContextPath()%>/mypage/members_auth_delete",
+					url : "<%=request.getContextPath()%>/mypage/admin/members_auth_delete",
 					dataType : "text",
 					contentType : "application/json; charset=utf-8",
 					data : JSON.stringify(jsonArray),

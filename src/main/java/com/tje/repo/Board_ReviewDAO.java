@@ -4,10 +4,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
@@ -84,5 +86,22 @@ public class Board_ReviewDAO {
 			}
 		}, keyHolder);
 		return keyHolder.getKey().intValue();
+	}
+	
+	public int[] batchDelete(List<BoardsJosnModel> model) {
+		return jdbcTemplate.batchUpdate("delete from Board_Review where board_id=?",
+				new BatchPreparedStatementSetter() {
+					
+					@Override
+					public void setValues(PreparedStatement ps, int i) throws SQLException {
+						// TODO Auto-generated method stub
+						ps.setInt(1, model.get(i).getBoard_id());
+					}
+					
+					@Override
+					public int getBatchSize() {
+						return model.size();
+					}
+			});
 	}
 }

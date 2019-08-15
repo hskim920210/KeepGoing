@@ -3,5 +3,5 @@
 
 <script type="text/javascript">
 	window.alert("${msg}");
-	history.back();
+	location.href="<%=request.getContextPath()%>/home";
 </script>

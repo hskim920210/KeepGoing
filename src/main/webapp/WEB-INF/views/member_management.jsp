@@ -118,7 +118,7 @@
 				
 				$.ajax({
 					type : "POST",
-					url : "<%=request.getContextPath()%>/mypage/members_delete",
+					url : "<%=request.getContextPath()%>/mypage/admin/members_delete",
 					dataType : "text",
 					contentType : "application/json; charset=utf-8",
 					data : JSON.stringify(jsonArray),

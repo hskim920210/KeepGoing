@@ -10,10 +10,10 @@
 			data-toggle="dropdown">관리자</button>
 		<div class="dropdown-menu">
 			<a class="dropdown-item"
-				href="<%=request.getContextPath()%>/mypage/member_management">회원
+				href="<%=request.getContextPath()%>/mypage/admin/member_management">회원
 				관리</a>
-				<a class="dropdown-item" href="<%=request.getContextPath()%>/mypage/permission_setting">권한 설정</a>
-				<a class="dropdown-item" href="<%=request.getContextPath()%>/mypage/board_management">게시물 관리</a>
+				<a class="dropdown-item" href="<%=request.getContextPath()%>/mypage/admin/permission_setting">권한 설정</a>
+				<a class="dropdown-item" href="<%=request.getContextPath()%>/mypage/admin/board_management">게시물 관리</a>
 		</div>
 	</div>
 </div>
@@ -21,7 +21,7 @@
 
 
 <c:if test="${ not r }">
-<div class="btn-group-vertical col-md-2">
+<div class="btn-group-vertical col-md-2 " style="justify-content: unset;">
 	<div class="btn-group">
 		<button type="button" class="btn btn-primary dropdown-toggle"
 			data-toggle="dropdown">회원 정보</button>
