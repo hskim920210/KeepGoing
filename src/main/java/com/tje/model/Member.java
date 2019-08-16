@@ -1,5 +1,8 @@
 package com.tje.model;
 
+import java.util.ArrayList;
+import java.util.StringTokenizer;
+
 public class Member {
 	private String member_id;
 	private String password;
@@ -102,6 +105,17 @@ public class Member {
 
 	public String getInterest() {
 		return interest;
+	}
+	
+	public ArrayList<String> getInterestList() {
+		ArrayList<String> list=new ArrayList<String>();
+		StringTokenizer st=new StringTokenizer(interest, ",");
+
+		while (st.hasMoreTokens()) {
+			String str = st.nextToken();
+			list.add(str);
+		}
+		return list;
 	}
 
 	public void setInterest(String interest) {

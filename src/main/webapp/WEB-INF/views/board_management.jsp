@@ -65,7 +65,14 @@
 									<th>작성일</th>
 								</c:if>
 								
-								<c:if test="${ param.tab==4 or param.tab==5 or param.tab==6 }">
+								<c:if test="${ param.tab==4 }">
+									<th><input type="checkbox" id="all_check"></th>
+									<th>번호</th>
+									<th>제목</th>
+									<th>작성일</th>
+								</c:if>
+								
+								<c:if test="${ param.tab==5 or param.tab==6 }">
 									<th><input type="checkbox" id="all_check"></th>
 									<th>번호</th>
 									<th>제목</th>
@@ -83,7 +90,7 @@
 											<td style="display: none;"><input type="hidden" name="topic" value="1"></td>
 											<td style="vertical-align: middle;">${ result.board_id }</td>
 											<td style="vertical-align: middle;"><a href="<%=request.getContextPath()%>/review/detail/${ result.category }_${ result.board_id }">${ result.title }</a></td>
-											<td style="vertical-align: middle;">${ result.getCategoryString() }</td>
+											<td style="vertical-align: middle;">${ result.category }</td>
 											<td style="vertical-align: middle;">${ result.member_id }</td>
 											<td style="vertical-align: middle;">${ result.view_cnt }</td>
 											<td style="vertical-align: middle;">${ result.comment_cnt }</td>
@@ -134,7 +141,6 @@
 											<td style="display: none;"><input type="hidden" name="topic" value="4"></td>
 											<td style="vertical-align: middle;">${ result.board_id }</td>
 											<td style="vertical-align: middle;"><a href="<%=request.getContextPath()%>/notice/${ result.board_id }">${ result.title }</a></td>
-											<td style="vertical-align: middle;">${ result.member_id }</td>
 											<td style="vertical-align: middle;">${ result.write_date }</td>
 										</tr>
 									</c:forEach>

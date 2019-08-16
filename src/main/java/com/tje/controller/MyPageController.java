@@ -166,4 +166,19 @@ public class MyPageController {
 		
 		return "success";
 	}
+	
+	@GetMapping(value = "/mypage/member_update")
+	public String member_update() {
+		
+		return "/member_update";
+	}
+	
+	@PostMapping(value = "/mypage/member_update", produces = "application/text;charset=utf-8")
+	@ResponseBody
+	public String member_update(Member member) {
+		
+		System.out.println(member.getMember_id());
+		
+		return "success";
+	}
 }

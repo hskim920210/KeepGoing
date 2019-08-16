@@ -26,7 +26,7 @@
 		<button type="button" class="btn btn-primary dropdown-toggle"
 			data-toggle="dropdown">회원 정보</button>
 		<div class="dropdown-menu">
-			<a class="dropdown-item" href="#">회원정보 변경</a> <a
+			<a class="dropdown-item" href="<%=request.getContextPath()%>/mypage/member_update">회원정보 변경</a> <a
 				class="dropdown-item" href="#">최근 활동</a> <a class="dropdown-item"
 				href="#">구매 목록</a>
 		</div>
