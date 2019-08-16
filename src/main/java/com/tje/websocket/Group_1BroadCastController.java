@@ -8,7 +8,7 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
-public class GroupBroadCastController extends TextWebSocketHandler {
+public class Group_1BroadCastController extends TextWebSocketHandler {
 	
 	class WebSocketClientInfo {
 		private WebSocketSession session;
@@ -74,7 +74,7 @@ public class GroupBroadCastController extends TextWebSocketHandler {
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		
-		System.out.println("Group");
+		System.out.println("Group_1");
 		boolean noChatMember = true;
 		//
 		Map<String, Object> map = session.getAttributes();
@@ -90,7 +90,7 @@ public class GroupBroadCastController extends TextWebSocketHandler {
 		
 		chatMember.setConn(true);
 		sessionMap.put(chatMember.getSessionId(), chatMemberMap.get(chatMember));
-		chatMemberMap.get(chatMember).getSession().sendMessage(new TextMessage("원하는 관심사의 번호를 '/'와 함께 입력후 전송해주세요.\n/1 : 운동\n/2 : 식이요법\n/3 : 요가\n/4 : blah\n/5 : blah\n/6 : blah"));
+		chatMemberMap.get(chatMember).getSession().sendMessage(new TextMessage("대화시작"));
 		
 		
 			noChatMember = false;

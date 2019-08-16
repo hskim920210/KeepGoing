@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<div class="modal fade" id="chattingInterestModal" tabindex="-1" role="dialog"
+<div class="modal fade" id="chattingGroupModal_1" tabindex="-1" role="dialog"
 	aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog cascading-modal" role="document">
 		<!--Content-->
@@ -16,7 +16,7 @@
 					role="tablist">
 					<li class="nav-item"><a class="nav-link active"
 						data-toggle="tab" href="#panel7" role="tab"><i
-							class="fas fa-user mr-1"></i> 그룹채팅</a></li>
+							class="fas fa-user mr-1"></i>관심사 1 그룹채팅</a></li>
 					<%--
 					<li class="nav-item"><a class="nav-link active"
 						data-toggle="tab" href="#panel7" role="tab"><i
@@ -104,7 +104,7 @@
 			return;
 		};
 		wsocket_Group = 
-			new WebSocket("ws://localhost:8080/webapp/chat_group");
+			new WebSocket("ws://localhost:8080/webapp/chat_group_1");
 		wsocket_Group.onmessage = onGroupMessage;
 		wsocket_Group.onclose = onGroupClose;
 

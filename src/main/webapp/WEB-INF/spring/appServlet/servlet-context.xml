@@ -34,9 +34,9 @@
 			<beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor" />
 		</websocket:handshake-interceptors>
 	</websocket:handlers>
-	<beans:bean id="groupBroadCastController" class="com.tje.websocket.GroupBroadCastController" />
+	<beans:bean id="group_1BroadCastController" class="com.tje.websocket.Group_1BroadCastController" />
 	<websocket:handlers>
-		<websocket:mapping handler="groupBroadCastController" path="/chat_group"/>
+		<websocket:mapping handler="group_1BroadCastController" path="/chat_group_1"/>
 		<!-- 아래는 웹소켓 세션에서 HttpSession을 사용하기 위한것 --> 
 		<websocket:handshake-interceptors>
 			<beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor" />

@@ -51,9 +51,7 @@
 									<option value="5">관심사 5</option>
 									<option value="6">관심사 6</option>
 								</select>
-								<button type="button" id="goGroup" name="goGroup" style="visibility: visible;"
-								class="btn btn-outline-info waves-effect ml-auto" onclick="enterGroup();"></button>
-								<a href="" id="enterGroupModal" data-toggle="modal" data-target="" style="visibility: visible;"
+								<a href="" id="enterGroupModal" data-toggle="modal" onclick="enterGroup();" data-target="#chattingGroupModal_1" style="visibility: visible;"
 								class="btn btn-outline-info waves-effect ml-auto">입장하기</a>
 							</div>
 
@@ -78,7 +76,10 @@
 <script type="text/javascript">
 var selected = null;
 	function enterGroup() {
-		selected = $("#selectedGroup").val();
+		$(".modal-backdrop fade show").remove();
+		$("#chattingGroupSelectModal").removeClass('modal fade show').addClass('modal fade');
+		$("#chattingGroupSelectModal").removeClass().removeAttr('style');
+		$("#chattingGroupSelectModal").css('display', 'none');
 	}
 	
 	function selectGroup() {
