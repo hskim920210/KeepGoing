@@ -8,7 +8,7 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
-public class Group_1BroadCastController extends TextWebSocketHandler {
+public class Group_6BroadCastController extends TextWebSocketHandler {
 	
 	class WebSocketClientInfo {
 		private WebSocketSession session;
@@ -105,7 +105,7 @@ public class Group_1BroadCastController extends TextWebSocketHandler {
 		String sender = sessionMap.get(session.getId()).getChatMember().getNickname();
 		String msg = message.getPayload();
 		System.out.println(msg);
-		if( msg.equals("/몇명\n")) {
+		if( msg.equals("/몇명")) {
 			System.out.println("if문 진입");
 			session.sendMessage(new TextMessage(String.format("<p align='center' style='color: silver;'>현재 참여자 수 : %d</p>", membersMap.size())));
 			return;

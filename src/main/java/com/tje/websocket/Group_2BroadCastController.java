@@ -8,7 +8,7 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
-public class Group_1BroadCastController extends TextWebSocketHandler {
+public class Group_2BroadCastController extends TextWebSocketHandler {
 	
 	class WebSocketClientInfo {
 		private WebSocketSession session;

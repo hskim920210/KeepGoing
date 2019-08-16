@@ -38,9 +38,11 @@
 								<i class="fas fa-envelope prefix"></i>
 							</div>
 
-							<div class="text-center mt-2">
+							<div class="text-center mt-2"  style="overflow: auto; height: 500px; border: 1px solid; padding: 20px;" id="chatArea" >
+							<!-- 
 								<textarea rows="20" cols="42" id="chatArea" name="chatArea" readonly="readonly" style="resize: none; overflow-x:hidden; overflow-y:auto;"><c:if test="${ empty login_member }">로그인이 필요합니다.</c:if>
 								</textarea>
+							-->
 							</div>
 
 						</div>
@@ -117,7 +119,7 @@
 
 		$("#connBtn").css('visibility', 'hidden');
 		$("#closeBtn").css('visibility', 'visible');
-		var message = $("#chatArea").html("서버와 연결되었습니다.\n");	
+		var message = $("#chatArea").html("<p align='center' style='color: silver'>서버와 연결되었습니다.</p>");	
 		$("#chatArea").scrollTop($(document).height());
 	}
 
@@ -130,7 +132,7 @@
 		$("#closeBtn").css('visibility', 'hidden');
 		wsocket.close();
 		wsocket = null;
-		var message = $("#chatArea").html("연결이 해제되었습니다.\n");	
+		var message = $("#chatArea").html("<p align='center' style='color: silver'>연결이 해제되었습니다.</p>");	
 		$("#chatArea").scrollTop($(document).height());
 
 	}
@@ -148,9 +150,10 @@
 		//
 		*/
 		//var msg = "to:" + messageTarget + "@" + $("#message").val() + "\n";
-		var msg = sender + " : " + $("#message").val() + "\n";
+		// var msg = sender + " : " + $("#message").val() + "\n";
+		var msg = "<p align='right' style='color: darkblue; font-size: 20px;'>" + $("#message").val() + "</p>";
 		var viewMsg = $("#chatArea").html();
-		wsocket.send(msg);
+		wsocket.send($("#message").val());
 		viewMsg += msg;
 		$("#chatArea").html(viewMsg);	
 		$("#chatArea").scrollTop($(document).height());
@@ -159,14 +162,14 @@
 	
 	function onMessage(evt) {
 		var data = evt.data;
-		if(data == '대화시작'){
+		if(data == "<p align='center' style='color: silver;'>대화시작</p>"){
 			$("#sendBtn").css('visibility', 'visible');
 		}
-		if(data == '대화종료'){
+		if(data == "<p align='center' style='color: silver;'>대화종료</p>"){
 			$("#sendBtn").css('visibility', 'hidden');
 		}
 		var message = $("#chatArea").html()
-		message += data + "\n";
+		message += "" + data;
 		$("#chatArea").html(message);	
 		$("#chatArea").scrollTop($(document).height());
 
@@ -174,7 +177,7 @@
 		
 	function onClose(evt) {
 		var message = $("#chatArea").html()
-		message += "--연결종료--" + "\n";
+		message += "<p align='center' style='color: silver'>--연결종료--</p>";
 		$("#chatArea").html(message);	
 		$("#chatArea").scrollTop($(document).height());
 	}

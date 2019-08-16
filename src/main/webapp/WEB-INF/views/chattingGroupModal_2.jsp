@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<div class="modal fade" id="chattingInterestModal" tabindex="-1" role="dialog"
+<div class="modal fade" id="chattingGroupModal_2" tabindex="-1" role="dialog"
 	aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog cascading-modal" role="document">
 		<!--Content-->
@@ -16,7 +16,7 @@
 					role="tablist">
 					<li class="nav-item"><a class="nav-link active"
 						data-toggle="tab" href="#panel7" role="tab"><i
-							class="fas fa-user mr-1"></i> 그룹채팅</a></li>
+							class="fas fa-user mr-1"></i>관심사 2 그룹채팅</a></li>
 					<%--
 					<li class="nav-item"><a class="nav-link active"
 						data-toggle="tab" href="#panel7" role="tab"><i
@@ -37,10 +37,12 @@
 							<div class="md-form form-sm mb-6">
 								<i class="fas fa-envelope prefix"></i>
 							</div>
-
-							<div class="text-center mt-2">
+							
+							<div class="text-center mt-2" style="overflow: auto; height: 500px; border: 1px solid; padding: 20px;" id="chatArea_Group" >
+							<!-- 
 								<textarea rows="20" cols="42" id="chatArea_Group" name="chatArea_Group" readonly="readonly" style="resize: none; overflow-x:hidden; overflow-y:auto;"><c:if test="${ empty login_member }">로그인이 필요합니다.</c:if>
 								</textarea>
+							-->
 							</div>
 
 						</div>
@@ -48,12 +50,12 @@
 						<div class="modal-footer">
 							<div class="options text-center text-md-right mt-1"
 								style="width: 90%;">
-								<input type="text" id="nicknameGroup" name="nicknameGroup" readonly="readonly" value="${ login_member.nickname }">님의 문의
+								<input type="text" id="nicknameGroup" name="nicknameGroup" readonly="readonly" value="${ login_member.nickname }">님의 메세지
 								<button type="button" id="connGroupBtn" name="connGroupBtn" style="visibility: visible;"
 								class="btn btn-outline-info waves-effect ml-auto">연결</button>
 								<button type="button" id="closeGroupBtn" name="closeGroupBtn" style="visibility: hidden;"
 								class="btn btn-outline-info waves-effect ml-auto">연결해제</button>
-								<textarea rows="4" cols="45" id="messageGroup" name="messageGroup" onkeyup="enterkeyGroup();" style="resize: none;"></textarea>
+								<textarea rows="4" id="messageGroup" name="messageGroup" onkeyup="enterkeyGroup();" style="resize: none; width: 100%;"></textarea>
 							</div>
 							<button type="button" id="sendGroupBtn" name="sendGroupBtn" style="visibility: hidden;"
 								class="btn btn-outline-info waves-effect ml-auto">전송</button>
@@ -69,15 +71,10 @@
 <script type="text/javascript" src="<%= request.getContextPath() %>/resources/js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript">
 
-
 	function enterkeyGroup() {
 	    if (window.event.keyCode == 13) {
-	         // 엔터키가 눌렸을 때 실행할 내용
-	         if( $("#sendGroupBtn").css('visibility') == 'visible' ){
-		         sendGroupMessage();
-	         } else {
-	        	 return;
-	         }
+	    	// 엔터키가 눌렸을 때 실행할 내용
+			sendGroupMessage();
 	    }
 	}
 
@@ -85,7 +82,7 @@
 	var wsocket_Group = null;
 	
 	// 메세지를 보내고자 하는 대상을 저장하고 있는 전역변수
-	var sender_Group = "${login_member.member_id}";
+	// var sender_Group = "${login_member.member_id}";
 	
 	$(document).ready(function() {
 		$('#connGroupBtn').click(function() { sockGroupConnect(); });
@@ -104,14 +101,14 @@
 			return;
 		};
 		wsocket_Group = 
-			new WebSocket("ws://localhost:8080/webapp/chat_group");
+			new WebSocket("ws://localhost:8080/webapp/chat_group_2");
 		wsocket_Group.onmessage = onGroupMessage;
 		wsocket_Group.onclose = onGroupClose;
 
 		$("#sendGroupBtn").css('visibility', 'visible');
 		$("#connGroupBtn").css('visibility', 'hidden');
 		$("#closeGroupBtn").css('visibility', 'visible');
-		var message_Group = $("#chatArea_Group").html("서버와 연결되었습니다.\n");	
+		var message_Group = $("#chatArea_Group").html("<p align='center' style='color: silver'>서버와 연결되었습니다.</p>");	
 		$("#chatArea_Group").scrollTop($(document).height());
 	}
 
@@ -124,7 +121,7 @@
 		$("#closeGroupBtn").css('visibility', 'hidden');
 		wsocket_Group.close();
 		wsocket_Group = null;
-		var message_Group = $("#chatArea_Group").html("연결이 해제되었습니다.\n");	
+		var message_Group = $("#chatArea_Group").html("<p align='center' style='color: silver'>서버와 연결이 해제되었습니다..</p>");	
 		$("#chatArea_Group").scrollTop($(document).height());
 
 	}
@@ -134,28 +131,11 @@
 			alert("웹 소켓이 연결되지 않았습니다.\n")
 			return;
 		}
-		console.log($("#messageGroup").val());
 		
-		if( $("#messageGroup").val() == '/1' || $("#messageGroup").val() == '/2' || $("#messageGroup").val() == '/3' ||
-				$("#messageGroup").val() == '/4' || $("#messageGroup").val() == '/5' || $("#messageGroup").val() == '/6' ||
-				$("#messageGroup").val() == '/1\n'|| $("#messageGroup").val() == '/2\n'|| $("#messageGroup").val() == '/3\n'|| 
-				$("#messageGroup").val() == '/4\n'|| $("#messageGroup").val() == '/5\n'|| $("#messageGroup").val() == '/6\n') {
-			alert("이프문 같다");
-			$("#chatArea_Group").html("선택한 관심사 채팅방에 입장합니다.");	
-			$("#chatArea_Group").scrollTop($(document).height());
-			$("#messageGroup").val('');
-			return;
-		} else {
-			alert("이프문 다르다");
-			$("#chatArea_Group").html("관심사에 해당하는 번호만 입력해주세요.\nex)/4");	
-			$("#chatArea_Group").scrollTop($(document).height());
-			$("#messageGroup").val('');
-			return;
-		}
-		
-		var msg_Group = sender_Group + " : " + $("#messageGroup").val() + "\n";
+		// var msg_Group = sender_Group + " : " + $("#messageGroup").val() + "\n";
+		var msg_Group = "<p align='right' style='color: darkblue; font-size: 20px;'>" + $("#messageGroup").val() + "</p>";
 		var viewMsg_Group = $("#chatArea_Group").html();
-		wsocket_Group.send(msg_Group);
+		wsocket_Group.send($("#messageGroup").val());
 		viewMsg_Group += msg_Group;
 		$("#chatArea_Group").html(viewMsg_Group);	
 		$("#chatArea_Group").scrollTop($(document).height());
@@ -173,7 +153,7 @@
 		}
 		*/
 		var message_Group = $("#chatArea_Group").html()
-		message_Group += data_Group + "\n";
+		message_Group +="" + data_Group;
 		$("#chatArea_Group").html(message_Group);	
 		$("#chatArea_Group").scrollTop($(document).height());
 
@@ -181,7 +161,7 @@
 		
 	function onGroupClose(evt) {
 		var message_Group = $("#chatArea_Group").html()
-		message_Group += "--연결종료--" + "\n";
+		message_Group += "<p align='center' style='color: silver;'>--연결종료--</p>";
 		$("#chatArea_Group").html(message_Group);	
 		$("#chatArea_Group").scrollTop($(document).height());
 	}

@@ -3,6 +3,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <jsp:include page="chattingGroupModal_1.jsp" flush="false"></jsp:include>
+<%--
+<jsp:include page="chattingGroupModal_2.jsp" flush="false"></jsp:include>
+<jsp:include page="chattingGroupModal_3.jsp" flush="false"></jsp:include>
+<jsp:include page="chattingGroupModal_4.jsp" flush="false"></jsp:include>
+<jsp:include page="chattingGroupModal_5.jsp" flush="false"></jsp:include>
+<jsp:include page="chattingGroupModal_6.jsp" flush="false"></jsp:include>
+--%>
 
 <div class="modal fade" id="chattingGroupSelectModal" tabindex="-1" role="dialog"
 	aria-labelledby="myModalLabel" aria-hidden="true">
@@ -76,17 +83,11 @@
 <script type="text/javascript">
 var selected = null;
 	function enterGroup() {
-		$(".modal-backdrop fade show").remove();
-		$("#chattingGroupSelectModal").removeClass('modal fade show').addClass('modal fade');
-		$("#chattingGroupSelectModal").removeClass().removeAttr('style');
-		$("#chattingGroupSelectModal").css('display', 'none');
+		$('#chattingGroupSelectModal').modal('toggle');
 	}
-	
 	function selectGroup() {
 		selected = $("#selectedGroup").val();
 		$("#enterGroupModal").attr("data-target", "#chattingGroupModal_" + selected);
 	}
-
-
 </script>
 
