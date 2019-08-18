@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -92,4 +93,14 @@ private JdbcTemplate jdbcTemplate;
 			});
 	}
 	
+	public List<Board_Free> select_search(HashMap<String, Object> model){
+		String group=(String) model.get("group");
+		String sql="select * from board_free where member_id=? and "+group+" like ? and write_date between ? and ?";
+		List<Board_Free> results=jdbcTemplate.query(sql, new Board_FreeRowMapper(),
+				model.get("member_id"),
+				"%"+model.get("search")+"%",
+				model.get("from"),
+				model.get("to"));
+		return results.isEmpty() ? null : results;
+	}
 }

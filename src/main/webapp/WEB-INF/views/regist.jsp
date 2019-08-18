@@ -714,7 +714,7 @@
 		var isIdOk = false;
 		var isPwOk = false;
 		var isNickOk = false;
-		var isNameOk = false
+		var isNameOk = false;
 		var isInterestOk = false;
 		//약관 체크 다했는지 확인
 		var isToggleAllProvisions = false;

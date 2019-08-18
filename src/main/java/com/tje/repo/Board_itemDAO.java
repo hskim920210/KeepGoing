@@ -3,6 +3,7 @@ package com.tje.repo;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -13,8 +14,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import com.tje.model.Board_Free;
 import com.tje.model.Board_Item;
 import com.tje.model.BoardsJosnModel;
+import com.tje.repo.Board_freeDAO.Board_FreeRowMapper;
 
 @Repository
 public class Board_itemDAO {
@@ -75,5 +78,16 @@ public class Board_itemDAO {
 						return model.size();
 					}
 			});
+	}
+	
+	public List<Board_Item> select_search(HashMap<String, Object> model){
+		String group=(String) model.get("group");
+		String sql="select * from board_item where member_id=? and "+group+" like ? and write_date between ? and ?";
+		List<Board_Item> results=jdbcTemplate.query(sql, new Board_itemRowMapper(),
+				model.get("member_id"),
+				"%"+model.get("search")+"%",
+				model.get("from"),
+				model.get("to"));
+		return results.isEmpty() ? null : results;
 	}
 }

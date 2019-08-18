@@ -245,7 +245,6 @@
 		            type: "POST",
 		            data: params,
 		            success: function(data){
-		                console.log(data);
 		                alert(data);
 						location.reload();
 					},
@@ -255,6 +254,35 @@
 				});
 			});
 		});
+	</script>
+	<!-- 데이터 검증 -->
+	<script type="text/javascript">
+		var isPwOk = false;
+		var isNameOk = false;
+		
+		function passwordCheck() {
+			if( $("#password").val() == $("#reenter_password").val() ){
+				 console.log("일치");
+				 $("#passwordCheck").text("일치");
+				 isPwOk=true;
+			}else{
+				 console.log("password 불일치");
+				 $("#passwordCheck").text("불일치");
+				 isPwOk=false;
+			}
+			
+		};
+	
+		function nameCheck() {
+			console.log($("#name").val().trim().length);
+			if( $("#name").val().trim().length > 0 && $("#name").val().trim().length < 9 ){
+				 isNameOk=true;
+				 $("#NameCheck").text("사용 가능한 이름입니다.");
+			}else {
+				 $("#NameCheck").text("이름은 8글자 이하입니다.");
+				 isNameOk=false;
+			}
+		};
 	</script>
 </body>
 </html>

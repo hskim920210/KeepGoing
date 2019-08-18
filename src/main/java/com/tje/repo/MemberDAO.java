@@ -88,6 +88,19 @@ public class MemberDAO {
 				model.getMember_type());
 	}
 	
+	public int update(Member model) {
+		
+		return this.jdbcTemplate.update("update member set password=?, name=?, tel=?, address_post=?, address_basic=?, address_detail=?, interest=? where nickname=?",
+				model.getPassword(),
+				model.getName(),
+				model.getTel(),
+				model.getAddress_post(),
+				model.getAddress_basic(),
+				model.getAddress_detail(),
+				model.getInterest(),
+				model.getNickname());
+	}
+	
 	public int[] batchDelete(List<Member> members) {
 		return jdbcTemplate.batchUpdate("delete from member where nickname=?",
 				new BatchPreparedStatementSetter() {

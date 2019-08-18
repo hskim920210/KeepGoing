@@ -27,12 +27,12 @@
 			data-toggle="dropdown">회원 정보</button>
 		<div class="dropdown-menu">
 			<a class="dropdown-item" href="<%=request.getContextPath()%>/mypage/member_update">회원정보 변경</a> <a
-				class="dropdown-item" href="#">최근 활동</a> <a class="dropdown-item"
+				class="dropdown-item" href="<%=request.getContextPath()%>/mypage/recent_activity">최근 활동</a> <a class="dropdown-item"
 				href="#">구매 목록</a>
 		</div>
 	</div>
 
-	<button type="button" class="btn btn-primary">권한 신청</button>
+	<button type="button" class="btn btn-primary" onclick="location.href='<%=request.getContextPath()%>/mypage/permission_request'">권한 신청</button>
 
 	<div class="btn-group">
 		<button type="button" class="btn btn-primary dropdown-toggle"
