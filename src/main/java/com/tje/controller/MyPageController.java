@@ -28,6 +28,7 @@ import com.tje.service.member.AllMemberService;
 import com.tje.service.mypage.AllMemberAuthService;
 import com.tje.service.mypage.BoardsDeleteService;
 import com.tje.service.mypage.BoardsSelectAllService;
+import com.tje.service.mypage.BuyListSearchService;
 import com.tje.service.mypage.MemberAuthInsertService;
 import com.tje.service.mypage.MemberAuthSelectOneService;
 import com.tje.service.mypage.MemberUpdateService;
@@ -61,6 +62,8 @@ public class MyPageController {
 	private MemberAuthInsertService maiService;
 	@Autowired
 	private RecentActivitySearchService rasService;
+	@Autowired
+	private BuyListSearchService blsService;
 	
 	@RequestMapping(value = "/notAdminLogin")
 	public ModelAndView notAdminLogin() {
@@ -264,5 +267,30 @@ public class MyPageController {
 		model.addAttribute("searched_result", rasService.service(values));
 		
 		return "/recent_activity";
+	}
+	
+	@GetMapping(value = "/mypage/buy_list")
+	public String buy_list() {
+		
+		return "/buy_list";
+	}
+	
+	@GetMapping(value = "/mypage/buy_list_search")
+	public String recent_activity_search(
+			@RequestParam("from") String from,
+			@RequestParam("to") String to,
+			Model model,
+			HttpSession session) {
+		
+		Member login_member=(Member) session.getAttribute("login_member");
+		
+		HashMap<String, Object> values=new HashMap<String, Object>();
+		values.put("from", from);
+		values.put("to", to);
+		values.put("member_id", login_member.getMember_id());
+		
+		model.addAttribute("searched_result", blsService.service(values));
+		
+		return "/buy_list";
 	}
 }
