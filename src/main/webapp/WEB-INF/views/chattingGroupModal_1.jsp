@@ -1,9 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
-<div class="modal fade" id="chattingGroupModal_1" tabindex="-1" role="dialog"
-	aria-labelledby="myModalLabel" aria-hidden="true">
+<html>
+<head>
+<title>관심사 1 채팅방</title>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<jsp:include page="cssInclude.jsp" flush="false"></jsp:include>
+</head>
+<body>
 	<div class="modal-dialog cascading-modal" role="document">
 		<!--Content-->
 		<div class="modal-content">
@@ -17,14 +23,6 @@
 					<li class="nav-item"><a class="nav-link active"
 						data-toggle="tab" href="#panel7" role="tab"><i
 							class="fas fa-user mr-1"></i>관심사 1 그룹채팅</a></li>
-					<%--
-					<li class="nav-item"><a class="nav-link active"
-						data-toggle="tab" href="#panel7" role="tab"><i
-							class="fas fa-user mr-1"></i> 관심사별 그룹</a></li>
-					<li class="nav-item"><a class="nav-link" data-toggle="tab"
-						href="#panel9" role="tab"><i class="fas fa-user-plus mr-1"></i>
-							판매자와 1:1</a></li>
-					--%>
 				</ul>
 
 				<!-- Tab panels -->
@@ -67,7 +65,6 @@
 		</div>
 		<!--/.Content-->
 	</div>
-</div>
 <script type="text/javascript" src="<%= request.getContextPath() %>/resources/js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript">
 
@@ -166,3 +163,5 @@
 		$("#chatArea_Group").scrollTop($(document).height());
 	}
 </script>
+</body>
+</html>

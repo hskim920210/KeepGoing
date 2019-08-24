@@ -1,18 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
-<jsp:include page="chattingGroupModal_1.jsp" flush="false"></jsp:include>
-<%--
-<jsp:include page="chattingGroupModal_2.jsp" flush="false"></jsp:include>
-<jsp:include page="chattingGroupModal_3.jsp" flush="false"></jsp:include>
-<jsp:include page="chattingGroupModal_4.jsp" flush="false"></jsp:include>
-<jsp:include page="chattingGroupModal_5.jsp" flush="false"></jsp:include>
-<jsp:include page="chattingGroupModal_6.jsp" flush="false"></jsp:include>
---%>
-
-<div class="modal fade" id="chattingGroupSelectModal" tabindex="-1" role="dialog"
-	aria-labelledby="myModalLabel" aria-hidden="true">
+<html>
+<head>
+<title>관심사 선택</title>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<jsp:include page="cssInclude.jsp" flush="false"></jsp:include>
+</head>
+<body>
 	<div class="modal-dialog cascading-modal" role="document">
 		<!--Content-->
 		<div class="modal-content">
@@ -26,14 +22,6 @@
 					<li class="nav-item"><a class="nav-link active"
 						data-toggle="tab" href="#panel7" role="tab"><i
 							class="fas fa-user mr-1"></i> 그룹채팅</a></li>
-					<%--
-					<li class="nav-item"><a class="nav-link active"
-						data-toggle="tab" href="#panel7" role="tab"><i
-							class="fas fa-user mr-1"></i> 관심사별 그룹</a></li>
-					<li class="nav-item"><a class="nav-link" data-toggle="tab"
-						href="#panel9" role="tab"><i class="fas fa-user-plus mr-1"></i>
-							판매자와 1:1</a></li>
-					--%>
 				</ul>
 
 				<!-- Tab panels -->
@@ -51,15 +39,17 @@
 							<p>원하는 그룹을 선택하세요.</p>
 								<select style="visibility: visible;" id="selectedGroup" name="selectedGroup" onclick="selectGroup();"
 								class="btn btn-outline-info waves-effect ml-auto">
-									<option value="1">관심사 1</option>
+									<option value="1" selected="selected">관심사 1</option>
 									<option value="2">관심사 2</option>
 									<option value="3">관심사 3</option>
 									<option value="4">관심사 4</option>
 									<option value="5">관심사 5</option>
 									<option value="6">관심사 6</option>
 								</select>
-								<a href="" id="enterGroupModal" data-toggle="modal" onclick="enterGroup();" data-target="#chattingGroupModal_1" style="visibility: visible;"
-								class="btn btn-outline-info waves-effect ml-auto">입장하기</a>
+								<a href="<%= request.getContextPath() %>/chattingGroupModal_1" 
+									onclick="window.open(this.href, '관심사 채팅방', 'width = 456, height = 805'); window.close(); return false;" 
+									id="enterGroupModal" style="visibility: visible;"
+									class="btn btn-outline-info waves-effect ml-auto" >입장하기</a>
 							</div>
 
 						</div>
@@ -77,17 +67,15 @@
 		</div>
 		<!--/.Content-->
 	</div>
-</div>
 
 <script type="text/javascript" src="<%= request.getContextPath() %>/resources/js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript">
 var selected = null;
-	function enterGroup() {
-		$('#chattingGroupSelectModal').modal('toggle');
-	}
 	function selectGroup() {
 		selected = $("#selectedGroup").val();
-		$("#enterGroupModal").attr("data-target", "#chattingGroupModal_" + selected);
+		$("#enterGroupModal").attr("href", "<%= request.getContextPath() %>/chattingGroupModal_" + selected);
 	}
 </script>
+</body>
+</html>
 

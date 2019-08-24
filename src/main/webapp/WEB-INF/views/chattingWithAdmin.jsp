@@ -1,9 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
-<div class="modal fade" id="chattingModal" tabindex="-1" role="dialog"
-	aria-labelledby="myModalLabel" aria-hidden="true">
+<html>
+<head>
+<title>관리자와 채팅</title>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<jsp:include page="cssInclude.jsp" flush="false"></jsp:include>
+</head>
+<body>
 	<div class="modal-dialog cascading-modal" role="document">
 		<!--Content-->
 		<div class="modal-content">
@@ -17,14 +23,6 @@
 					<li class="nav-item"><a class="nav-link active"
 						data-toggle="tab" href="#panel6" role="tab"><i
 							class="fas fa-user mr-1"></i> 관리자와 QnA</a></li>
-					<%--
-					<li class="nav-item"><a class="nav-link active"
-						data-toggle="tab" href="#panel7" role="tab"><i
-							class="fas fa-user mr-1"></i> 관심사별 그룹</a></li>
-					<li class="nav-item"><a class="nav-link" data-toggle="tab"
-						href="#panel9" role="tab"><i class="fas fa-user-plus mr-1"></i>
-							판매자와 1:1</a></li>
-					--%>
 				</ul>
 
 				<!-- Tab panels -->
@@ -39,10 +37,6 @@
 							</div>
 
 							<div class="text-center mt-2"  style="overflow: auto; height: 500px; border: 1px solid; padding: 20px;" id="chatArea" >
-							<!-- 
-								<textarea rows="20" cols="42" id="chatArea" name="chatArea" readonly="readonly" style="resize: none; overflow-x:hidden; overflow-y:auto;"><c:if test="${ empty login_member }">로그인이 필요합니다.</c:if>
-								</textarea>
-							-->
 							</div>
 
 						</div>
@@ -67,7 +61,6 @@
 		</div>
 		<!--/.Content-->
 	</div>
-</div>
 <script type="text/javascript" src="<%= request.getContextPath() %>/resources/js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript">
 	function enterkey() {
@@ -182,3 +175,5 @@
 		$("#chatArea").scrollTop($(document).height());
 	}
 </script>
+</body>
+</html>
