@@ -11,16 +11,11 @@
 <jsp:include page="cssInclude.jsp" flush="false"></jsp:include>
 
 <style type="text/css">
-.px-6 .target p { /* 한 줄 자르기 */
- /*display: inline-block;*/
- width: 200px; 
- /*white-space: nowrap;*/
-  overflow: hidden; 
-  text-overflow: ellipsis; 
-  /* 여러 줄 자르기 추가 스타일 */ 
-  white-space: normal; 
-  line-height: 1.2; 
-  height: 2.4em; }
+.px-5 { width:300px; display: inline-block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;white-space: normal; line-height: 1.2; height: 1.2em;
+
+}
+
+
 </style>
 
 
@@ -64,10 +59,21 @@
 	            <div class="unit-1-text">
 	              <h3 class="unit-1-heading">${ra.title}</h3>
 	              <p class="px-6">${ra.content}</p>
-	            </div>
+	            </div>z
 	          </a>
 	        </div>
         </c:forEach>
+        
+        <c:forEach items="${ reviewList }" var="review_article">
+	              <a href="<%= request.getContextPath() %>/review/detail/${review_article.category}_${review_article.board_id}">${ review_article.title }</a>
+	              <h3 class="px-5" >
+	 				<a href="<%=request.getContextPath() %>/review/detail/${review_article.category}_${review_article.board_id}">${ review_article.content }</a></h3>
+	              <p></p>
+	              <p><a href="<%=request.getContextPath() %>/review/detail/${review_article.category}_${review_article.board_id}">더보기</a></p>
+	             
+	              
+              </c:forEach>
+        
           --%>
 
  		<c:forEach items="${ reviewList }" var="review_article">
@@ -83,6 +89,9 @@
         </c:forEach>
       </div>
     </div>
+  
+
+   
     
     
     <!-- board_free -->
@@ -95,16 +104,13 @@
               <div class="unit-4-icon mr-4"><span class="text-primary flaticon-travel"></span></div>
              -->
               <div>
-              <c:forEach items="${ reviewList }" var="review_article">
+                
+        <c:forEach items="${ reviewList }" var="review_article">
 	              <a href="<%= request.getContextPath() %>/review/detail/${review_article.category}_${review_article.board_id}">${ review_article.title }</a>
-	              <h3 class="px-5" style="overflow: hidden; width: 400px; text-overflow: ellipsis; white-space: normal;line-height: 1.2; height: 1.2em;">
-	 				<a href="<%=request.getContextPath() %>/review/detail/${review_article.category}_${review_article.board_id}">${ review_article.content }</a></h3>
-	              <p></p>
-	              <p><a href="<%=request.getContextPath() %>/review/detail/${review_article.category}_${review_article.board_id}">더보기</a></p>
-	             
+	              <p><a href="#">
 	              
               </c:forEach>
-
+        
               </div>
             </div>
           </div>
@@ -118,8 +124,8 @@
               
               
               <a href="<%=request.getContextPath() %>/free_view/${ free_article.board_id }">${ free_article.title }</a>
-              <h3><a href="<%=request.getContextPath() %>/free_view/${ free_article.board_id }">${ free_article.content }</a></h3>
-              <p></p>
+              <p><a href="#">
+          
              
               
               </c:forEach>
@@ -135,9 +141,10 @@
                 <c:forEach items="${ itemList }" var="item_article">
               
 				<a href="<%= request.getContextPath() %>/item_view/${item_article.board_id}">${item_article.title}</a>
-              <h3>${item_article.title }</h3>
-              <p class="px-5" style="overflow: hidden; width: 200px; text-overflow: ellipsis; white-space: normal;${item_article.content }</p>
-              <p><a href="#"></a>${item_article.nickname }</p>
+              <%-- <h3>${item_article.title }</h3>--%>
+             
+              <p><a href="#">
+ <%--${item_article.nickname }</p>--%>
               </c:forEach>
               </div>
             </div>
