@@ -73,6 +73,6 @@ public class RegistController {
 			return "회원가입을 축하합니다.";
 		}
 		
-		return "회원가입에 실패하였습니다2";
+		return "회원가입에 실패하였습니다.";
 	}
 }

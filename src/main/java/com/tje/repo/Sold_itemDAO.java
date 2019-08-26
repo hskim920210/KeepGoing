@@ -98,4 +98,15 @@ private JdbcTemplate jdbcTemplate;
 					}
 			});
 	}
+	
+	public List<Sold_item> select_search(HashMap<String, Object> model) {
+		String sql = "select * from Sold_item where member_id=? and sold_date between ? and ?";
+		List<Sold_item> results=this.jdbcTemplate.query(sql, 
+				new Sold_itemRowMapper(), 
+				model.get("member_id"),
+				model.get("from"),
+				model.get("to"));
+		
+		return results.isEmpty() ? null : results;
+	}
 }
