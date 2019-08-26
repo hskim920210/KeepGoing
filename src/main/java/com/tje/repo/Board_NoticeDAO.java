@@ -38,6 +38,10 @@ private JdbcTemplate jdbcTemplate;
 		}
 	}
 	
+	public int listCountCriteria() {
+		return this.jdbcTemplate.queryForObject("select count(*) from board_notice", Integer.class);
+	}
+	
 	public Board_Notice selectOne(Board_Notice model) {
 		String sql = "select * from board_notice where board_id=?";
 		return this.jdbcTemplate.queryForObject(sql, 
@@ -45,6 +49,7 @@ private JdbcTemplate jdbcTemplate;
 				model.getBoard_id());
 	}
 	
+
 	public List<Board_Notice> selectAll() {
 		String sql = "select * from board_notice";
 		List<Board_Notice> results=this.jdbcTemplate.query(sql,
@@ -57,6 +62,14 @@ private JdbcTemplate jdbcTemplate;
 		String sql = "select * from board_notice order by write_date desc";
 		List<Board_Notice> results=this.jdbcTemplate.query(sql,
 				new Board_noticeRowMapper());
+    return results.isEmpty() ? null : results;
+	}
+
+	public List<Board_Notice> selectAllOrdByDateDesc(int pageStart, int perPageNum) {
+		List<Board_Notice> results=this.jdbcTemplate.query("select * from board_notice order by board_id desc limit ?,?",
+				new Board_noticeRowMapper(),
+				pageStart, perPageNum);
+
 		return results.isEmpty() ? null : results;
 	}
 	

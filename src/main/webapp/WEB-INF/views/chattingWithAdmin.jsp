@@ -1,9 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
-<div class="modal fade" id="chattingModal" tabindex="-1" role="dialog"
-	aria-labelledby="myModalLabel" aria-hidden="true">
+<html>
+<head>
+<title>관리자와 채팅</title>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<jsp:include page="cssInclude.jsp" flush="false"></jsp:include>
+</head>
+<body>
 	<div class="modal-dialog cascading-modal" role="document">
 		<!--Content-->
 		<div class="modal-content">
@@ -17,14 +23,6 @@
 					<li class="nav-item"><a class="nav-link active"
 						data-toggle="tab" href="#panel6" role="tab"><i
 							class="fas fa-user mr-1"></i> 관리자와 QnA</a></li>
-					<%--
-					<li class="nav-item"><a class="nav-link active"
-						data-toggle="tab" href="#panel7" role="tab"><i
-							class="fas fa-user mr-1"></i> 관심사별 그룹</a></li>
-					<li class="nav-item"><a class="nav-link" data-toggle="tab"
-						href="#panel9" role="tab"><i class="fas fa-user-plus mr-1"></i>
-							판매자와 1:1</a></li>
-					--%>
 				</ul>
 
 				<!-- Tab panels -->
@@ -38,9 +36,7 @@
 								<i class="fas fa-envelope prefix"></i>
 							</div>
 
-							<div class="text-center mt-2">
-								<textarea rows="20" cols="42" id="chatArea" name="chatArea" readonly="readonly" style="resize: none;"><c:if test="${ empty login_member }">로그인이 필요합니다.</c:if>
-								</textarea>
+							<div class="text-center mt-2"  style="overflow: auto; height: 500px; border: 1px solid; padding: 20px;" id="chatArea" >
 							</div>
 
 						</div>
@@ -65,16 +61,18 @@
 		</div>
 		<!--/.Content-->
 	</div>
-</div>
 <script type="text/javascript" src="<%= request.getContextPath() %>/resources/js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript">
-function enterkey() {
-    if (window.event.keyCode == 13) {
-         // 엔터키가 눌렸을 때 실행할 내용
-         sendMessage();
-    }
-}
-
+	function enterkey() {
+	    if (window.event.keyCode == 13) {
+	         // 엔터키가 눌렸을 때 실행할 내용
+	         if( $("#sendBtn").css('visibility') == 'visible' ){
+		         sendMessage();
+	         } else {
+	        	 return;
+	         }
+	    }
+	}
 
 	// 웹 소켓 변수
 	var wsocket = null;
@@ -107,15 +105,15 @@ function enterkey() {
 			return;
 		};
 		wsocket = 
-			new WebSocket("ws://192.168.0.18:8080/webapp/chat_admin");
+			new WebSocket("ws://localhost:8080/webapp/chat_admin");
 		// wsocket.onopen = function() {wsocket.getConn();};
 		wsocket.onmessage = onMessage;
 		wsocket.onclose = onClose;
 
-		$("#sendBtn").css('visibility', 'visible');
 		$("#connBtn").css('visibility', 'hidden');
 		$("#closeBtn").css('visibility', 'visible');
-		var message = $("#chatArea").html("서버와 연결되었습니다.\n");	
+		var message = $("#chatArea").html("<p align='center' style='color: silver'>서버와 연결되었습니다.</p>");	
+		$("#chatArea").scrollTop($(document).height());
 	}
 
 	
@@ -127,7 +125,8 @@ function enterkey() {
 		$("#closeBtn").css('visibility', 'hidden');
 		wsocket.close();
 		wsocket = null;
-		var message = $("#chatArea").html("연결이 해제되었습니다.\n");	
+		var message = $("#chatArea").html("<p align='center' style='color: silver'>연결이 해제되었습니다.</p>");	
+		$("#chatArea").scrollTop($(document).height());
 
 	}
 	
@@ -144,24 +143,37 @@ function enterkey() {
 		//
 		*/
 		//var msg = "to:" + messageTarget + "@" + $("#message").val() + "\n";
-		var msg = sender + " : " + $("#message").val() + "\n";
+		// var msg = sender + " : " + $("#message").val() + "\n";
+		var msg = "<p align='right' style='color: darkblue; font-size: 20px;'>" + $("#message").val() + "</p>";
 		var viewMsg = $("#chatArea").html();
-		wsocket.send(msg);
+		wsocket.send($("#message").val());
 		viewMsg += msg;
 		$("#chatArea").html(viewMsg);	
+		$("#chatArea").scrollTop($(document).height());
 		$("#message").val('');
 	}
 	
 	function onMessage(evt) {
 		var data = evt.data;
+		if(data == "<p align='center' style='color: silver;'>대화시작</p>"){
+			$("#sendBtn").css('visibility', 'visible');
+		}
+		if(data == "<p align='center' style='color: silver;'>대화종료</p>"){
+			$("#sendBtn").css('visibility', 'hidden');
+		}
 		var message = $("#chatArea").html()
-		message += data + "\n";
+		message += "" + data;
 		$("#chatArea").html(message);	
+		$("#chatArea").scrollTop($(document).height());
+
 	}
 		
 	function onClose(evt) {
 		var message = $("#chatArea").html()
-		message += "--연결종료--" + "\n";
+		message += "<p align='center' style='color: silver'>--연결종료--</p>";
 		$("#chatArea").html(message);	
+		$("#chatArea").scrollTop($(document).height());
 	}
 </script>
+</body>
+</html>

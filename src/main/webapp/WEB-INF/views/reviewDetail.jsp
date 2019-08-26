@@ -393,7 +393,7 @@
 							tag+='</div>';
 							tag+='<p>'+data.content+'</p>';
 							tag+='</div>';
-							if( (data.member_id == "${login_member.member_id}" ) || ${login_member.auth >= 2})
+							if( (data.member_id == "${login_member.member_id}" ) || "${login_member.auth}" >= 2)
 								tag+='<button class="" name="comment_delete_btn" type="button" value="'+data.comment_id+'">댓글 삭제</button>';
 							tag+='</div>';
 							

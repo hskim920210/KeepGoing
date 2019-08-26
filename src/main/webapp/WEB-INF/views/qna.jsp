@@ -58,17 +58,60 @@
 			
 			<!-- 상단노출 3개 -->
 			
-			<c:forEach items="${ simpleBoardFreeViewList }" var="item">
+			<c:forEach items="${ board_qna }" var="qna">
 				<tr style="text-align: center;">
-					<td>${ item.category }</td>
-					<td><a href="<%= request.getContextPath() %>/qna/${ item.board_id }">${ item.title }</a></td>
-					<td>${ item.nickname }</td>
-					<td>${ item.write_date }</td>
+					<c:if test="${ qna.category == 1 }">
+						<td>회원관련</td>
+					</c:if>
+					<c:if test="${ qna.category == 2 }">
+						<td>리뷰</td>
+					</c:if>
+					<c:if test="${ qna.category == 3 }">
+						<td>게시판</td>
+					</c:if>
+					<c:if test="${ qna.category == 4 }">
+						<td>상품</td>
+					</c:if>
+					<c:if test="${ qna.category == 5 }">
+						<td>기타</td>
+					</c:if>
+					<td style="text-align: left;"><a href="<%= request.getContextPath() %>/qna/qnaread/${ qna.board_id }">${ qna.title }</a></td>
+					<td>${ qna.nickname }</td>
+					<td>${ qna.write_date }</td>
 				</tr>
 			</c:forEach>
 		</table>
 		</div>
 	</div>
+	
+<!-- 페이지  -->
+	<div class="container text-center pb-5">
+		<div class="row">
+			<div class="col-12">
+
+				<p class="custom-pagination">
+					<c:if test="${pageMaker.prev == true }">
+						<a
+							href="<%=request.getContextPath()%>/qna/${pageMaker.startPage-1}">&laquo;</a>
+					</c:if>
+					<c:forEach var="pageNo" begin="${ pageMaker.startPage }"
+						end="${ pageMaker.endPage }">
+						<c:if test="${curPageNo == pageNo}" var="r">
+							<span>${curPageNo}</span>
+						</c:if>
+						<c:if test="${ not r }">
+							<a href="<%=request.getContextPath()%>/qna/${pageNo}">${ pageNo }</a>
+						</c:if>
+					</c:forEach>
+					<c:if test="${pageMaker.next == true and pageMaker.endPage > 0}">
+						<a
+							href="<%=request.getContextPath()%>/qna/${pageMaker.endPage+1}">&raquo;</a>
+					</c:if>
+				</p>
+			</div>
+		</div>
+	</div>
+<!-- /페이지  -->
 	
 	<jsp:include page="javascriptInclude.jsp" flush="false"></jsp:include>
 	
