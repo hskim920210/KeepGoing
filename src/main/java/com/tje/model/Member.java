@@ -1,5 +1,8 @@
 package com.tje.model;
 
+import java.util.ArrayList;
+import java.util.StringTokenizer;
+
 public class Member {
 	private String member_id;
 	private String password;
@@ -103,6 +106,17 @@ public class Member {
 	public String getInterest() {
 		return interest;
 	}
+	
+	public ArrayList<String> getInterestList() {
+		ArrayList<String> list=new ArrayList<String>();
+		StringTokenizer st=new StringTokenizer(interest, ",");
+
+		while (st.hasMoreTokens()) {
+			String str = st.nextToken();
+			list.add(str);
+		}
+		return list;
+	}
 
 	public void setInterest(String interest) {
 		this.interest = interest;
@@ -110,6 +124,19 @@ public class Member {
 
 	public int getAuth() {
 		return auth;
+	}
+	
+	public String getAuthString() {
+		if(auth==0) 
+			return "일반회원";
+		else if(auth==1)
+			return "리뷰어";
+		else if(auth==2)
+			return "판매자";
+		else if(auth==3)
+			return "매니저";
+		else
+			return "관리자";		
 	}
 
 	public void setAuth(int auth) {
@@ -134,6 +161,17 @@ public class Member {
 
 	public int getMember_type() {
 		return member_type;
+	}
+	
+	public String getMember_typeString() {
+		if(member_type==0) 
+			return "일반";
+		else if(member_type==1)
+			return "네이버";
+		else if(member_type==2)
+			return "구글";
+		else
+			return "카카오";
 	}
 
 	public void setMember_type(int member_type) {

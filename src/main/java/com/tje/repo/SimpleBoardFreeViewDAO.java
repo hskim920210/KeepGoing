@@ -331,6 +331,15 @@ private JdbcTemplate jdbcTemplate;
 
 
 ////////////////검색창 (전체,제목,내용,제목+내용,글쓴이) //////////
+		
+		public List<SimpleBoardFreeView> selectAll() {
+			String sql = "select * from SimpleBoardFreeView";
+			
+			List<SimpleBoardFreeView> results=this.jdbcTemplate.query(sql,
+					new SimpleBoardFreeViewRowMapper());
+			
+			return results.isEmpty() ? null : results;
+		}
 	
 }
 

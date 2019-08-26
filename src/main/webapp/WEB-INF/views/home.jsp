@@ -1,4 +1,4 @@
-﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
@@ -111,13 +111,8 @@
              -->
                <div> 
                 <c:forEach items="${ freeList }" var="free_article">
-              
-              
               <a href="<%=request.getContextPath() %>/free_view/${ free_article.board_id }">${ free_article.title }</a>
               <p><a href="#">
-          
-             
-              
               </c:forEach>
               </div>
             </div>

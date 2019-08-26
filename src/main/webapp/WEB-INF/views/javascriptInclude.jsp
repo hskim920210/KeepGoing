@@ -58,3 +58,14 @@
 	})
 </script>
 
+<script type="text/javascript">
+	$(document).ready(function() {
+		$(".list-group-item").on("mouseenter", function() {
+			$(this).addClass("active");
+		})
+		
+		$('.list-group-item').on('mouseleave', function() {
+			$(this).removeClass("active");  
+		});
+	});
+</script>

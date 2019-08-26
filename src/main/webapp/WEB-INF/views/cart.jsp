@@ -133,7 +133,7 @@
  <jsp:include page="site_footer.jsp"></jsp:include>
 
 	
-
+	<!-- 전체선택 -->
 	<script type="text/javascript">
 		$(document).ready(function() {
 			$("#all_check").on("click", function() {
@@ -166,6 +166,7 @@
 		});
 	</script>
 	
+	<!-- 총계 -->
 	<script type="text/javascript">
 		
 		$(document).ready(function() {

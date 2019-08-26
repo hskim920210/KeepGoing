@@ -79,6 +79,19 @@ public class DetailBoardItemView {
 	public String getTitle() {
 		return title;
 	}
+	
+	public String getRestrictedTitle() {
+		int length = this.title.length();
+
+		if (length >= 15) {
+			StringBuilder sb = new StringBuilder(this.title);
+			String s = sb.substring(0, 15);
+			s += "...";
+			return s;
+		}
+
+		return title;
+	}
 
 	public void setTitle(String title) {
 		this.title = title;
@@ -93,7 +106,20 @@ public class DetailBoardItemView {
 
 		if (length >= 50) {
 			StringBuilder sb = new StringBuilder(this.content);
-			String s = sb.substring(0, length);
+			String s = sb.substring(0, 50);
+			s += "...";
+			return s;
+		}
+
+		return content;
+	}
+	
+	public String getRestrictedContent2() {
+		int length = this.content.length();
+
+		if (length >= 15) {
+			StringBuilder sb = new StringBuilder(this.content);
+			String s = sb.substring(0, 15);
 			s += "...";
 			return s;
 		}
@@ -184,5 +210,18 @@ public class DetailBoardItemView {
 	public void setContent(String content) {
 		this.content = content;
 	}
-
+	
+	@Override
+	public boolean equals(Object obj) {
+		// TODO Auto-generated method stub
+		if(!( obj instanceof DetailBoardItemView ))
+			return false;
+		
+		DetailBoardItemView item=(DetailBoardItemView)obj;
+		
+		if(item.board_id==board_id)
+			return true;
+		else
+			return false;
+	}
 }

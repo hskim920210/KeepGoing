@@ -1,21 +1,21 @@
-package com.tje.service.faq;
+package com.tje.service.mypage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.tje.model.Board_Faq;
-import com.tje.repo.Board_FaqDAO;
-
+import com.tje.model.Member;
+import com.tje.repo.MemberDAO;
 
 @Service
-public class Board_FaqWriteService {
+public class MemberUpdateService {
 	@Autowired
-	private Board_FaqDAO board_faqDAO;
+	private MemberDAO memberDAO;
 	
 	public Object service(Object args) {
 		Object result=null;
-		result=board_faqDAO.insert((Board_Faq)args);
+		
+		result=memberDAO.update((Member)args);
+		
 		return result;
 	}
-
 }

@@ -59,7 +59,7 @@
 					<td>윗글이 없습니다.</td>
 				</c:if>
 				<c:if test="${  nr != null }">
-					<td><a href="<%=request.getContextPath()%>/notice/${ noticeReadUp.board_id }">${ noticeReadUp.title }</a></td>
+					<td><a href="<%=request.getContextPath()%>/notice/read/${ noticeReadUp.board_id }">${ noticeReadUp.title }</a></td>
 				</c:if>
 			</tr>
 			<tr>
@@ -68,12 +68,12 @@
 					<td>아랫글이 없습니다.</td>
 				</c:if>
 				<c:if test="${  nr != null }">
-					<td><a href="<%=request.getContextPath()%>/notice/${ noticeReadDown.board_id }">${ noticeReadDown.title }</a></td>
+					<td><a href="<%=request.getContextPath()%>/notice/read/${ noticeReadDown.board_id }">${ noticeReadDown.title }</a></td>
 				</c:if>
 			</tr>
 		</table>    
     </div>
-    <!-- 윗글 아랫글 마지막줄-->
+    <!-- /윗글 아랫글 -->
     
     </div>
     </div>

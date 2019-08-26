@@ -45,7 +45,7 @@
         <c:forEach items="${ item_list }" var="item">
           <div class="col-md-6 col-lg-4 mb-4 mb-lg-4">
             <div class="h-entry">
-              <img src="<%=request.getContextPath()%>/resources/images/${item.image}" alt="Image" class="img-fluid">
+              <img src="<%=request.getContextPath()%>/resources/images/${item.image}" alt="Image" class="img-fluid rounded" style="min-width: 90%; height: 350px;">
               <h2 class="font-size-regular"><a href="<%=request.getContextPath()%>/item_view/${item.board_id}">${ item.title }</a></h2>
               <div class="meta">${ item.nickname } 
               <span class="mx-2">•</span> ${ item.write_date }

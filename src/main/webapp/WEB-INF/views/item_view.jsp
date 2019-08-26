@@ -42,7 +42,7 @@
 						data-aos="fade">
 						<img
 							src="<%=request.getContextPath() %>/resources/images/${ searchedItem.image }"
-							alt="Image" class="img-fluid rounded">
+							alt="Image" class="img-fluid rounded" style="min-width: 100%; height: 400px;">
 					</div>
 					<div class="col-md-6 order-md-1 aos-init aos-animate"
 						data-aos="fade">

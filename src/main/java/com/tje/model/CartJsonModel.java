@@ -1,7 +1,5 @@
 package com.tje.model;
 
-import java.util.Date;
-
 public class CartJsonModel {
 	private int board_id;
 	private int category;

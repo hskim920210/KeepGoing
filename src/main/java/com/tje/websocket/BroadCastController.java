@@ -136,6 +136,7 @@ public class BroadCastController extends TextWebSocketHandler {
 	
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+		System.out.println("Admin");
 		boolean noAdmin = true;
 		boolean noClient = true;
 		//
@@ -159,14 +160,16 @@ public class BroadCastController extends TextWebSocketHandler {
 					sessionMap.put(c.getSessionId(), clientMap.get(c));
 					chatMatch.put(adminMap.get(admin).getSession(), clientMap.get(c).getSession());
 					chatMatch.put(clientMap.get(c).getSession(), adminMap.get(admin).getSession());
-					adminMap.get(admin).getSession().sendMessage(new TextMessage("클라이언트와 연결되었습니다.\n"));
-					clientMap.get(c).getSession().sendMessage(new TextMessage("관리자와 연결되었습니다.\n"));
+					adminMap.get(admin).getSession().sendMessage(new TextMessage("<p align='center' style='color: silver;'>클라이언트와 연결되었습니다.</p>"));
+					adminMap.get(admin).getSession().sendMessage(new TextMessage("<p align='center' style='color: silver;'>대화시작</p>"));
+					clientMap.get(c).getSession().sendMessage(new TextMessage("<p align='center' style='color: silver;'>관리자와 연결되었습니다.</p>"));
+					clientMap.get(c).getSession().sendMessage(new TextMessage("<p align='center' style='color: silver;'>대화시작</p>"));
 					noClient = false;
 					break;
 				}
 			}
 			if( noClient ) {
-				adminMap.get(admin).getSession().sendMessage(new TextMessage("상담 가능한 클라이언트가 없습니다.\n"));
+				adminMap.get(admin).getSession().sendMessage(new TextMessage("<p align='center' style='color: silver;'>상담 가능한 클라이언트가 없습니다.</p>"));
 			}
 			System.out.println("admin.nickName : " + nickname +
 					", admin.isConn : " + admin.isConn() + 
@@ -194,14 +197,16 @@ public class BroadCastController extends TextWebSocketHandler {
 					sessionMap.put(a.getSessionId(), adminMap.get(a));
 					chatMatch.put(clientMap.get(client).getSession(), adminMap.get(a).getSession());
 					chatMatch.put(adminMap.get(a).getSession(), clientMap.get(client).getSession());
-					clientMap.get(client).getSession().sendMessage(new TextMessage("관리자와 연결되었습니다.\n"));
-					adminMap.get(a).getSession().sendMessage(new TextMessage("클라이언트와 연결되었습니다.\n"));
+					clientMap.get(client).getSession().sendMessage(new TextMessage("<p align='center' style='color: silver;'>관리자와 연결되었습니다.</p>"));
+					clientMap.get(client).getSession().sendMessage(new TextMessage("<p align='center' style='color: silver;'>대화시작</p>"));
+					adminMap.get(a).getSession().sendMessage(new TextMessage("<p align='center' style='color: silver;'>클라이언트와 연결되었습니다.</p>"));
+					adminMap.get(a).getSession().sendMessage(new TextMessage("<p align='center' style='color: silver;'>대화시작</p>"));
 					noAdmin = false;
 					break;
 				}
 			}
 			if( noAdmin ) {
-				clientMap.get(client).getSession().sendMessage(new TextMessage("상담 가능한 관리자가 없습니다."));
+				clientMap.get(client).getSession().sendMessage(new TextMessage("<p align='center' style='color: silver;'>상담 가능한 관리자가 없습니다.</p>"));
 			}
 			System.out.println("client.nickName : " + nickname +
 					", client.isConn : " + client.isConn() + 
@@ -237,16 +242,16 @@ public class BroadCastController extends TextWebSocketHandler {
 		 * */
 		// System.out.printf("%s로부터 [%s]를 받음\n", client.getNickname(), message.getPayload());
 		WebSocketSession receiverSession = chatMatch.get(session);
-		//StringTokenizer st = new StringTokenizer(message.getPayload(), ": @");
-		StringTokenizer st = new StringTokenizer(message.getPayload(), ": ");
-		// st.nextToken(); // to
-		String sender = st.nextToken();
+		// StringTokenizer st = new StringTokenizer(message.getPayload(), ": ");
+		// String sender = st.nextToken();
+		String sender = sessionMap.get(session.getId()).getChatMember().getNickname();
 		System.out.println(sender);
 		String receiver = sessionMap.get(receiverSession.getId()).getChatMember().getNickname();
 		System.out.println(receiver);
-		String msg = st.nextToken(); // 메세지
+		String msg = message.getPayload(); // 메세지
 		System.out.println(msg);
-		receiverSession.sendMessage(new TextMessage(sender + " : " + msg));
+		receiverSession.sendMessage(new TextMessage("<p align='left' style='color: black; font-size: 20px;'>" + sender + " : " + msg + "</p>"));
+		
 		/*
 		if( !target.equals("all") ) {
 			sessionMap.get(target).getSession().sendMessage(
@@ -277,7 +282,8 @@ public class BroadCastController extends TextWebSocketHandler {
 			// 클라이언트의 웹소켓 세션을 가져오기
 			WebSocketSession clientSession = chatMatch.get(session);
 			// chatMap에서 둘의 session을 지운다. ( 그 전에 각각 상대가 연결을 종료했다는 메세지를 보낸다. )
-			clientSession.sendMessage(new TextMessage("상대가 연결을 종료했습니다.\n새로운 상담을 원하면 다시 연결해주세요.\n"));
+			clientSession.sendMessage(new TextMessage("<p align='center' style='color: silver;'>상대가 연결을 종료했습니다.</p><p align='center' style='color: silver;'>새로운 상담을 원하면 다시 연결해주세요.</p>"));
+			clientSession.sendMessage(new TextMessage("<p align='center' style='color: silver;'>대화종료</p>"));
 			chatMatch.remove(session); // admin, client의 쌍
 			chatMatch.remove(clientSession); // client, admin의 쌍
 			// sessionMap과 clientMap 에서 클라이언트를 지운다.
@@ -294,7 +300,8 @@ public class BroadCastController extends TextWebSocketHandler {
 			// 어드민의 웹소켓 세션을 가져오기
 			WebSocketSession adminSession = chatMatch.get(session);
 			// chatMap에서 둘의 session을 지운다.
-			adminSession.sendMessage(new TextMessage("상대가 연결을 종료했습니다.\n"));
+			adminSession.sendMessage(new TextMessage("<p align='center' style='color: silver;'>상대가 연결을 종료했습니다.</p>"));
+			adminSession.sendMessage(new TextMessage("<p align='center' style='color: silver;'>대화종료</p>"));
 			chatMatch.remove(session); // client, admin의 쌍
 			chatMatch.remove(adminSession); // admin, client의 쌍
 			// 어드민의 isConn을 false로 바꾼다. 그러기위해 Admin를 찾는다.
@@ -313,14 +320,16 @@ public class BroadCastController extends TextWebSocketHandler {
 					sessionMap.put(c.getSessionId(), clientMap.get(c));
 					chatMatch.put(adminMap.get(admin).getSession(), clientMap.get(c).getSession());
 					chatMatch.put(clientMap.get(c).getSession(), adminMap.get(admin).getSession());
-					adminMap.get(admin).getSession().sendMessage(new TextMessage("클라이언트와 연결되었습니다.\n"));
-					clientMap.get(c).getSession().sendMessage(new TextMessage("관리자와 연결되었습니다.\n"));
+					adminMap.get(admin).getSession().sendMessage(new TextMessage("<p align='center' style='color: silver;'>클라이언트와 연결되었습니다.</p>"));
+					adminMap.get(admin).getSession().sendMessage(new TextMessage("<p align='center' style='color: silver;'>대화시작<p>"));
+					clientMap.get(c).getSession().sendMessage(new TextMessage("<p align='center' style='color: silver;'>관리자와 연결되었습니다.</p>"));
+					clientMap.get(c).getSession().sendMessage(new TextMessage("<p align='center' style='color: silver;'>대화시작</p>"));
 					noClient = false;
 					break;
 				}
 			}
 			if( noClient ) {
-				adminMap.get(admin).getSession().sendMessage(new TextMessage("상담 가능한 클라이언트가 없습니다.\n"));
+				adminMap.get(admin).getSession().sendMessage(new TextMessage("<p align='center' style='color: silver;'>상담 가능한 클라이언트가 없습니다.</p>"));
 			}
 			System.out.println("admin.nickName : " + admin.getNickname() +
 					", admin.isConn : " + admin.isConn() + 
