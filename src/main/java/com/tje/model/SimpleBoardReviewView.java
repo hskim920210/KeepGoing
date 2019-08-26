@@ -131,4 +131,13 @@ public class SimpleBoardReviewView {
 	public void setWrite_date(Date write_date) {
 		this.write_date = write_date;
 	}
+	
+	public String getAbstractContent() {
+		int size = this.content.length();
+		if( size > 90 )
+			size = 90;
+			
+		return this.content.substring(0,size);
+				
+	}
 }
