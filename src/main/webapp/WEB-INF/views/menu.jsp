@@ -3,7 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
     
 <div class="site-wrap" style="z-index: 3;">
-<jsp:include page="chattingModal.jsp" flush="false"></jsp:include>
     <div class="site-mobile-menu">
       <div class="site-mobile-menu-header">
         <div class="site-mobile-menu-close mt-3">
@@ -27,7 +26,6 @@
             <nav class="site-navigation position-relative text-right" role="navigation">
 
               <ul class="site-menu js-clone-nav mx-auto d-none d-lg-block">
-				<li><a href="" data-toggle="modal" data-target="#chattingModal">채팅</a></li>
                 <li><a href="<%= request.getContextPath() %>/review/1">리뷰</a></li>
                 <li><a href="<%= request.getContextPath() %>/free/1">자유 게시판</a></li>
 
@@ -47,6 +45,7 @@
                 <c:if test="${ not r }">
                 	<li class="has-children"><a href="#">${ login_member.nickname }</a>
                 		<ul class="dropdown">
+		                    <li><a href="<%= request.getContextPath() %>/chatPop" onclick="window.open(this.href, '채팅 유형 선택', 'width = 400, height = 202'); return false;">채팅</a></li>
 		                    <li><a href="#">마이페이지</a></li>
 		                    <li><a href="<%=request.getContextPath()%>/logout">로그아웃</a></li>
 	                	</ul>

@@ -34,6 +34,55 @@
 			<beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor" />
 		</websocket:handshake-interceptors>
 	</websocket:handlers>
+	<beans:bean id="group_1BroadCastController" class="com.tje.websocket.Group_1BroadCastController" />
+	<websocket:handlers>
+		<websocket:mapping handler="group_1BroadCastController" path="/chat_group_1"/>
+		<!-- 아래는 웹소켓 세션에서 HttpSession을 사용하기 위한것 --> 
+		<websocket:handshake-interceptors>
+			<beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor" />
+		</websocket:handshake-interceptors>
+	</websocket:handlers>
+	<beans:bean id="group_2BroadCastController" class="com.tje.websocket.Group_2BroadCastController" />
+	<websocket:handlers>
+		<websocket:mapping handler="group_2BroadCastController" path="/chat_group_2"/>
+		<!-- 아래는 웹소켓 세션에서 HttpSession을 사용하기 위한것 --> 
+		<websocket:handshake-interceptors>
+			<beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor" />
+		</websocket:handshake-interceptors>
+	</websocket:handlers>
+	<beans:bean id="group_3BroadCastController" class="com.tje.websocket.Group_3BroadCastController" />
+	<websocket:handlers>
+		<websocket:mapping handler="group_3BroadCastController" path="/chat_group_3"/>
+		<!-- 아래는 웹소켓 세션에서 HttpSession을 사용하기 위한것 --> 
+		<websocket:handshake-interceptors>
+			<beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor" />
+		</websocket:handshake-interceptors>
+	</websocket:handlers>
+	<beans:bean id="group_4BroadCastController" class="com.tje.websocket.Group_4BroadCastController" />
+	<websocket:handlers>
+		<websocket:mapping handler="group_4BroadCastController" path="/chat_group_4"/>
+		<!-- 아래는 웹소켓 세션에서 HttpSession을 사용하기 위한것 --> 
+		<websocket:handshake-interceptors>
+			<beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor" />
+		</websocket:handshake-interceptors>
+	</websocket:handlers>
+	<beans:bean id="group_5BroadCastController" class="com.tje.websocket.Group_5BroadCastController" />
+	<websocket:handlers>
+		<websocket:mapping handler="group_5BroadCastController" path="/chat_group_5"/>
+		<!-- 아래는 웹소켓 세션에서 HttpSession을 사용하기 위한것 --> 
+		<websocket:handshake-interceptors>
+			<beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor" />
+		</websocket:handshake-interceptors>
+	</websocket:handlers>
+	<beans:bean id="group_6BroadCastController" class="com.tje.websocket.Group_6BroadCastController" />
+	<websocket:handlers>
+		<websocket:mapping handler="group_6BroadCastController" path="/chat_group_6"/>
+		<!-- 아래는 웹소켓 세션에서 HttpSession을 사용하기 위한것 --> 
+		<websocket:handshake-interceptors>
+			<beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor" />
+		</websocket:handshake-interceptors>
+	</websocket:handlers>
+	
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
