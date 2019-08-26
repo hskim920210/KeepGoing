@@ -2,6 +2,8 @@ package com.tje.controller;
 
 import java.util.HashMap;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -60,6 +62,40 @@ public class AndroidController {
 		}
 		
 		String json=gson.toJson(map);
+		
+		return json;
+	}
+	
+	@PostMapping(value = "/android/login", produces = "application/text; charset=utf8")
+	@ResponseBody
+	public String login(Member member, HttpSession session) {
+		
+		Gson gson=new Gson();
+		HashMap<String, String> map=new HashMap<String, String>();
+		Boolean login_result=false;
+		String json="";
+		
+		Member result=(Member) mIDcService.service(member);
+		if(result==null) {
+			map.put("login_result", login_result.toString());
+			map.put("login_msg", "존재하지 않는 ID 입니다.");
+			json=gson.toJson(map);
+			return json;
+		}
+		
+		if(result.getPassword().equals(member.getPassword())) {
+			login_result=true;
+			session.setAttribute("login_member", result);
+			map.put("login_result", login_result.toString());
+			map.put("login_msg", String.format("%s 님 환영합니다.", result.getNickname()));
+			map.put("login_nickname", member.getNickname());
+			json=gson.toJson(map);
+			return json;
+		}
+		
+		map.put("login_result", login_result.toString());
+		map.put("login_msg", "정보가 일치하지 않습니다.");
+		json=gson.toJson(map);
 		
 		return json;
 	}
