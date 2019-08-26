@@ -36,6 +36,7 @@
 	<div class="site-section block-13">
 
     	<form action="<%=request.getContextPath() %>/qna/write" id="add_qna_form" method="post">
+    		<input type="hidden" class="form-control" name="member_id" placeholder="Nickname" value="${ login_member.member_id }" readonly="readonly">
     		<div class="form-group">
 	    		<label for="title">카테고리</label><br>
 	    		<select name="category">
@@ -51,8 +52,8 @@
 				<input type="text" class="form-control" name="title" placeholder="Title" required>
 			</div>
 			<div class="form-group">
-				<label for="title">글쓴이</label>
-				<input type="text" class="form-control" name="member_id" placeholder="Nickname" value="${ login_member.member_id }" readonly="readonly">
+				<label for="nickname">글쓴이</label>
+				<input type="text" class="form-control" name="nickname" placeholder="Nickname" value="${ login_member.nickname }" readonly="readonly">
 			</div>
 			<div class="form-group">
 				<label for="content">내용</label>
@@ -66,6 +67,8 @@
     </div>
 	
 	<jsp:include page="javascriptInclude.jsp" flush="false"></jsp:include>
+	
+	<jsp:include page="site_footer.jsp"></jsp:include>
 
 </body>
 </html>

@@ -37,28 +37,28 @@ private JdbcTemplate jdbcTemplate;
 	}
 	
 	public Board_Faq selectOne(Board_Notice model) {
-		String sql = "select * from board_qna where board_id=?";
+		String sql = "select * from board_faq where board_id=?";
 		return this.jdbcTemplate.queryForObject(sql,
 				new Board_FAQRowMapper(), 
 				model.getBoard_id());
 	}
 	
 	public List<Board_Faq> selectAllOrdByDateDesc() {
-		String sql = "select * from board_qna order by write_date desc";
+		String sql = "select * from board_faq order by write_date desc";
 		List<Board_Faq> results=this.jdbcTemplate.query(sql,
 				new Board_FAQRowMapper());
 		return results.isEmpty() ? null : results;
 	}
 	
 	public List<Board_Faq> selectAllOrdByDateAsc() {
-		String sql = "select * from board_qna order by write_date asc";
+		String sql = "select * from board_faq order by write_date asc";
 		List<Board_Faq> results=this.jdbcTemplate.query(sql,
 				new Board_FAQRowMapper());
 		return results.isEmpty() ? null : results;
 	}
 	
 	public List<Board_Faq> selectAllOrdByBoard_IdDesc() {
-		String sql = "select * from board_qna order by board_id desc";
+		String sql = "select * from board_faq order by board_id desc";
 		List<Board_Faq> results=this.jdbcTemplate.query(sql,
 				new Board_FAQRowMapper());
 		return results.isEmpty() ? null : results;
@@ -66,7 +66,7 @@ private JdbcTemplate jdbcTemplate;
 	
 	
 	public int insert(Board_Faq model) {
-		return this.jdbcTemplate.update("insert into board_qna values(0,5,?,?,?,?)",
+		return this.jdbcTemplate.update("insert into board_faq values(0,5,?,?,?,?)",
 				model.getHead(),
 				model.getCategory(),
 				model.getTitle(),
@@ -75,7 +75,7 @@ private JdbcTemplate jdbcTemplate;
 	}
 	
 	public int update(Board_Faq model) throws Exception{
-		return this.jdbcTemplate.update("update board_qna set Title = ?, Content = ? where board_id = ?",
+		return this.jdbcTemplate.update("update board_faq set Title = ?, Content = ? where board_id = ?",
 				model.getTitle(),
 				model.getContent(),
 				model.getBoard_id()
