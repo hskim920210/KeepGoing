@@ -44,7 +44,7 @@ private JdbcTemplate jdbcTemplate;
 	}
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	public List<SimpleBoardReviewView> selectOrderByLikeCount() throws Exception{
-		String sql = "select * from simpleboardreviewview where like_cnt >=0 order by like_cnt desc limit 10";
+		String sql = "select * from simpleboardreviewview where like_cnt >=1 order by like_cnt desc limit 10";
 		//String sql = "select board_id, category, title, comment_cnt, image, content, member_id, nickname, view_cnt, max(like_cnt) as like_cnt, dislike_cnt, write_date from simpleboardreviewview group by category order by like_cnt desc";
 		return this.jdbcTemplate.query(sql, new SimpleBoardReviewViewRowMapper());
 	}

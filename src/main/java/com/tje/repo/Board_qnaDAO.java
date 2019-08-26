@@ -1,5 +1,6 @@
 package com.tje.repo;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -67,11 +68,13 @@ private JdbcTemplate jdbcTemplate;
 	}
 	
   // 수정할 필요가 있는 메소드
+	/*
 	public Board_Free selectAll() {
 		String sql = "select * from board_free";
 		return this.jdbcTemplate.queryForObject(sql, 
 				new Board_FreeRowMapper());
 	}
+	*/
 
 	public Board_Qna upQna(Board_Qna model) {
 		String sql = "select * from board_qna set category = 6 where board_id > ? order by board_id limit 1";
@@ -123,6 +126,7 @@ private JdbcTemplate jdbcTemplate;
 			});
 	}
 	
+	// 수정할 필요가 있는 메소드 
 	public List<Board_Free> select_search(HashMap<String, Object> model){
 		String group=(String) model.get("group");
 		String sql="select * from board_qna where member_id=? and "+group+" like ? and write_date between ? and ?";
@@ -133,4 +137,5 @@ private JdbcTemplate jdbcTemplate;
 				model.get("to"));
 		return results.isEmpty() ? null : results;
 	}
+	
 }
