@@ -99,4 +99,45 @@ public class AndroidController {
 		
 		return json;
 	}
+	
+	@GetMapping(value = "android/logout", produces = "application/text; charset=utf8")
+	@ResponseBody
+	public String logout(HttpSession session) {
+		
+		Gson gson=new Gson();
+		HashMap<String, String> map=new HashMap<String, String>();
+		Boolean logout_result=false;
+		String json="";
+		
+		Member login_member=(Member) session.getAttribute("login_member");
+		
+		if(login_member!=null) {
+			logout_result=true;
+			
+			map.put("logout_result", logout_result.toString());
+			map.put("logout_msg", "로그아웃을 성공했습니다.");
+			
+			session.removeAttribute("login_member");
+			
+			json=gson.toJson(map);
+			return json;
+		}
+		
+		map.put("logout_result", logout_result.toString());
+		map.put("logout_msg", "로그아웃을 실했습니다.");
+		
+		json=gson.toJson(map);
+		
+		return json;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
