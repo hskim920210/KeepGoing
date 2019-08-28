@@ -2,16 +2,24 @@ package com.tje.controller;
 
 import java.util.HashMap;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.social.google.connect.GoogleConnectionFactory;
+import org.springframework.social.google.connect.GoogleOAuth2Template;
+import org.springframework.social.oauth2.OAuth2Parameters;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.tje.api.AuthInfo;
+import com.tje.api.NaverLoginBO;
 import com.tje.model.Member;
 import com.tje.service.member.MemberIDCheckService;
 import com.tje.service.member.MemberInsertService;
@@ -19,6 +27,25 @@ import com.tje.service.member.MemberNickNameCheckService;
 
 @Controller
 public class AndroidController {
+	
+	// google 로그인
+	@Inject
+	private AuthInfo authInfo;
+	@Autowired
+	private GoogleOAuth2Template googleOAuth2Template;
+	@Autowired
+	private OAuth2Parameters googleOAuth2Parameters;
+	@Autowired
+	private GoogleConnectionFactory googleConnectionFactory;
+
+	// naver 로그인
+	private NaverLoginBO naverLoginBO;
+	private String apiResult = null;
+
+	@Autowired
+	private void setNaverLoginBO(NaverLoginBO naverLoginBO) {
+		this.naverLoginBO = naverLoginBO;
+	}
 	
 	@Autowired
 	private MemberInsertService miService;
@@ -130,7 +157,6 @@ public class AndroidController {
 		
 		return json;
 	}
-	
 	
 	
 	
