@@ -93,6 +93,41 @@ public class AndroidController {
 		return json;
 	}
 	
+	@PostMapping(value = "/android/sns_regist", produces = "application/text; charset=utf8")
+	@ResponseBody
+	public String sns_regist(Member member) {
+		
+		member.setMember_type(1);
+		
+		Gson gson=new Gson();
+		HashMap<String, String> map=new HashMap<String, String>();
+		
+		Member nickCheckMemeber=(Member) mnncService.service(member);
+		if(nickCheckMemeber!=null) {
+			map.put("msg", "중복된 닉네임 입니다.");
+			String json=gson.toJson(map);
+			return json;
+		}
+		Member idCheckMemeber=(Member) mIDcService.service(member);
+		if(idCheckMemeber!=null) {
+			map.put("msg", "중복된 아이디 입니다.");
+			String json=gson.toJson(map);
+			return json;
+		}
+		
+		int r=(int) miService.service(member);
+		
+		if(r==1) {
+			map.put("msg", "회원가입을 축하합니다.");
+		}else {
+			map.put("msg", "회원가입에 실패하였습니다.");
+		}
+		
+		String json=gson.toJson(map);
+		
+		return json;
+	}
+	
 	@PostMapping(value = "/android/login", produces = "application/text; charset=utf8")
 	@ResponseBody
 	public String login(Member member, HttpSession session) {
@@ -123,6 +158,35 @@ public class AndroidController {
 		map.put("login_result", login_result.toString());
 		map.put("login_msg", "정보가 일치하지 않습니다.");
 		json=gson.toJson(map);
+		
+		return json;
+	}
+	
+	@PostMapping(value = "/android/naver_login", produces = "application/text; charset=utf8")
+	@ResponseBody
+	public String naver_login(Member member, HttpSession session) {
+		
+		System.out.println(member.getMember_id());
+		
+		Gson gson=new Gson();
+		HashMap<String, String> map=new HashMap<String, String>();
+		Boolean login_result=false;
+		String json="";
+		
+		Member result=(Member) mIDcService.service(member);
+		if(result==null) {
+			map.put("login_result", login_result.toString());
+			map.put("login_msg", "");
+			json=gson.toJson(map);
+			return json;
+		}
+		
+		login_result = true;
+		session.setAttribute("login_member", result);
+		map.put("login_result", login_result.toString());
+		map.put("login_msg", String.format("%s 님 환영합니다.", result.getNickname()));
+		map.put("login_nickname", member.getNickname());
+		json = gson.toJson(map);
 		
 		return json;
 	}
