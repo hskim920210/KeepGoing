@@ -1,6 +1,10 @@
 package com.tje.controller;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
@@ -17,10 +21,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 import com.tje.api.AuthInfo;
 import com.tje.api.NaverLoginBO;
 import com.tje.model.Member;
+import com.tje.model.SimpleBoardItemView;
+import com.tje.service.board_item.AllItemListService;
 import com.tje.service.member.MemberIDCheckService;
 import com.tje.service.member.MemberInsertService;
 import com.tje.service.member.MemberNickNameCheckService;
@@ -28,31 +42,14 @@ import com.tje.service.member.MemberNickNameCheckService;
 @Controller
 public class AndroidController {
 	
-	// google 로그인
-	@Inject
-	private AuthInfo authInfo;
-	@Autowired
-	private GoogleOAuth2Template googleOAuth2Template;
-	@Autowired
-	private OAuth2Parameters googleOAuth2Parameters;
-	@Autowired
-	private GoogleConnectionFactory googleConnectionFactory;
-
-	// naver 로그인
-	private NaverLoginBO naverLoginBO;
-	private String apiResult = null;
-
-	@Autowired
-	private void setNaverLoginBO(NaverLoginBO naverLoginBO) {
-		this.naverLoginBO = naverLoginBO;
-	}
-	
 	@Autowired
 	private MemberInsertService miService;
 	@Autowired
 	private MemberIDCheckService mIDcService;
 	@Autowired
 	private MemberNickNameCheckService mnncService;
+	@Autowired
+	private AllItemListService ailService;
 	
 	@GetMapping("/android/address_search")
 	public String address_search() {
@@ -278,6 +275,26 @@ public class AndroidController {
 		return json;
 	}
 	
+	@GetMapping(value = "android/simpleItem_selectAll", produces = "application/text; charset=utf8")
+	@ResponseBody
+	public String simpleItem_selectAll() {
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+				
+		List<SimpleBoardItemView> itemList=(List<SimpleBoardItemView>) ailService.service();
+		ArrayList<SimpleBoardItemView> convertList=new ArrayList<SimpleBoardItemView>();
+		
+		for (SimpleBoardItemView item : itemList) {
+			convertList.add(item);
+		}
+		
+		String json="";
+		
+		json=gson.toJson(convertList);
+		
+		System.out.println(json);
+		
+		return json;
+	}
 	
 	
 	
