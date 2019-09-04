@@ -1,37 +1,21 @@
 package com.tje.controller;
 
-import java.lang.reflect.Type;
+import java.io.File;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.google.connect.GoogleConnectionFactory;
-import org.springframework.social.google.connect.GoogleOAuth2Template;
-import org.springframework.social.oauth2.OAuth2Parameters;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
-import com.google.gson.JsonPrimitive;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
-import com.tje.api.AuthInfo;
-import com.tje.api.NaverLoginBO;
 import com.tje.model.Member;
 import com.tje.model.SimpleBoardItemView;
 import com.tje.service.board_item.AllItemListService;
@@ -277,7 +261,7 @@ public class AndroidController {
 	
 	@GetMapping(value = "android/simpleItem_selectAll", produces = "application/text; charset=utf8")
 	@ResponseBody
-	public String simpleItem_selectAll() {
+	public String simpleItem_selectAll(HttpServletRequest request) {
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 				
 		List<SimpleBoardItemView> itemList=(List<SimpleBoardItemView>) ailService.service();
