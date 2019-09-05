@@ -137,15 +137,15 @@
               <div class="unit-4-icon mr-4"><span class="text-primary flaticon-frontal-truck"></span></div>
              -->
              
-              
+                 
               <div>
               <div >
-               <a><b style=" color: black; ; font-size: 25px;">추천 상품</b> </a>
+               <a><b style=" color: black; ; font-size: 25px;">공지 사항</b> </a>
                
               </div>
-                <c:forEach items="${ itemList }" var="item_article">
+                <c:forEach items="${ board_noticeheadList }" var="QnA_article">
        
-				<a href="<%= request.getContextPath() %>/item_view/${item_article.board_id}">${item_article.title}<br></a>
+				<a href="<%= request.getContextPath() %>/notice/read/${ QnA_article.board_id }">${ QnA_article.title }</a>
               <%-- <h3>${item_article.title }</h3>--%>
               <%--${item_article.nickname }</p>--%>
               </c:forEach>
