@@ -522,7 +522,7 @@
 				<hr />
 				
 		
-				<div class="terms-agree-notice">
+				<div  style="overflow:scroll; width:450px; height:200px;" class="terms-agree-notice">
 					<div class="inner">
 					<!-- [D] 이미지 변경 726.2014-11-13 -->
 						<h3><img src="https://pics.auction.co.kr/join/h3_tit_terms_kcc.gif" alt="약관 중요사항 고지"></h3>

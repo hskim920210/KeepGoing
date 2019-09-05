@@ -55,8 +55,8 @@
 								</div>
 							</form>
 						</div>
-						<!--Footer-->
-						<div class="modal-footer">
+						<!--Footer
+						
 							<div class="options text-center text-md-right mt-1">
 								<p>
 									Not a member? <a href="#" class="blue-text">Sign Up</a>
@@ -65,7 +65,11 @@
 									Forgot <a href="#" class="blue-text">Password?</a>
 								</p>
 							</div>
-							<button type="button"
+							
+						-->
+						
+						<div class="modal-footer">
+						<button type="button"
 								class="btn btn-outline-info waves-effect ml-auto"
 								data-dismiss="modal">Close</button>
 						</div>

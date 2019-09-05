@@ -75,7 +75,8 @@
 		<div align="center"  style="margin-left: 15%; margin-right: 15%;">
 		<table class="table">
 			<tr style="text-align: center;">
-				<th>카테고리</th>
+				<th></th>
+				<th>관심사별 게시글</th>
 				<th>제목(댓글수)</th>
 				<th>글쓴이</th>
 				<th>조회수</th>
@@ -88,10 +89,11 @@
 			</c:if>
 			
 			<c:forEach items="${ board_noticeheadList }" var="head">
-			<tr>
-				<th colspan="2" style="text-align:center">중요공지</th>
-				<td colspan="2" style="text-align:center"><b><a href="<%= request.getContextPath() %>/notice/${ head.board_id }">${ head.title }</a></b></td>
-				<td colspan="2" style="text-align:center">${ head.write_date }</td>
+			<tr style="background-color: #dadada">
+				<th></th>
+				<th  style="text-align:center">중요공지</th>
+				<td  colspan="4" style="text-align:center"><b><a href="<%= request.getContextPath() %>/notice/${ head.board_id }">${ head.title }</a></b></td>
+				<td  style="text-align:center">${ head.write_date }</td>
 			</tr>
 			</c:forEach>
 			
