@@ -11,14 +11,20 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.tje.model.Comment;
+import com.tje.model.DetailBoardItemView;
 import com.tje.model.Member;
 import com.tje.model.SimpleBoardItemView;
 import com.tje.service.board_item.AllItemListService;
+import com.tje.service.board_item.ItemViewCntUpdateService;
+import com.tje.service.board_item.ItemViewService;
+import com.tje.service.common.CommentSelectService;
 import com.tje.service.member.MemberIDCheckService;
 import com.tje.service.member.MemberInsertService;
 import com.tje.service.member.MemberNickNameCheckService;
@@ -34,6 +40,12 @@ public class AndroidController {
 	private MemberNickNameCheckService mnncService;
 	@Autowired
 	private AllItemListService ailService;
+	@Autowired
+	private ItemViewService ivService;
+	@Autowired
+	private ItemViewCntUpdateService ivcuService;
+	@Autowired
+	private CommentSelectService csService;
 	
 	@GetMapping("/android/address_search")
 	public String address_search() {
@@ -280,6 +292,43 @@ public class AndroidController {
 		return json;
 	}
 	
+	@GetMapping(value = "android/detailBoardItemView/{board_id}", produces = "application/text; charset=utf8")
+	@ResponseBody
+	public String detailBoardItemView(@PathVariable("board_id") Integer board_id){
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+				
+		HashMap<String, Object> map=new HashMap<String, Object>();
+		String json="";
+		
+		DetailBoardItemView model=new DetailBoardItemView();
+		model.setBoard_id(board_id);
+		
+		if( (Integer)ivcuService.service(model)==0 ) {
+			map.put("view_cnt_update_fail", "조회수 업데이트 실패");
+			json=gson.toJson(map);
+			return json;
+		}
+		
+		DetailBoardItemView item=(DetailBoardItemView) ivService.service(model);
+		
+		List<Comment> commentList=(List<Comment>) csService.service(item);
+		ArrayList<Comment> convertList=new ArrayList<Comment>();
+		
+		if( commentList!=null ) {
+			for (Comment comment : commentList) {
+				convertList.add(comment);
+			}
+			
+			map.put("comment_list", convertList);
+		}
+		
+		map.put("detail_item", item);
+		json=gson.toJson(map);
+		
+		System.out.println(json);
+		
+		return json;
+	}
 	
 	
 	
