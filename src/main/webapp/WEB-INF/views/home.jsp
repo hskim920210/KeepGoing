@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <html>
 <head>
 <title>home</title>
@@ -66,6 +67,12 @@
         
           --%>
 
+		<c:if test="${ fn:length(reviewList) == 0 }">
+			<%-- 리뷰 0일때 생성될 이미지 --%>
+			<h3>no image!!</h3>
+		
+		</c:if>
+		
  		<c:forEach items="${ reviewList }" var="review_article">
  		
         <div>
@@ -158,11 +165,16 @@
       </div>
     </div>
     
+   			 
     
   
     <!-- review -->
 	<div class="site-section">
       <div class="container">
+      		<div  >
+               <a style="text-align:center;"><b style=" color: black; ; font-size: 30px;">추천 상품</b></a>
+               <br>
+            </div>
         <div class="row">
          <c:forEach items="${ itemList }" var="item_article">
           <div class="col-md-6 col-lg-4 mb-4 mb-lg-4">
