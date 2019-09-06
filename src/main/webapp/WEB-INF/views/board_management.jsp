@@ -160,7 +160,7 @@
 								</c:if>
 								
 								<c:if test="${ param.tab==6 }">
-									<c:forEach items="${ item_list }" var="result" varStatus="status">
+									<c:forEach items="${ qna_list }" var="result" varStatus="status">
 										<tr>
 											<td style="vertical-align: middle;"><input type="checkbox" name="checkbox" value="${ result.board_id }"></td>
 											<td style="display: none;"><input type="hidden" name="topic" value="6"></td>

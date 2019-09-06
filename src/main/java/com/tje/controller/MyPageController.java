@@ -167,6 +167,7 @@ public class MyPageController {
 		model.addAttribute("item_list", result.get("item_list"));
 		model.addAttribute("notice_list", result.get("notice_list"));
 		model.addAttribute("faq_list", result.get("faq_list"));
+		model.addAttribute("qna_list", result.get("qna_list"));
 		
 		return "/board_management";
 	}

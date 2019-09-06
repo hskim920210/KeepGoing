@@ -40,26 +40,7 @@
 				<jsp:include page="mypageMenu.jsp" flush="false"></jsp:include>
 				
 				<div class="col-md-10">
-					<p>haha</p>
-					<p>haha</p>
-					<p>haha</p>
-					<p>haha</p>
-					<p>haha</p>
-					<p>haha</p>
-					<p>haha</p>
-					<p>haha</p>
-					<p>haha</p>
-					<p>haha</p>
-					<p>haha</p>
-					<p>haha</p>
-					<p>haha</p>
-					<p>haha</p>
-					<p>haha</p>
-					<p>haha</p>
-					<p>haha</p>
-					<p>haha</p>
-					<p>haha</p>
-					<p>haha</p>
+					
 				</div>
 			</div>
 		</div>
