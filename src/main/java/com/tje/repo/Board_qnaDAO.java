@@ -67,14 +67,12 @@ private JdbcTemplate jdbcTemplate;
 				model.getBoard_id());
 	}
 	
-  // 수정할 필요가 있는 메소드
-	/*
-	public Board_Free selectAll() {
-		String sql = "select * from board_free";
+ 
+	public Board_Qna selectAll() {
+		String sql = "select * from Board_Qna";
 		return this.jdbcTemplate.queryForObject(sql, 
-				new Board_FreeRowMapper());
+				new Board_QnaRowMapper());
 	}
-	*/
 
 	public Board_Qna upQna(Board_Qna model) {
 		String sql = "select * from board_qna set category = 6 where board_id > ? order by board_id limit 1";
@@ -126,11 +124,10 @@ private JdbcTemplate jdbcTemplate;
 			});
 	}
 	
-	// 수정할 필요가 있는 메소드 
-	public List<Board_Free> select_search(HashMap<String, Object> model){
+	public List<Board_Qna> select_search(HashMap<String, Object> model){
 		String group=(String) model.get("group");
 		String sql="select * from board_qna where member_id=? and "+group+" like ? and write_date between ? and ?";
-		List<Board_Free> results=jdbcTemplate.query(sql, new Board_FreeRowMapper(),
+		List<Board_Qna> results=jdbcTemplate.query(sql, new Board_QnaRowMapper(),
 				model.get("member_id"),
 				"%"+model.get("search")+"%",
 				model.get("from"),
