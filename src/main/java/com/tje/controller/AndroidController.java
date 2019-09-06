@@ -294,11 +294,20 @@ public class AndroidController {
 	
 	@GetMapping(value = "android/detailBoardItemView/{board_id}", produces = "application/text; charset=utf8")
 	@ResponseBody
-	public String detailBoardItemView(@PathVariable("board_id") Integer board_id){
+	public String detailBoardItemView(@PathVariable("board_id") Integer board_id,
+			HttpSession session){
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-				
+		
 		HashMap<String, Object> map=new HashMap<String, Object>();
 		String json="";
+		
+		Member login_member=(Member) session.getAttribute("login_member");
+		Boolean login_result=false;
+		
+		if(login_member != null) {
+			login_result=true;
+			map.put("login_result", login_result.toString());
+		}
 		
 		DetailBoardItemView model=new DetailBoardItemView();
 		model.setBoard_id(board_id);
@@ -310,19 +319,23 @@ public class AndroidController {
 		}
 		
 		DetailBoardItemView item=(DetailBoardItemView) ivService.service(model);
+		Comment comment=new Comment();
+		comment.setBoard_id(item.getBoard_id());
+		comment.setTopic(item.getTopic());
 		
-		List<Comment> commentList=(List<Comment>) csService.service(item);
+		List<Comment> commentList=(List<Comment>) csService.service(comment);
 		ArrayList<Comment> convertList=new ArrayList<Comment>();
 		
 		if( commentList!=null ) {
-			for (Comment comment : commentList) {
-				convertList.add(comment);
+			for (Comment c : commentList) {
+				convertList.add(c);
 			}
 			
 			map.put("comment_list", convertList);
 		}
 		
 		map.put("detail_item", item);
+		map.put("login_result", login_result.toString());
 		json=gson.toJson(map);
 		
 		System.out.println(json);

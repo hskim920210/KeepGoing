@@ -68,10 +68,10 @@ private JdbcTemplate jdbcTemplate;
 	}
 	
  
-	public Board_Qna selectAll() {
-		String sql = "select * from Board_Qna";
-		return this.jdbcTemplate.queryForObject(sql, 
-				new Board_QnaRowMapper());
+	public List<Board_Qna> selectAll() {
+		String sql = "select * from board_qna";
+		List<Board_Qna> results=this.jdbcTemplate.query(sql, new Board_QnaRowMapper());
+		return results.isEmpty() ? null : results;
 	}
 
 	public Board_Qna upQna(Board_Qna model) {
