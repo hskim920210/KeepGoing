@@ -102,6 +102,8 @@ private JdbcTemplate jdbcTemplate;
 		return results.isEmpty() ? null : results;
 	}
 	
+	
+	
 	public Board_Notice upNotice(Board_Notice model) {
 		String sql = "select * from board_notice where board_id > ? order by board_id limit 1";
 		try {

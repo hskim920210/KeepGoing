@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <html>
 <head>
 <title>home</title>
@@ -66,7 +67,14 @@
         
           --%>
 
+		<c:if test="${ fn:length(reviewList) == 0 }">
+			<%-- 리뷰 0일때 생성될 이미지 --%>
+			<h3>no image!!</h3>
+		
+		</c:if>
+		
  		<c:forEach items="${ reviewList }" var="review_article">
+ 		
         <div>
           <a href="<%= request.getContextPath() %>/review/detail/${review_article.category}_${review_article.board_id}" class="unit-1 text-center">
             <img src="<%=request.getContextPath() %>/resources/images/${review_article.image}" alt="Image" class="img-fluid">
@@ -87,7 +95,29 @@
     <!-- board_free -->
     <div class="site-section bg-light">
       <div class="container">
-        <div class="row align-items-stretch">
+        <div class="row align-items-stretch" >
+          
+          <div class="col-md-6 col-lg-4 mb-4 mb-lg-4" >
+            <div class="unit-4 d-flex">
+            <!-- 
+              <div class="unit-4-icon mr-4"><span class="text-primary flaticon-sea-ship-with-containers"></span></div>
+             -->
+             
+               <div>
+               <div >
+               <a><b style=" color: black; ; font-size: 25px;">오늘의 인기글</b> </a>
+               </div>
+              
+               <c:forEach items="${ freeList }" var="free_article">
+              <a href="<%=request.getContextPath() %>/free_view/${ free_article.board_id }">${ free_article.title }<br></a>
+             
+              </c:forEach>
+              </div>
+            </div>
+          </div>
+          
+   
+          
           <div class="col-md-6 col-lg-4 mb-4 mb-lg-4">
             <div class="unit-4 d-flex">
             <!-- 
@@ -95,54 +125,56 @@
              -->
               <div>
                 
+                <div >
+               <a><b style=" color: black; ; font-size: 25px;">인기 리뷰</b> </a>
+              </div>
         <c:forEach items="${ reviewList }" var="review_article">
-	              <a href="<%= request.getContextPath() %>/review/detail/${review_article.category}_${review_article.board_id}">${ review_article.title }</a>
-	              <p><a href="#">
-	              
-              </c:forEach>
+	              <a href="<%= request.getContextPath() %>/review/detail/${review_article.category}_${review_article.board_id}">${ review_article.title }<br></a>
+	             
+	         </c:forEach>
         
               </div>
             </div>
           </div>
-          <div class="col-md-6 col-lg-4 mb-4 mb-lg-4">
-            <div class="unit-4 d-flex">
-            <!-- 
-              <div class="unit-4-icon mr-4"><span class="text-primary flaticon-sea-ship-with-containers"></span></div>
-             -->
-               <div> 
-                <c:forEach items="${ freeList }" var="free_article">
-              <a href="<%=request.getContextPath() %>/free_view/${ free_article.board_id }">${ free_article.title }</a>
-              <p><a href="#">
-              </c:forEach>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-4 mb-4 mb-lg-4">
-            <div class="unit-4 d-flex">
+          
+          
+                 <div class="col-md-6 col-lg-4 mb-4 mb-lg-4" >
+            <div class="unit-4 d-flex"  >
             <!-- 
               <div class="unit-4-icon mr-4"><span class="text-primary flaticon-frontal-truck"></span></div>
              -->
-              <div>
-                <c:forEach items="${ itemList }" var="item_article">
-              
-				<a href="<%= request.getContextPath() %>/item_view/${item_article.board_id}">${item_article.title}</a>
-              <%-- <h3>${item_article.title }</h3>--%>
              
-              <p><a href="#">
- <%--${item_article.nickname }</p>--%>
+                 
+              <div>
+              <div >
+               <a><b style=" color: black; ; font-size: 25px;">공지 사항</b> </a>
+               
+              </div>
+                <c:forEach items="${ board_noticeheadList }" var="QnA_article">
+       
+				<a href="<%= request.getContextPath() %>/notice/read/${ QnA_article.board_id }">${ QnA_article.title }</a>
+              <%-- <h3>${item_article.title }</h3>--%>
+              <%--${item_article.nickname }</p>--%>
               </c:forEach>
+              
               </div>
             </div>
           </div>
+          
         </div>
       </div>
     </div>
     
+   			 
     
   
     <!-- review -->
 	<div class="site-section">
       <div class="container">
+      		<div  >
+               <a style="text-align:center;"><b style=" color: black; ; font-size: 30px;">추천 상품</b></a>
+               <br>
+            </div>
         <div class="row">
          <c:forEach items="${ itemList }" var="item_article">
           <div class="col-md-6 col-lg-4 mb-4 mb-lg-4">
