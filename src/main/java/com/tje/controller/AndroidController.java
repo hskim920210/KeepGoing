@@ -13,18 +13,23 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.tje.model.Comment;
 import com.tje.model.DetailBoardItemView;
+import com.tje.model.LikeAndDislike;
 import com.tje.model.Member;
 import com.tje.model.SimpleBoardItemView;
 import com.tje.service.board_item.AllItemListService;
 import com.tje.service.board_item.ItemViewCntUpdateService;
 import com.tje.service.board_item.ItemViewService;
+import com.tje.service.common.CommentAddService;
+import com.tje.service.common.CommentSelectOneService;
 import com.tje.service.common.CommentSelectService;
+import com.tje.service.common.LikeAndDislikeService;
 import com.tje.service.member.MemberIDCheckService;
 import com.tje.service.member.MemberInsertService;
 import com.tje.service.member.MemberNickNameCheckService;
@@ -46,6 +51,12 @@ public class AndroidController {
 	private ItemViewCntUpdateService ivcuService;
 	@Autowired
 	private CommentSelectService csService;
+	@Autowired
+	private CommentAddService caService;
+	@Autowired
+	private CommentSelectOneService csoService;
+	@Autowired
+	private LikeAndDislikeService ladService;
 	
 	@GetMapping("/android/address_search")
 	public String address_search() {
@@ -264,16 +275,38 @@ public class AndroidController {
 		}
 		
 		map.put("logout_result", logout_result.toString());
-		map.put("logout_msg", "로그아웃을 실했습니다.");
+		map.put("logout_msg", "로그아웃을 실패했습니다.");
 		
 		json=gson.toJson(map);
 		
 		return json;
 	}
 	
+	@GetMapping(value = "android/is_login", produces = "application/text; charset=utf8")
+	@ResponseBody
+	public String is_login(HttpSession session) {
+		
+		String json="";
+		Gson gson=new Gson();
+		
+		Member login_member=(Member) session.getAttribute("login_member");
+		Boolean is_login=false;
+		
+		
+		if(login_member != null && login_member.getAuth()>=2) {
+			is_login=true;
+			json=gson.toJson(is_login.toString());
+			return json;
+		}
+		
+		json=gson.toJson(is_login.toString());
+		
+		return json;
+	}
+	
 	@GetMapping(value = "android/simpleItem_selectAll", produces = "application/text; charset=utf8")
 	@ResponseBody
-	public String simpleItem_selectAll(HttpServletRequest request) {
+	public String simpleItem_selectAll() {
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 				
 		List<SimpleBoardItemView> itemList=(List<SimpleBoardItemView>) ailService.service();
@@ -343,7 +376,116 @@ public class AndroidController {
 		return json;
 	}
 	
+	@PostMapping(value = "/android/add_comment", produces = "application/text; charset=utf8")
+	@ResponseBody
+	public String add_comment(@RequestParam("board_id") int board_id,
+			@RequestParam("content") String content,
+			HttpSession session) {
+		
+		System.out.println(board_id);
+		System.out.println(content);
+		
+		Gson gson=new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+		HashMap<String, Object> map=new HashMap<String, Object>();
+		String json="";
+		
+		DetailBoardItemView item=new DetailBoardItemView();
+		item.setBoard_id(board_id);
+		
+		DetailBoardItemView searched_item=(DetailBoardItemView) ivService.service(item);
+		
+		Member login_member=(Member) session.getAttribute("login_member");
+		
+		Comment comment=new Comment(0, board_id, searched_item.getTopic(),
+				login_member.getMember_id(), login_member.getNickname(), content, null);
+		
+		int comment_id=(int)caService.service(comment);
+		if(comment_id != 0) {
+			Comment c=new Comment();
+			c.setComment_id(comment_id);
+			Comment searched_comment=(Comment) csoService.service(c);
+			map.put("comment", searched_comment);
+			map.put("comment_result", "댓글 작성 성공");
+		}else {
+			map.put("comment_result", "댓글 작성 실패");
+		}		
+		
+		json=gson.toJson(map);
+		System.out.println(json);
+		
+		return json;
+	}
 	
+	@PostMapping(value = "/android/like_and_dislike", produces = "application/text; charset=utf8")
+	@ResponseBody
+	public String like_and_dislike(LikeAndDislike likeAndDislike,
+			HttpSession session) {
+		
+		Member login_member=(Member) session.getAttribute("login_member");
+		likeAndDislike.setMember_id(login_member.getMember_id());
+		
+		Gson gson=new Gson();
+		String json="";
+		HashMap<String, Object> map=new HashMap<String, Object>();
+		
+		if(ladService.selectOne(likeAndDislike) == null) {
+			int r=(int) ladService.insert(likeAndDislike);
+			
+			if(r==0) {
+				System.out.println("insert 실패");
+				map.put("fail", "insert fail");
+				json=gson.toJson(map);
+				return json;
+			}
+			
+			DetailBoardItemView item=new DetailBoardItemView();
+			item.setBoard_id(likeAndDislike.getBoard_id());
+			
+			DetailBoardItemView searched_item=(DetailBoardItemView) ivService.service(item);
+			map.put("like_cnt", searched_item.getLike_cnt());
+			map.put("dislike_cnt", searched_item.getDislike_cnt());
+			json=gson.toJson(map);
+			return json;
+		}
+		
+		if(ladService.selectOneIsLike(likeAndDislike) != null) {
+			int r=(int) ladService.delete(likeAndDislike);
+			
+			if(r==0) {
+				System.out.println("delete 실패");
+				map.put("fail", "delete fail");
+				json=gson.toJson(map);
+				return json;
+			}
+			
+			DetailBoardItemView item=new DetailBoardItemView();
+			item.setBoard_id(likeAndDislike.getBoard_id());
+			
+			DetailBoardItemView searched_item=(DetailBoardItemView) ivService.service(item);
+			map.put("like_cnt", searched_item.getLike_cnt());
+			map.put("dislike_cnt", searched_item.getDislike_cnt());
+			json=gson.toJson(map);
+			return json;
+		}else {
+			int r=(int) ladService.update(likeAndDislike);
+			
+			if(r==0) {
+				System.out.println("update 실패");
+				map.put("fail", "update fail");
+				json=gson.toJson(map);
+				return json;
+			}
+			
+			DetailBoardItemView item=new DetailBoardItemView();
+			item.setBoard_id(likeAndDislike.getBoard_id());
+			
+			DetailBoardItemView searched_item=(DetailBoardItemView) ivService.service(item);
+			map.put("like_cnt", searched_item.getLike_cnt());
+			map.put("dislike_cnt", searched_item.getDislike_cnt());
+			json=gson.toJson(map);
+			return json;
+		}
+	}
 	
 	
 	

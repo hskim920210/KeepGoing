@@ -20,6 +20,14 @@ public class LikeAndDislikeService {
 		return result;
 	}
 	
+	public Object selectOneIsLike(Object args) {
+		Object result = null;
+
+		result = likeAndDislikeDAO.selectOneIsLike((LikeAndDislike)args);
+
+		return result;
+	}
+	
 	public Object insert(Object args) {
 		Object result = null;
 

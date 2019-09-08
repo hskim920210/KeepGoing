@@ -54,6 +54,20 @@ public class LikeAndDislikeDAO {
 		
 	}
 	
+	public LikeAndDislike selectOneIsLike(LikeAndDislike model) {
+		try {
+			return this.jdbcTemplate.queryForObject("select * from LikeAndDislike where member_id=? and board_id=? and topic=? and is_like=?", 
+					new LikeAndDislikeRowMapper(), 
+					model.getMember_id(),
+					model.getBoard_id(),
+					model.getTopic(),
+					model.getIs_like());
+		} catch (Exception e) {
+			return null;
+		}
+		
+	}
+	
 	public List<LikeAndDislike> selectAll() {
 		List<LikeAndDislike> results=this.jdbcTemplate.query("select * from LikeAndDislike",
 				new LikeAndDislikeRowMapper());
