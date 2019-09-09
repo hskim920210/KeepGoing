@@ -18,12 +18,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
+import com.tje.model.Board_Item;
 import com.tje.model.Comment;
 import com.tje.model.DetailBoardItemView;
 import com.tje.model.LikeAndDislike;
 import com.tje.model.Member;
 import com.tje.model.SimpleBoardItemView;
 import com.tje.service.board_item.AllItemListService;
+import com.tje.service.board_item.ItemAddService;
 import com.tje.service.board_item.ItemViewCntUpdateService;
 import com.tje.service.board_item.ItemViewService;
 import com.tje.service.common.CommentAddService;
@@ -57,6 +61,8 @@ public class AndroidController {
 	private CommentSelectOneService csoService;
 	@Autowired
 	private LikeAndDislikeService ladService;
+	@Autowired
+	private ItemAddService aiService;
 	
 	@GetMapping("/android/address_search")
 	public String address_search() {
@@ -487,7 +493,62 @@ public class AndroidController {
 		}
 	}
 	
-	
+	@PostMapping(value = "/android/add_item", produces = "application/text; charset=utf8")
+	@ResponseBody
+	public String add_item(HttpServletRequest request,
+			HttpSession session) {
+		
+		Member login_member=(Member) session.getAttribute("login_member");
+		
+		HashMap<String, String> map=new HashMap<String, String>();
+		Gson gson=new Gson();
+		String json="";
+		Boolean add_item_result=false;
+		
+		String dirPath=request.getSession().getServletContext().getRealPath("/resources/images");
+		System.out.println(dirPath);
+		File dir=new File(dirPath);
+		
+		if(!dir.exists())
+			dir.mkdirs();
+		
+		int size=100*1024*1024;
+		
+		MultipartRequest multipartRequest=null;
+		int result=0;
+		
+		try {
+			multipartRequest=new MultipartRequest(request, dirPath, size, "utf-8", new DefaultFileRenamePolicy());
+			//String member_id=multipartRequest.getParameter("member_id");
+			String title=multipartRequest.getParameter("title");
+			String content=multipartRequest.getParameter("content");
+			String strCategory=multipartRequest.getParameter("category");
+			int category=Integer.parseInt(strCategory);
+			int number=Integer.parseInt(multipartRequest.getParameter("number"));
+			String price=multipartRequest.getParameter("price");
+			String imageName=multipartRequest.getFilesystemName("image");
+			String orginName=multipartRequest.getOriginalFileName("image");
+			
+			Board_Item item=new Board_Item(0, 3, category, title, content, login_member.getMember_id(), number, price, imageName, 0, null);
+			
+			result=(int) aiService.service(item);
+			
+			if(result==1) {
+				add_item_result=true;
+				map.put("add_item_result", add_item_result.toString());
+				
+				json=gson.toJson(map);
+				return json;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		map.put("add_item_result", add_item_result.toString());
+		json=gson.toJson(map);
+		
+		return json;
+	}
 	
 	
 	
