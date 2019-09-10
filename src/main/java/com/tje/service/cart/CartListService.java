@@ -11,10 +11,10 @@ public class CartListService {
 	@Autowired
 	private CartDAO cartDAO;
 	
-	public Object service() {
+	public Object service(Object obj) {
 		Object result=null;
 		
-		result=cartDAO.selectAll();
+		result=cartDAO.selectAll((Cart)obj);
 		
 		return result;
 	}

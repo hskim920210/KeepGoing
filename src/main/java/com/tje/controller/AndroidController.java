@@ -21,6 +21,7 @@ import com.google.gson.GsonBuilder;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.tje.model.Board_Item;
+import com.tje.model.Cart;
 import com.tje.model.Comment;
 import com.tje.model.DetailBoardItemView;
 import com.tje.model.LikeAndDislike;
@@ -30,6 +31,7 @@ import com.tje.service.board_item.AllItemListService;
 import com.tje.service.board_item.ItemAddService;
 import com.tje.service.board_item.ItemViewCntUpdateService;
 import com.tje.service.board_item.ItemViewService;
+import com.tje.service.cart.CartListService;
 import com.tje.service.common.CommentAddService;
 import com.tje.service.common.CommentSelectOneService;
 import com.tje.service.common.CommentSelectService;
@@ -63,6 +65,8 @@ public class AndroidController {
 	private LikeAndDislikeService ladService;
 	@Autowired
 	private ItemAddService aiService;
+	@Autowired
+	private CartListService clService;
 	
 	@GetMapping("/android/address_search")
 	public String address_search() {
@@ -546,6 +550,32 @@ public class AndroidController {
 		
 		map.put("add_item_result", add_item_result.toString());
 		json=gson.toJson(map);
+		
+		return json;
+	}
+	
+	@GetMapping(value = "android/cart_list", produces = "application/text; charset=utf8")
+	@ResponseBody
+	public String cart_list(HttpSession session) {
+		
+		Member login_member=(Member) session.getAttribute("login_member");
+		
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		
+		Cart cart=new Cart();
+		cart.setMember_id(login_member.getMember_id());
+		List<Cart> cartList=(List<Cart>) clService.service(cart);
+		ArrayList<Cart> convertList=new ArrayList<Cart>();
+		
+		for (Cart item : cartList) {
+			convertList.add(item);
+		}
+		
+		String json="";
+		
+		json=gson.toJson(convertList);
+		
+		System.out.println(json);
 		
 		return json;
 	}

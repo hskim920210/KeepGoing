@@ -38,9 +38,11 @@ public class CartController {
 			HttpSession session) {
 		
 		Member login_member=(Member) session.getAttribute("login_member");
-		if(login_member!=null)
-			model.addAttribute("cartList", clService.service());
-		
+		if(login_member!=null) {
+			Cart cart=new Cart();
+			cart.setMember_id(login_member.getMember_id());
+			model.addAttribute("cartList", clService.service(cart));
+		}
 		return "cart";
 	}
 	
