@@ -359,9 +359,9 @@
 		
 		// 지도 갱신 버튼을 눌렀을 때 주소 폼에 적힌 값을 기준으로 위도 경도 가져오는 함수
 		function refreshMap() {
-			address = document.getElementById("sample6_address");
-			var target = address.value;
-			selectedAddress = target;
+			// address = document.getElementById("sample6_address");
+			var target = $("#sample6_address").val();
+			selectedAddress_js = target;
 			geocoder.addressSearch(target, function(result, status) {
 			    // 정상적으로 검색이 완료됐으면 
 			     if (status === kakao.maps.services.Status.OK) {
