@@ -193,9 +193,13 @@
 		var selectedAddress = '${ detailReview.selectedAddress }';
 		var selectedLat = ${ detailReview.selectedLat };
 		var selectedLng = ${ detailReview.selectedLng };
-		if (selectedAddress == '') {
+		if (selectedAddress == '' && selectedLat == '') {
 			$("#sample6_address").val("위지 정보를 첨부하지 않은 리뷰입니다.");
 		} else {
+			if(selectedAddress == '') {
+				selectedAddress = '지명이 없는 주소';
+			}
+			$("#sample6_address").val(selectedAddress);
 			var container = document.getElementById('map');
 			// 아래 options에서 center는 지도를 생성하는데 필수이다.
 			var options = {
