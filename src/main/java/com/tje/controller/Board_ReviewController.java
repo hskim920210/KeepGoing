@@ -21,6 +21,7 @@ import com.tje.model.*;
 import com.tje.page.*;
 import com.tje.service.*;
 import com.tje.board_review.service.*;
+import com.tje.service.common.CommentSelectService;
 import com.tje.service.common.LikeAndDislikeService;
 
 @Controller
@@ -46,6 +47,8 @@ public class Board_ReviewController {
 	private SimpleBoardReviewViewService sbrvService;
 	@Autowired
 	private SimpleBoardReviewViewSearchService sbrvsService;
+	@Autowired
+	private CommentSelectService csService;
 
 	// 전체 게시글 컨트롤러
 	@RequestMapping(value = { "/review/{category_Num}", "/review/{category_Num}/{curPageNo}" })
@@ -181,6 +184,7 @@ public class Board_ReviewController {
 			return "redirect:error/reviewDetail";
 
 		DetailBoardReviewView result = (DetailBoardReviewView) dbrvsoService.service(dbrv);
+		model.addAttribute("commentList", csService.service(comment));
 		model.addAttribute("detailReview", result);
 		model.addAttribute("strCategory", Board_Review_Category.returnCategory(result.getCategory()));
 		model.addAttribute("category_Num", category_Num);
