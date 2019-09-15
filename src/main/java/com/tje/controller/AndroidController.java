@@ -2,6 +2,7 @@ package com.tje.controller;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -10,9 +11,11 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -20,18 +23,28 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
+import com.tje.board_review.service.AllReviewListService;
+import com.tje.board_review.service.DetailBoardReviewViewSelectOneService;
+import com.tje.board_review.service.ReviewViewCntUpdateService;
 import com.tje.model.Board_Item;
 import com.tje.model.Cart;
+import com.tje.model.CartJsonModel;
 import com.tje.model.Comment;
 import com.tje.model.DetailBoardItemView;
+import com.tje.model.DetailBoardReviewView;
 import com.tje.model.LikeAndDislike;
 import com.tje.model.Member;
 import com.tje.model.SimpleBoardItemView;
+import com.tje.model.SimpleBoardReviewView;
+import com.tje.model.Sold_item;
 import com.tje.service.board_item.AllItemListService;
 import com.tje.service.board_item.ItemAddService;
 import com.tje.service.board_item.ItemViewCntUpdateService;
 import com.tje.service.board_item.ItemViewService;
+import com.tje.service.cart.CartAddService;
+import com.tje.service.cart.CartDeleteService;
 import com.tje.service.cart.CartListService;
+import com.tje.service.cart.SoldItemAddAndCartDeleteService;
 import com.tje.service.common.CommentAddService;
 import com.tje.service.common.CommentSelectOneService;
 import com.tje.service.common.CommentSelectService;
@@ -67,6 +80,18 @@ public class AndroidController {
 	private ItemAddService aiService;
 	@Autowired
 	private CartListService clService;
+	@Autowired
+	private SoldItemAddAndCartDeleteService siaService;
+	@Autowired
+	private CartAddService cartService;
+	@Autowired
+	private CartDeleteService cdService;
+	@Autowired
+	private AllReviewListService arlSerview;
+	@Autowired
+	private ReviewViewCntUpdateService rvcuService;
+	@Autowired
+	private DetailBoardReviewViewSelectOneService dbrvsoService;
 	
 	@GetMapping("/android/address_search")
 	public String address_search() {
@@ -388,26 +413,16 @@ public class AndroidController {
 	
 	@PostMapping(value = "/android/add_comment", produces = "application/text; charset=utf8")
 	@ResponseBody
-	public String add_comment(@RequestParam("board_id") int board_id,
-			@RequestParam("content") String content,
+	public String add_comment(Comment comment,
 			HttpSession session) {
-		
-		System.out.println(board_id);
-		System.out.println(content);
 		
 		Gson gson=new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
 		HashMap<String, Object> map=new HashMap<String, Object>();
 		String json="";
 		
-		DetailBoardItemView item=new DetailBoardItemView();
-		item.setBoard_id(board_id);
-		
-		DetailBoardItemView searched_item=(DetailBoardItemView) ivService.service(item);
-		
 		Member login_member=(Member) session.getAttribute("login_member");
-		
-		Comment comment=new Comment(0, board_id, searched_item.getTopic(),
-				login_member.getMember_id(), login_member.getNickname(), content, null);
+		comment.setMember_id(login_member.getMember_id());
+		comment.setNickname(login_member.getNickname());
 		
 		int comment_id=(int)caService.service(comment);
 		if(comment_id != 0) {
@@ -448,12 +463,8 @@ public class AndroidController {
 				return json;
 			}
 			
-			DetailBoardItemView item=new DetailBoardItemView();
-			item.setBoard_id(likeAndDislike.getBoard_id());
-			
-			DetailBoardItemView searched_item=(DetailBoardItemView) ivService.service(item);
-			map.put("like_cnt", searched_item.getLike_cnt());
-			map.put("dislike_cnt", searched_item.getDislike_cnt());
+			map.put("like_cnt", (int)ladService.like_cnt(likeAndDislike));
+			map.put("dislike_cnt", (int)ladService.dislike_cnt(likeAndDislike));
 			json=gson.toJson(map);
 			return json;
 		}
@@ -468,12 +479,8 @@ public class AndroidController {
 				return json;
 			}
 			
-			DetailBoardItemView item=new DetailBoardItemView();
-			item.setBoard_id(likeAndDislike.getBoard_id());
-			
-			DetailBoardItemView searched_item=(DetailBoardItemView) ivService.service(item);
-			map.put("like_cnt", searched_item.getLike_cnt());
-			map.put("dislike_cnt", searched_item.getDislike_cnt());
+			map.put("like_cnt", (int)ladService.like_cnt(likeAndDislike));
+			map.put("dislike_cnt", (int)ladService.dislike_cnt(likeAndDislike));
 			json=gson.toJson(map);
 			return json;
 		}else {
@@ -486,12 +493,8 @@ public class AndroidController {
 				return json;
 			}
 			
-			DetailBoardItemView item=new DetailBoardItemView();
-			item.setBoard_id(likeAndDislike.getBoard_id());
-			
-			DetailBoardItemView searched_item=(DetailBoardItemView) ivService.service(item);
-			map.put("like_cnt", searched_item.getLike_cnt());
-			map.put("dislike_cnt", searched_item.getDislike_cnt());
+			map.put("like_cnt", (int)ladService.like_cnt(likeAndDislike));
+			map.put("dislike_cnt", (int)ladService.dislike_cnt(likeAndDislike));
 			json=gson.toJson(map);
 			return json;
 		}
@@ -580,6 +583,190 @@ public class AndroidController {
 		return json;
 	}
 	
+	@PostMapping(value = "/android/add_cart/{board_id}", produces = "application/text; charset=utf8")
+	@ResponseBody
+	public String add_cart(
+			@PathVariable(value = "board_id", required = true) Integer board_id,
+			HttpSession session) {
+		
+		Gson gson=new Gson();
+		String json="";
+		HashMap<String, String> map=new HashMap<String, String>();
+		
+		DetailBoardItemView item=new DetailBoardItemView();
+		item.setBoard_id(board_id);
+		
+		Member login_member=(Member) session.getAttribute("login_member");
+		String member_id=null;
+		try {
+			member_id=login_member.getMember_id();
+		} catch (Exception e) {
+
+		}
+			
+		DetailBoardItemView result = (DetailBoardItemView) ivService.service(item);
+		Cart cart=new Cart(0, board_id, member_id, result.getImage(), result.getTitle(), result.getCategory(), result.getPrice(), null);
+		
+		int r=(int) cartService.service(cart);
+		
+		if(r==1) {
+			map.put("result", "true");
+			json=gson.toJson(map);
+			return json;
+		}
+		
+		map.put("result", "false");
+		json=gson.toJson(map);
+		return json;
+	}
 	
+	@PostMapping(value = "/android/item_buy", produces = "application/text; charset=utf-8")
+	@ResponseBody
+	public String item_buy(@RequestBody List<CartJsonModel> list) {
+		Gson gson=new Gson();
+		String json="";
+		HashMap<String, String> map=new HashMap<String, String>();
+		
+		List<Sold_item> itemList=new ArrayList<Sold_item>();
+		List<Cart> cartList=new ArrayList<Cart>();
+		List<DetailBoardItemView> de_itemList=new ArrayList<DetailBoardItemView>();
+		
+		for (CartJsonModel model : list) {
+			Sold_item item=new Sold_item(0, model.getBoard_id(), model.getCategory(),
+					model.getMember_id(), model.getName(), model.getAddress_post(),
+					model.getAddress_basic(), model.getAddress_detail(), model.getTitle(),
+					model.getNumber(), model.getPrice(), null);
+			
+			itemList.add(item);
+			
+			Cart cart=new Cart();
+			cart.setCart_id(model.getCart_id());
+			
+			cartList.add(cart);
+			
+			DetailBoardItemView de_item=new DetailBoardItemView();
+			de_item.setBoard_id(model.getBoard_id());
+			de_item.setNumber(model.getNumber());
+			
+			de_itemList.add(de_item);
+		}
+		
+		try {
+			siaService.service(itemList, cartList, de_itemList);
+		} catch (Exception e) {
+			e.printStackTrace();
+			map.put("result", "false");
+			json=gson.toJson(map);
+			return json;
+		}
+		
+		map.put("result", "true");
+		json=gson.toJson(map);
+		return json;
+	}
+	
+	@PostMapping(value = "/android/cart_delete", produces = "application/text; charset=utf-8")
+	@ResponseBody
+	public String cart_delete(@RequestBody List<CartJsonModel> list) {
+		
+		Gson gson=new Gson();
+		String json="";
+		HashMap<String, String> map=new HashMap<String, String>();	
+		
+		List<Cart> cartList=new ArrayList<Cart>();
+		
+		for (CartJsonModel model : list) {
+
+			Cart cart=new Cart();
+			cart.setCart_id(model.getCart_id());
+			
+			cartList.add(cart);
+		}
+		
+		try {
+			cdService.service(cartList);
+		} catch (Exception e) {
+			e.printStackTrace();
+			map.put("result", "false");
+			json=gson.toJson(map);
+			return json;
+		}
+		
+		map.put("result", "true");
+		json=gson.toJson(map);
+		return json;
+	}
+	
+	@GetMapping(value = "android/simpleReview_selectAll", produces = "application/text; charset=utf8")
+	@ResponseBody
+	public String simpleReview_selectAll() {
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+				
+		List<SimpleBoardReviewView> itemList=(List<SimpleBoardReviewView>) arlSerview.service();
+		ArrayList<SimpleBoardReviewView> convertList=new ArrayList<SimpleBoardReviewView>();
+		
+		for (SimpleBoardReviewView item : itemList) {
+			convertList.add(item);
+		}
+		
+		String json="";
+		
+		json=gson.toJson(convertList);
+		
+		System.out.println(json);
+		
+		return json;
+	}
+	
+	@GetMapping(value = "android/detailReview/{board_id}", produces = "application/text; charset=utf8")
+	@ResponseBody
+	public String detailReview(@PathVariable("board_id") Integer board_id,
+			HttpSession session){
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		
+		HashMap<String, Object> map=new HashMap<String, Object>();
+		String json="";
+		
+		Member login_member=(Member) session.getAttribute("login_member");
+		Boolean login_result=false;
+		
+		if(login_member != null) {
+			login_result=true;
+			map.put("login_result", login_result.toString());
+		}
+		
+		DetailBoardReviewView model=new DetailBoardReviewView();
+		model.setBoard_id(board_id);
+		
+		if( (Integer)rvcuService.service(model)==0 ) {
+			map.put("view_cnt_update_fail", "조회수 업데이트 실패");
+			json=gson.toJson(map);
+			return json;
+		}
+		
+		DetailBoardReviewView item=(DetailBoardReviewView) dbrvsoService.service(model);
+		Comment comment=new Comment();
+		comment.setBoard_id(item.getBoard_id());
+		comment.setTopic(1);
+		
+		List<Comment> commentList=(List<Comment>) csService.service(comment);
+		ArrayList<Comment> convertList=new ArrayList<Comment>();
+		
+		if( commentList!=null ) {
+			for (Comment c : commentList) {
+				convertList.add(c);
+			}
+			
+			map.put("comment_list", convertList);
+		}
+		
+		map.put("detail_review", item);
+		map.put("login_result", login_result.toString());
+		json=gson.toJson(map);
+		
+		System.out.println(json);
+		
+		return json;
+	}
 	
 }

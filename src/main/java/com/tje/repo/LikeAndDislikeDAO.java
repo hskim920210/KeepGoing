@@ -84,6 +84,18 @@ public class LikeAndDislikeDAO {
 		return results.isEmpty() ? null : results;
 	}
 	
+	public int like_cnt(LikeAndDislike model) {
+		return this.jdbcTemplate.queryForObject("select count(*) from likeanddislike where is_like=1 and topic=? and board_id=?",
+				new Object[] {model.getTopic(), model.getBoard_id()},
+				Integer.class);
+	}
+	
+	public int dislike_cnt(LikeAndDislike model) {
+		return this.jdbcTemplate.queryForObject("select count(*) from likeanddislike where is_like=2 and topic=? and board_id=?",
+				new Object[] {model.getTopic(), model.getBoard_id()},
+				Integer.class);
+	}
+	
 	public int delete(LikeAndDislike model) {
 		return this.jdbcTemplate.update("delete from LikeAndDislike where member_id=? and board_id=? and topic=?", 
 				model.getMember_id(),

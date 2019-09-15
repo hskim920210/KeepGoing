@@ -51,4 +51,20 @@ public class LikeAndDislikeService {
 
 		return result;
 	}
+	
+	public Object like_cnt(Object args) {
+		Object result = null;
+
+		result = likeAndDislikeDAO.like_cnt((LikeAndDislike)args);
+
+		return result;
+	}
+	
+	public Object dislike_cnt(Object args) {
+		Object result = null;
+
+		result = likeAndDislikeDAO.dislike_cnt((LikeAndDislike)args);
+
+		return result;
+	}
 }

@@ -187,7 +187,7 @@
 	</div>
 
 	<jsp:include page="javascriptIncludeForReview.jsp" flush="false"></jsp:include>
-	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=f7e87dcf28984113f6360f591c4d3f24&libraries=services,clustere"></script>
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=11a43cb9e206654a596d1b017c4932ec&libraries=services,clustere"></script>
 	<script type="text/javascript">
 		var geocoder = new kakao.maps.services.Geocoder();
 		var selectedAddress = '${ detailReview.selectedAddress }';
