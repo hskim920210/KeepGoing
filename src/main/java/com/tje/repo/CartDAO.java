@@ -51,10 +51,11 @@ public class CartDAO {
 				model.getCart_id());
 	}
 	
-	public List<Cart> selectAll() {
-		String sql = "select * from cart";
+	public List<Cart> selectAll(Cart model) {
+		String sql = "select * from cart where member_id=?";
 		List<Cart> list = this.jdbcTemplate.query(sql, 
-				new CartRowMapper());
+				new CartRowMapper(),
+				model.getBoard_id());
 		
 		return list.isEmpty() ? null : list;
 	}

@@ -20,6 +20,14 @@ public class LikeAndDislikeService {
 		return result;
 	}
 	
+	public Object selectOneIsLike(Object args) {
+		Object result = null;
+
+		result = likeAndDislikeDAO.selectOneIsLike((LikeAndDislike)args);
+
+		return result;
+	}
+	
 	public Object insert(Object args) {
 		Object result = null;
 
@@ -40,6 +48,22 @@ public class LikeAndDislikeService {
 		Object result = null;
 
 		result = likeAndDislikeDAO.delete((LikeAndDislike)args);
+
+		return result;
+	}
+	
+	public Object like_cnt(Object args) {
+		Object result = null;
+
+		result = likeAndDislikeDAO.like_cnt((LikeAndDislike)args);
+
+		return result;
+	}
+	
+	public Object dislike_cnt(Object args) {
+		Object result = null;
+
+		result = likeAndDislikeDAO.dislike_cnt((LikeAndDislike)args);
 
 		return result;
 	}

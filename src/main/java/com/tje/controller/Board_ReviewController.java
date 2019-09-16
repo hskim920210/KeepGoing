@@ -186,7 +186,7 @@ public class Board_ReviewController {
 		DetailBoardReviewView result = (DetailBoardReviewView) dbrvsoService.service(dbrv);
 		model.addAttribute("commentList", csService.service(comment));
 		model.addAttribute("detailReview", result);
-		model.addAttribute("strCategory", Board_Review_Category.returnCategory(result.getCategory()));
+		model.addAttribute("strCategory", Board_Review_Category.returnCategory(category_Num));
 		model.addAttribute("category_Num", category_Num);
 		return "reviewDetail";
 	}
