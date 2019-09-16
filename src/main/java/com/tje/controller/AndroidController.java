@@ -734,7 +734,7 @@ public class AndroidController {
 			login_result=true;
 			map.put("login_result", login_result.toString());
 		}
-		
+		 
 		DetailBoardReviewView model=new DetailBoardReviewView();
 		model.setBoard_id(board_id);
 		
